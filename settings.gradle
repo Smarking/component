@@ -1,1 +1,1 @@
-include ':app', ':checkout', ':printer'
+include ':app', ':checkout', ':printer', ':vippay'

@@ -1,4 +1,4 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion versions.compileSdkVersion
@@ -8,19 +8,14 @@ android {
         targetSdkVersion versions.targetSdkVersion
         versionCode versions.versionCode
         versionName versions.versionName
-        applicationId "com.pitaya.componentdemo"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        resourcePrefix "printer_"
+
     }
     buildTypes {
-        debug {
-            buildConfigField "boolean", "ENV_OFFLINE", "true"
-        }
-
-        stage {
-            buildConfigField "boolean", "ENV_OFFLINE", "true"
-        }
-
         release {
-            buildConfigField "boolean", "ENV_OFFLINE", "false"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -29,20 +24,10 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
     compile deps.support.appcompatV7
     testCompile deps.unit.junit
-}
-
-
-if (isRunAlone != 'true') {
-    println("dependencies  takeout")
-    project.dependencies {
-        compile project(':takeout')
-        compile project(':printer')
-    }
 }
