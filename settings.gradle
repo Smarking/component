@@ -1,1 +1,1 @@
-include ':app', ':takeout', ':printer'
+include ':app', ':checkout', ':printer'

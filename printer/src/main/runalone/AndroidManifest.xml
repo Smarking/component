@@ -1,0 +1,21 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.pitaya.printer">
+
+    <application
+        android:name="com.pitaya.printer.runalone.application.PrinterApplication"
+        android:allowBackup="true"
+        android:label="@string/printer_app_name"
+        android:supportsRtl="true"
+        tools:replace="android:label">
+
+        <activity android:name=".PrinterActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

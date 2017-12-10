@@ -1,3 +1,6 @@
+assert isRunAlone instanceof String
+
+
 if (isRunAlone == 'true') {
     apply plugin: 'com.android.application'
     println("takeoutPlugin application")
@@ -6,11 +9,9 @@ if (isRunAlone == 'true') {
     println("takeoutPlugin library")
 }
 
-
 android {
     compileSdkVersion 25
     buildToolsVersion "26.0.0"
-
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 25
@@ -27,11 +28,8 @@ android {
         }
     }
 
-    resourcePrefix "printer_"
-
+    resourcePrefix "checkout_"
 }
-
-
 
 if (isRunAlone == 'true') {
     project.android.sourceSets {
@@ -42,7 +40,7 @@ if (isRunAlone == 'true') {
         }
     }
     project.android.defaultConfig {
-        applicationId "com.pitaya.printer"
+        applicationId "com.pitaya.takeout"
     }
 }
 
@@ -52,6 +50,6 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:25.1.1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha4'
     testCompile 'junit:junit:4.12'
+//    compile project(':printer')
 }
