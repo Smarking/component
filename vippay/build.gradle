@@ -1,4 +1,6 @@
-apply plugin: 'com.android.library'
+//apply plugin: 'com.android.library'
+apply plugin: 'com.android.application'
+apply plugin: 'com.jakewharton.butterknife'
 
 android {
     compileSdkVersion versions.compileSdkVersion
@@ -11,23 +13,40 @@ android {
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
-        resourcePrefix "printer_"
+        resourcePrefix "vippay_"
 
     }
     buildTypes {
+
+        debug {
+            buildConfigField "boolean", "ENV_OFFLINE", "true"
+        }
+
         release {
+            buildConfigField "boolean", "ENV_OFFLINE", "false"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
 
+project.android.sourceSets {
+    main {
+        manifest.srcFile 'src/main/runalone/AndroidManifest.xml'
+        java.srcDirs = ['src/main/java', 'src/main/runalone/java']
+        res.srcDirs = ['src/main/res', 'src/main/runalone/res']
+    }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
 
-    compile deps.support.appcompatV7
-    testCompile deps.unit.junit
+    compile deps.butterknife
+    annotationProcessor deps.butterknifeCompiler
+
+    compile deps.BaseRecyclerViewAdapterHelper
+    compile deps.support.recyclerview
+
+    compile project(path: deps.baselib)
+    compile project(path: deps.comprotocol)
 }

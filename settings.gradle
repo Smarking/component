@@ -1,1 +1,1 @@
-include ':app', ':checkout', ':printer', ':vippay'
+include ':app', ':checkout', ':printer', ':vippay', ':baselib', ':comprotocol', ':commanager', ':comannotation'

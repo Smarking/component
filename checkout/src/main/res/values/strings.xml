@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">pitaya_checkout</string>
     <string name="checkout_info_takeout">from checkout subProject</string>
+
+    <string name="checkout_paytype_cash">现金</string>
+    <string name="checkout_paytype_vipcard">会员卡</string>
+    <string name="checkout_paytype_weixin">微信</string>
+    <string name="checkout_paytype_debitcard">银行卡</string>
+
 </resources>

@@ -3,14 +3,39 @@
 buildscript {
     repositories {
         jcenter()
+        maven {
+            url "http://depot.sankuai.com/nexus/content/groups/public/"
+        }
+        maven {
+            url "http://depot.sankuai.com/nexus/content/groups/public-snapshots"
+        }
+        maven {
+            url "http://depot.sankuai.com/nexus/content/repositories/thirdparty"
+        }
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.0'
+        classpath 'com.jakewharton:butterknife-gradle-plugin:8.2.1'
     }
 }
 
 allprojects {
     repositories {
+        maven {
+            url "http://depot.sankuai.com/nexus/content/groups/public/"
+        }
+        maven {
+            url "http://depot.sankuai.com/nexus/content/groups/public-snapshots"
+        }
+        maven {
+            url "http://depot.sankuai.com/nexus/content/repositories/thirdparty"
+        }
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
         maven { url "https://jitpack.io" }
         jcenter()
     }
@@ -87,10 +112,10 @@ ext.deps = [
         butterknife                  : 'com.jakewharton:butterknife:8.5.0',
         butterknifeCompiler          : 'com.jakewharton:butterknife-compiler:8.5.0',
 
-        recycleviewlibrary           : ':recycleviewlibrary',
-        componentservice             : ':componentservice',
-        componentlib                 : ':componentlib',
         baselib                      : ':baselib',
+        comprotocol                  : ':comprotocol',
+        commanager                   : ':commanager',
+        comannotation                : ':comannotation',
 
         bugly_crashreport_upgrade    : 'com.tencent.bugly:crashreport_upgrade:latest.release',
 

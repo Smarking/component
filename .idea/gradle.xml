@@ -9,7 +9,11 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/baselib" />
             <option value="$PROJECT_DIR$/checkout" />
+            <option value="$PROJECT_DIR$/comannotation" />
+            <option value="$PROJECT_DIR$/commanager" />
+            <option value="$PROJECT_DIR$/comprotocol" />
             <option value="$PROJECT_DIR$/printer" />
             <option value="$PROJECT_DIR$/vippay" />
           </set>

@@ -1,3 +1,12 @@
 <resources>
-    <string name="app_name">vippay</string>
+    <string name="vippay_app_name">vippay</string>
+
+    <string name="vippay_title_verifyphone">会员验证</string>
+    <string name="vippay_tip_input_phone">请输入会员手机号</string>
+    <string name="vippay_login">验证</string>
+    <string name="vippay_cancel">取消</string>
+    <string name="vippay_logout">注销</string>
+
+    <string name="vippay_confrim_use">确认使用</string>
+
 </resources>
