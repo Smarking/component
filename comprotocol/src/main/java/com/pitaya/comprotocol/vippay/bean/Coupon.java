@@ -5,7 +5,7 @@ public class Coupon {
     public String name;
     public int rule;
     public float discount;
-    public boolean isSelected = false;
+    public boolean isSelected = false;//View 字段
 
     public Coupon(int id, String name, int rule, float discount) {
         this.id = id;

@@ -28,7 +28,6 @@ import butterknife.Unbinder;
 /**
  * Created by Smarking on 17/12/10.
  */
-
 public class VerifyPhoneDialog extends DialogFragment {
 
     @BindView(R2.id.inputPhoneEt)

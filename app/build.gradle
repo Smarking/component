@@ -36,14 +36,7 @@ dependencies {
 
     compile deps.support.appcompatV7
     testCompile deps.unit.junit
-
-}
-
-
-if (isRunAlone != 'true') {
-    project.dependencies {
-        compile project(':vippay')
-        compile project(':printer')
-        compile project(':baselib')
-    }
+    compile project(':baselib')
+    compile project(':commanager')
+    compile project(':comprotocol')
 }

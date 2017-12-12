@@ -7,4 +7,5 @@ package com.pitaya.comprotocol.vippay.bean;
 public class VipUserInfo {
     public String vipName;
     public String vipId;
+    public double vipMoney;
 }

@@ -19,6 +19,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.0'
         classpath 'com.jakewharton:butterknife-gradle-plugin:8.2.1'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
     }
 }
 
@@ -126,7 +127,7 @@ ext.deps = [
         loggingInterceptor           : 'com.squareup.okhttp3:logging-interceptor:3.8.0',
 
         retrofit                     : 'com.squareup.retrofit2:retrofit:2.3.0',
-        adapterRxjava2               : 'com.squareup.retrofit2:adapter-rxjava2:2.3.0',
+        adapterRxjava                : 'com.squareup.retrofit2:adapter-rxjava2:2.3.0',
         converterGson                : 'com.squareup.retrofit2:converter-gson:2.3.0',
 
         dagger                       : 'com.google.dagger:dagger:2.13',

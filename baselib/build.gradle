@@ -31,4 +31,16 @@ dependencies {
 
     compile deps.xlog
 
+    compile deps.okhttp
+    compile deps.loggingInterceptor
+
+    compile deps.converterGson
+    compile deps.retrofit
+    compile deps.adapterRxjava
+
+    compile deps.rxandroid
+    compile deps.rxjava
+
+    compile deps.dagger
+    annotationProcessor deps.daggerCompiler
 }
