@@ -1,15 +1,19 @@
 package com.pitaya.componentdemo;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.pitaya.baselib.bean.BaseUserInfo;
 import com.pitaya.comannotation.Unbinder;
 import com.pitaya.comcallback.Callback1;
 import com.pitaya.commanager.ComManager;
 import com.pitaya.commanager.ProxyTools;
+import com.pitaya.componentdemo.application.DemoApplication;
+import com.pitaya.comprotocol.checkout.CheckoutComProtocol;
 import com.pitaya.comprotocol.checkout.bean.Order;
+import com.pitaya.comprotocol.printer.bean.PrinterComProtocol;
 import com.pitaya.comprotocol.vippay.VipPayComProtocol;
 import com.pitaya.comprotocol.vippay.bean.VipUserInfo;
 
@@ -17,35 +21,50 @@ public class MainActivity extends AppCompatActivity {
 
     private Unbinder mVipLoginUnbinder;
     private Unbinder mVipLogoutUnbinder;
+    private Unbinder mOpenVipCampaignDialogUnbinder;
+
+
+    VipPayComProtocol.VipCampaignCallback campaignCallback = new VipPayComProtocol.VipCampaignCallback() {
+
+        @Override
+        public void onPresetPay(String result) {
+
+        }
+
+        @Override
+        public void onError(String msg) {
+
+        }
+    };
+
+
+    class VipClass implements VipPayComProtocol.VipCampaignCallback {
+
+        @Override
+        public void onPresetPay(String result) {
+
+        }
+
+        @Override
+        public void onError(String msg) {
+
+        }
+    }
+
+    //在哪里
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        mockLogin();
 
 
         findViewById(R.id.printerBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                VipPayComProtocol.VipCampaignCallback campaignCallback = new VipPayComProtocol.VipCampaignCallback() {
-
-                    @Override
-                    public void onPresetPay(String result) {
-
-                    }
-
-                    @Override
-                    public void onError(String msg) {
-
-                    }
-                };
-
-
-                ComManager.getInstance().getProtocol(VipPayComProtocol.class).openVipCampaignDialog(getBaseContext(), new Order(),
-                        ProxyTools.create(VipPayComProtocol.VipCampaignCallback.class, campaignCallback));
+                ComManager.getInstance().getProtocol(PrinterComProtocol.class).print("有新的打印任务");
             }
         });
 
@@ -54,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                ComManager.getInstance().getProtocol(VipPayComProtocol.class).cancelCheckoutVip(getBaseContext(), "string", new Callback1<String>() {
+                ComManager.getInstance().getProtocol(CheckoutComProtocol.class).calculateDiscountAndUpdateView((getBaseContext(),"string", new Callback1<String>() {
                     @Override
                     public void call(String param) {
 
@@ -64,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        //TODO 线程切换 协议
+        //TODO 线程切换 协议 K-V怎么办
         mVipLoginUnbinder = ComManager.getInstance().registerStatusReceiver(VipPayComProtocol.LoginStatus.class,
                 ProxyTools.create(VipPayComProtocol.LoginStatus.class, mLoginStatus));
 
@@ -91,10 +110,43 @@ public class MainActivity extends AppCompatActivity {
     };
 
 
+    private void testInvoke() {
+        //TODO 设置回调的方式，走代理，为了线程切换，支持入参、方法、类三种注解
+
+        //方式一 独享
+        mOpenVipCampaignDialogUnbinder = ComManager.getInstance().getProtocol(VipPayComProtocol.class)
+                .openVipCampaignDialog(getBaseContext(), new Order(), ProxyTools.create(VipPayComProtocol.VipCampaignCallback.class, new VipClass()));
+
+        //方式二 匿名内部类，共享一个Callback
+        mOpenVipCampaignDialogUnbinder = ComManager.getInstance().getProtocol(VipPayComProtocol.class)
+                .openVipCampaignDialog(getBaseContext(), new Order(), ProxyTools.create(VipPayComProtocol.VipCampaignCallback.class, campaignCallback));
+        //方式三 用labmda呢
+        //用Labmda的方式
+
+        //TODO 线程切换 协议 K-V怎么办
+        mVipLoginUnbinder = ComManager.getInstance().registerStatusReceiver(VipPayComProtocol.LoginStatus.class,
+                ProxyTools.create(VipPayComProtocol.LoginStatus.class, mLoginStatus));
+
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mVipLoginUnbinder.unbind();
         mVipLogoutUnbinder.unbind();
+    }
+
+    private void mockLogin() {
+        new Handler(getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                BaseUserInfo baseUserInfo = new BaseUserInfo();
+                baseUserInfo.loginToken = "PitayaComponentDemo123456789";
+                baseUserInfo.loginUserName = "yuandan";
+                baseUserInfo.poiId = "790681";
+                baseUserInfo.tenantId = "7986";
+                DemoApplication.getApp().initComponentUserInfo(baseUserInfo);
+            }
+        }, 1000 * 10);
     }
 }

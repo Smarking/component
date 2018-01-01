@@ -7,7 +7,7 @@ import com.pitaya.comannotation.Subscribe;
 import com.pitaya.comannotation.ThreadMode;
 import com.pitaya.comannotation.Unbinder;
 import com.pitaya.comcallback.Callback1;
-import com.pitaya.commanager.ComponentTools;
+import com.pitaya.commanager.ComManager;
 import com.pitaya.comprotocol.checkout.bean.Order;
 import com.pitaya.comprotocol.vippay.VipPayComProtocol;
 import com.pitaya.comprotocol.vippay.bean.Coupon;
@@ -25,7 +25,8 @@ public class VipPayComProtocolImpl implements VipPayComProtocol {
         //打开页面
 
         //TODO 返回Unbinder
-        return ComponentTools.getInstance().registerStatusReceiver(VipCampaignCallback.class, callback);
+        return ComManager.getInstance().registerStatusReceiver(VipCampaignCallback.class, callback);
+        //        ComManager.getInstance().getReceiver(VipCampaignCallback.class).onError("有错误");
     }
 
     @Override
@@ -53,5 +54,10 @@ public class VipPayComProtocolImpl implements VipPayComProtocol {
     @Override
     public List<Coupon> getVipPayRule() {
         return null;
+    }
+
+    @Override
+    public Unbinder registerStatusReceiver(Object interfaceInstance) {
+        return ComManager.getInstance().registerStatusReceiver(interfaceInstance);
     }
 }

@@ -86,6 +86,4 @@ public abstract class BaseComLifecycle implements ComLifecycle {
     public void onUserCenterChanged() {
 
     }
-
-
 }

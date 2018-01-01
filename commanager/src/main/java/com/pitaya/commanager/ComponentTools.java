@@ -40,6 +40,20 @@ public class ComponentTools {
     }
 
 
+    public synchronized Unbinder registerStatusReceiver(final Object interfaceInstance) {
+        Class<?>[] interfaces = interfaceInstance.getClass().getInterfaces();
+
+        if (interfaces == null) {
+            throw new IllegalArgumentException("addProtocol protocolImpl not implement interface");
+        }
+
+        if (interfaces.length > 1) {
+            throw new IllegalArgumentException("addProtocol protocolImpl implement more than one interface");
+        }
+        return registerStatusReceiver(interfaces[0], interfaceInstance);
+    }
+
+
     /**
      * 注册状态接受者
      *

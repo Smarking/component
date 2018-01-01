@@ -31,24 +31,31 @@ public class DemoApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mInstance = DemoApplication.this;
+        initBuildConfig();
         initComponent();
         //to do something  ......
     }
 
-    private void initComponent() {
-        installComponent(VipPayComProtocol.ComponentName);
-        installComponent(CheckoutComProtocol.ComponentName);
-        installComponent(PrinterComProtocol.ComponentName);
-
+    private void initBuildConfig() {
         BaseBuildConfig baseBuildConfig = new BaseBuildConfig();
         baseBuildConfig.deviceId = "SN123456789";
         baseBuildConfig.osType = "arm-v7";
         baseBuildConfig.envOffline = true;
         baseBuildConfig.envUrlType = 101;
+
         initComponentBuildConfig(baseBuildConfig);
     }
 
+
+    private void initComponent() {
+        installComponent(VipPayComProtocol.ComponentName);
+        installComponent(CheckoutComProtocol.ComponentName);
+        installComponent(PrinterComProtocol.ComponentName);
+    }
+
     /**
+     * 安装新组件，如果isComponentBuildConfig 、isComponentUserInfo 条件满足则立即更新
+     *
      * @param componentClassName
      * @return
      */
@@ -69,17 +76,39 @@ public class DemoApplication extends Application {
         ComManager.getInstance().unInstallComponent(componentClassName);
     }
 
+    /**
+     * 修改配置时调用该接口，通知所有组件
+     *
+     * @param baseBuildConfig
+     */
     @UiThread
-    private void initComponentBuildConfig(BaseBuildConfig baseBuildConfig) {
-        BuildConfigCenter.getInstance().init(baseBuildConfig);
+    public void initComponentBuildConfig(BaseBuildConfig baseBuildConfig) {
+        if (baseBuildConfig == null) {
+            isComponentBuildConfig = false;
+            BuildConfigCenter.getInstance().init(null);
+        } else {
+            BuildConfigCenter.getInstance().init(baseBuildConfig);
+            isComponentBuildConfig = true;
+        }
+
         ComManager.getInstance().notifyBuildConfigChanged();
-        isComponentBuildConfig = true;
     }
 
+    /**
+     * 登录、注销调用该接口，通知所有组件，注销时baseUserInfo == null，由各个业务方方判断。
+     *
+     * @param baseUserInfo
+     */
     @UiThread
     public void initComponentUserInfo(BaseUserInfo baseUserInfo) {
-        UserCenter.getInstance().init(baseUserInfo);
+        if (baseUserInfo == null) {
+            isComponentUserInfo = false;
+            UserCenter.getInstance().init(null);
+        } else {
+            UserCenter.getInstance().init(baseUserInfo);
+            isComponentUserInfo = true;
+        }
+
         ComManager.getInstance().notifyUserCenterChanged();
-        isComponentUserInfo = true;
     }
 }

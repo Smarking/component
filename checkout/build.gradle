@@ -55,4 +55,8 @@ dependencies {
     compile project(path: deps.baselib)
     compile deps.butterknife
     annotationProcessor deps.butterknifeCompiler
+
+    compile project(path: deps.baselib)
+    compile project(path: deps.comprotocol)
+    compile project(path: deps.commanager)
 }

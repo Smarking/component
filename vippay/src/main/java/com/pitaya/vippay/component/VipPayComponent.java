@@ -29,4 +29,9 @@ public class VipPayComponent extends BaseComLifecycle {
         return VipPayComProtocol.ComponentName;
     }
 
+    @Override
+    public Class<?>[] getEvent() {
+        //TODO 不在这里注册的不允许对外发布 广播场景
+        return new Class[]{VipPayComProtocol.LoginStatus.class, VipPayComProtocol.LogoutStatus.class};
+    }
 }

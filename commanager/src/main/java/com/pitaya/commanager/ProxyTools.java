@@ -133,4 +133,22 @@ public class ProxyTools {
             this.args = args;
         }
     }
+
+//    public static <T> T create(T target) {
+//        if (target == null) {
+//            throw new NullPointerException("addProtocol protocolImpl is null");
+//        }
+//
+//        Class<?>[] interfaces = target.getClass().getInterfaces();
+//
+//        if (interfaces == null) {
+//            throw new IllegalArgumentException("addProtocol protocolImpl not implement interface");
+//        }
+//
+//        if (interfaces.length > 1) {
+//            throw new IllegalArgumentException("addProtocol protocolImpl implement more than one interface");
+//        }
+//        //TODO 可能有Crash
+//        return (T) create(interfaces[0], target);
+//    }
 }

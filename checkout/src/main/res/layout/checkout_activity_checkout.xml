@@ -16,7 +16,6 @@
             android:id="@+id/sumMoneyEditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-
             android:layout_weight="2"
             android:hint="输入总应付金额" />
 
@@ -35,9 +34,9 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="总应付金额 " />
+            android:text="总应付金额: " />
 
         <TextView
             android:id="@+id/sumMoneyTv"
@@ -55,12 +54,13 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/vipcardInfo"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="会员卡优惠 " />
+            android:text="会员卡优惠: " />
 
         <TextView
-            android:id="@+id/discountNumTv"
+            android:id="@+id/discountMoneyTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:text="199元" />
@@ -74,18 +74,36 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="剩余应付 " />
+            android:text="已支付: " />
 
         <TextView
-            android:id="@+id/residueNumTv"
+            android:id="@+id/alreadyMoneyTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="199元" />
+            android:text="199元" />
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="剩余应付: " />
+
+        <TextView
+            android:id="@+id/residueMoneyTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="199元" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

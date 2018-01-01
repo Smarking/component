@@ -9,4 +9,6 @@ import com.pitaya.comannotation.ProtocolName;
 public interface PrinterComProtocol {
     String ComponentName = "";
 
+    void print(String msg);
+
 }

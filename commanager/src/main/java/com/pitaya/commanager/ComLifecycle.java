@@ -23,4 +23,6 @@ public interface ComLifecycle {
     String getComponentName();
 
     <T> T getProtocol(String protocolName);
+
+    Class<?>[] getEvent();
 }

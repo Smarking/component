@@ -55,7 +55,7 @@ public class ComManager {
                 lifecycle.install(application);
                 mComponents.put(componentClassName, lifecycle);
                 return lifecycle;
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 e.printStackTrace();
             }
 
@@ -94,8 +94,8 @@ public class ComManager {
         mWriteLock.lock();
         try {
             if (mComponents.containsKey(componentClassName)) {
-                mComponents.get(componentClassName).unInstall();
-                mComponents.remove(componentClassName);
+                ComLifecycle comLifecycle = mComponents.remove(componentClassName);
+                comLifecycle.unInstall();
             }
         } finally {
             mWriteLock.unlock();
@@ -168,8 +168,12 @@ public class ComManager {
      * @param statusReceiver
      * @return
      */
-    public Unbinder registerStatusReceiver(final Class<?> tInterfaceClass, final Object statusReceiver) {
+    public Unbinder registerStatusReceiver(Class<?> tInterfaceClass, Object statusReceiver) {
         return ComponentTools.getInstance().registerStatusReceiver(tInterfaceClass, statusReceiver);
+    }
+
+    public Unbinder registerStatusReceiver(Object statusReceiver) {
+        return ComponentTools.getInstance().registerStatusReceiver(statusReceiver);
     }
 
     public <T> T getReceiver(Class<T> tInterfaceClass) {

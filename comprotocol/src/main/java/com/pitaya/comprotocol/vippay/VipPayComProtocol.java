@@ -21,7 +21,11 @@ import java.util.List;
 @ProtocolName("VipPayComProtocol")
 public interface VipPayComProtocol {
 
+    /*****当前协议对应组件列表*****/
     String ComponentName = "com.pitaya.vippay.component.VipPayComponent";
+
+
+    /******组件可提供的能力列表****/
 
     /**
      * 开启会员支付优惠列表Dialog
@@ -43,7 +47,7 @@ public interface VipPayComProtocol {
     void openVipAssetPayDialog(Context context);
 
     /**
-     * 会员结账
+     * 会员结账服务接口
      *
      * @param context
      * @param body
@@ -61,6 +65,12 @@ public interface VipPayComProtocol {
     @Subscribe(threadMode = ThreadMode.POSTING)
     List<Coupon> getVipPayRule();
 
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    Unbinder registerStatusReceiver(Object statusReceiver);
+
+
+    /******组件状态****/
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     interface LoginStatus extends Callback1<VipUserInfo> {
     }
@@ -68,6 +78,9 @@ public interface VipPayComProtocol {
     @Subscribe(threadMode = ThreadMode.MAIN)
     interface LogoutStatus extends Callback2<VipUserInfo, String> {
     }
+
+
+    /******Callback****/
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     interface VipCampaignCallback {
