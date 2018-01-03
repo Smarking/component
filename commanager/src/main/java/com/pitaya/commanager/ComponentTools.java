@@ -93,7 +93,7 @@ public class ComponentTools {
     /**
      * MultiResultHandler  merge result from multi to single
      * <p>
-     * 仅支持同进程
+     * 仅支持同线程
      *
      * @param tInterfaceClass
      * @param multiResultHandler
@@ -106,13 +106,15 @@ public class ComponentTools {
     }
 
     @Deprecated
-    public <T> T getCallback(Class<T> tInterfaceClass, final MultiResultHandler multiResultHandler, final NoSubscriberHandler noSubscriberHandler) {
-        final List<T> instanceList = (List<T>) mTypesBySubscriber.get(tInterfaceClass);
+    public <T> T getCallback(final Class<T> tInterfaceClass, final MultiResultHandler multiResultHandler, final NoSubscriberHandler noSubscriberHandler) {
 
         return (T) Proxy.newProxyInstance(tInterfaceClass.getClassLoader(), new Class<?>[]{tInterfaceClass},
                 new InvocationHandler() {
                     @Override
                     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+
+                        List<T> instanceList = (List<T>) mTypesBySubscriber.get(tInterfaceClass);
+
                         if (instanceList == null || instanceList.isEmpty()) {
                             Log.e(TAG, "instanceList is Empty");
                             if (noSubscriberHandler != null) {

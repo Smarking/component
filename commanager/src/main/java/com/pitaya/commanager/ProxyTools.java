@@ -20,7 +20,27 @@ import java.util.concurrent.Executors;
 
 public class ProxyTools {
 
+    private static final Method OBJECT_EQUALS =
+            getObjectMethod("equals", Object.class);
+
+    private static Method getObjectMethod(String name, Class... types) {
+        try {
+            // null 'types' is OK.
+            return Object.class.getMethod(name, types);
+        } catch (NoSuchMethodException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    private static boolean equalsInternal(Object me, Object other) {
+        if (other == null) {
+            return false;
+        }
+        return me.hashCode() == other.hashCode();
+    }
+
     public static <T> T create(final Class<T> interfaceName, final Object target) {
+
         return (T) Proxy.newProxyInstance(interfaceName.getClassLoader(), new Class<?>[]{interfaceName},
                 new InvocationHandler() {
                     @Override
@@ -28,6 +48,9 @@ public class ProxyTools {
                             throws Throwable {
                         // If the method is a method from Object then defer to normal invocation.
                         if (method.getDeclaringClass() == Object.class) {
+                            if (method.equals(OBJECT_EQUALS)) {
+                                return equalsInternal(proxy, args[0]);
+                            }
                             return method.invoke(this, args);
                         }
 
