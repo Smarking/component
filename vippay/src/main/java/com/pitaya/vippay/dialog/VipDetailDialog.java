@@ -210,7 +210,7 @@ public class VipDetailDialog extends DialogFragment {
                             @Override
                             public void call(final List<Coupon> param) {
 
-                                //TODO  临时方案 暂时不支持 属性注解
+                                //TODO  临时方案 暂时不支持属性注解,需要支持
                                 getActivity().runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {

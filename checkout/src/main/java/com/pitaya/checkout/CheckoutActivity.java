@@ -204,6 +204,7 @@ public class CheckoutActivity extends FragmentActivity {
         }
         mComUnbinderList.clear();
 
+        //TODO 副作用太大！！！
         if (openVipCampaignDialogUnbinder != null) {
             openVipCampaignDialogUnbinder.unbind();
         }
@@ -222,11 +223,11 @@ public class CheckoutActivity extends FragmentActivity {
                 mAlreadyMoney = mSumMoney - mVipcardMoney;
                 updateView();
             } else if (viewId == R.id.vipcardBtn) {
-
                 openVipCampaignDialogUnbinder = mVipPayComProtocol.openVipCampaignDialog(CheckoutActivity.this, mOrder,
                         ProxyTools.create(VipPayComProtocol.VipCampaignCallback.class, new VipPayComProtocol.VipCampaignCallback() {
                             @Override
                             public void unbind() {
+                                //TODO 反注册，副作用太大！！
                                 if (openVipCampaignDialogUnbinder != null) {
                                     openVipCampaignDialogUnbinder.unbind();
                                 }
