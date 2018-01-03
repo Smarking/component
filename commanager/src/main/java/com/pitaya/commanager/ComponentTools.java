@@ -115,7 +115,9 @@ public class ComponentTools {
                     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
                         if (instanceList == null || instanceList.isEmpty()) {
                             Log.e(TAG, "instanceList is Empty");
-                            noSubscriberHandler.onNoSubscriber();
+                            if (noSubscriberHandler != null) {
+                                noSubscriberHandler.onNoSubscriber();
+                            }
                             return null;
                         }
 
@@ -128,7 +130,10 @@ public class ComponentTools {
                             Object obj = method.invoke(instance, args);
                             resultList.add(obj);
                         }
-                        return multiResultHandler.convert(resultList);
+                        if (multiResultHandler != null) {
+                            return multiResultHandler.convert(resultList);
+                        }
+                        return null;
                     }
                 });
     }

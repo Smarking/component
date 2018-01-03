@@ -30,7 +30,7 @@ public class ApiFactory {
 
         try {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("www.baidu.com")
+                    .baseUrl("http://www.baidu.com")
                     .callFactory(getOkHttpClient())
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

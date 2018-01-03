@@ -1,5 +1,7 @@
 package com.pitaya.comprotocol.checkout;
 
+import android.content.Context;
+
 import com.pitaya.comannotation.ProtocolName;
 import com.pitaya.comannotation.Subscribe;
 import com.pitaya.comannotation.ThreadMode;
@@ -20,6 +22,8 @@ public interface CheckoutComProtocol {
      */
     String ComponentName = "com.pitaya.checkout.component.CheckoutComponent";//火锅
     String ComponentName2 = "";//烧烤
+
+    void openCheckoutPage(Context context);
 
     //TODO 如何解决指定入参的执行线程呢
     @Subscribe(threadMode = ThreadMode.BACKGROUND)

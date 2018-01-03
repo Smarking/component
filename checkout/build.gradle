@@ -1,12 +1,9 @@
 assert isRunAlone instanceof String
 
-
 if (isRunAlone == 'true') {
     apply plugin: 'com.android.application'
-    println("takeoutPlugin application")
 } else {
     apply plugin: 'com.android.library'
-    println("takeoutPlugin library")
 }
 
 apply plugin: 'com.jakewharton.butterknife'

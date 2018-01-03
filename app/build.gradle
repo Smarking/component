@@ -9,34 +9,40 @@ android {
         versionCode versions.versionCode
         versionName versions.versionName
         applicationId "com.pitaya.componentdemo"
+
+        buildTypes {
+            debug {
+                buildConfigField "boolean", "ENV_OFFLINE", "true"
+            }
+
+            stage {
+                buildConfigField "boolean", "ENV_OFFLINE", "true"
+            }
+
+            release {
+                buildConfigField "boolean", "ENV_OFFLINE", "false"
+                minifyEnabled false
+                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            }
+        }
     }
-    buildTypes {
-        debug {
-            buildConfigField "boolean", "ENV_OFFLINE", "true"
-        }
 
-        stage {
-            buildConfigField "boolean", "ENV_OFFLINE", "true"
-        }
+    dependencies {
+        compile fileTree(dir: 'libs', include: ['*.jar'])
 
-        release {
-            buildConfigField "boolean", "ENV_OFFLINE", "false"
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
+        androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+            exclude group: 'com.android.support', module: 'support-annotations'
+        })
+
+        compile deps.support.appcompatV7
+        testCompile deps.unit.junit
+        compile project(':baselib')
+        compile project(':commanager')
+        compile project(':comprotocol')
+
+        compile project(':vippay')
+        compile project(':checkout')
+        compile project(':printer')
+
     }
-}
-
-dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-
-    compile deps.support.appcompatV7
-    testCompile deps.unit.junit
-    compile project(':baselib')
-    compile project(':commanager')
-    compile project(':comprotocol')
 }

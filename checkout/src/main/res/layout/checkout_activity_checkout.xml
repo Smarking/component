@@ -160,6 +160,6 @@
         android:id="@+id/checkoutBtn"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="结账" />
+        android:text="火结账" />
 
 </LinearLayout>

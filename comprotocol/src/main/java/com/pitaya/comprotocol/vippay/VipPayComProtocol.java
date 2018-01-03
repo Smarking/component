@@ -85,7 +85,7 @@ public interface VipPayComProtocol {
     /******Callback****/
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    interface VipCampaignCallback {
+    interface VipCampaignCallback extends Unbinder {
         /**
          * 排序后的优惠券列表，给副屏展示
          *

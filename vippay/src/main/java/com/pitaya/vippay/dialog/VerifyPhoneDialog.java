@@ -16,7 +16,6 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.elvishew.xlog.XLog;
 import com.pitaya.baselib.network.ApiFactory;
 import com.pitaya.baselib.network.ApiResponse;
 import com.pitaya.commanager.ComManager;
@@ -105,6 +104,7 @@ public class VerifyPhoneDialog extends DialogFragment {
         mCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ComManager.getInstance().getReceiver(VipPayComProtocol.VipCampaignCallback.class).unbind();
                 dismissAllowingStateLoss();
             }
         });
@@ -159,12 +159,10 @@ public class VerifyPhoneDialog extends DialogFragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                XLog.d("onTextChanged " + s + "  count" + count + " start" + start + " before" + before);
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                XLog.d("afterTextChanged " + s.toString());
                 if (matchPhoneFormat(s.toString())) {
                     mErrorTipTv.setVisibility(View.GONE);
                 } else {

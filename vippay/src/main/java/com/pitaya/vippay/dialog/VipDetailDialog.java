@@ -23,11 +23,13 @@ import com.pitaya.baselib.network.ApiFactory;
 import com.pitaya.baselib.network.ApiResponse;
 import com.pitaya.comcallback.Callback1;
 import com.pitaya.commanager.ComManager;
+import com.pitaya.commanager.ProxyTools;
 import com.pitaya.comprotocol.checkout.CheckoutComProtocol;
 import com.pitaya.comprotocol.checkout.bean.Order;
 import com.pitaya.comprotocol.vippay.VipPayComProtocol;
 import com.pitaya.comprotocol.vippay.bean.Coupon;
 import com.pitaya.vippay.R;
+import com.pitaya.vippay.R2;
 import com.pitaya.vippay.adapter.VipDetailAdapter;
 import com.pitaya.vippay.network.VipPayService;
 import com.pitaya.vippay.utils.VipPayUserCenter;
@@ -47,23 +49,23 @@ import io.reactivex.schedulers.Schedulers;
 
 public class VipDetailDialog extends DialogFragment {
 
-    @BindView(R.id.vipInfoTv)
+    @BindView(R2.id.vipInfoTv)
     TextView mVipInfoTv;
-    @BindView(R.id.logoutBtn)
+    @BindView(R2.id.logoutBtn)
     Button mLogoutBtn;
-    @BindView(R.id.couponListView)
+    @BindView(R2.id.couponListView)
     android.support.v7.widget.RecyclerView mCouponRecyclerView;
-    @BindView(R.id.calculateResultTv)
+    @BindView(R2.id.calculateResultTv)
     TextView calculateResultTv;
-    @BindView(R.id.cancel)
+    @BindView(R2.id.cancel)
     TextView cancel;
-    @BindView(R.id.confirm)
+    @BindView(R2.id.confirm)
     TextView confirm;
-    @BindView(R.id.progress_bar)
+    @BindView(R2.id.progress_bar)
     ProgressBar progressBar;
-    @BindView(R.id.progress_bar_tip)
+    @BindView(R2.id.progress_bar_tip)
     TextView progressBarTip;
-    @BindView(R.id.progress_bar_container)
+    @BindView(R2.id.progress_bar_container)
     RelativeLayout progressBarContainer;
 
     Unbinder unbinder;
@@ -136,6 +138,12 @@ public class VipDetailDialog extends DialogFragment {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (mHeaderAndFooterAdapter.getSelectedElePoi() == null) {
+                    Toast.makeText(getContext().getApplicationContext(), "未选择优惠或者无可用优惠", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 mVipPayService.presetPay(mHeaderAndFooterAdapter.getSelectedElePoi())
                         .onErrorReturnItem(new ApiResponse<String>(200, "succeed", null, true))
                         .subscribeOn(Schedulers.io())
@@ -169,15 +177,25 @@ public class VipDetailDialog extends DialogFragment {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 ((VipDetailAdapter) adapter).updateViewStatus(position);
 
-                ComManager.getInstance().getProtocol(CheckoutComProtocol.class).calculateDiscountAndUpdateView(mOrder, mHeaderAndFooterAdapter.getData().get(position),
-                        new Callback1<Float>() {
-                            @Override
-                            public void call(Float param) {
-                                String info = "总金额：" + mOrder.amount + " " + mHeaderAndFooterAdapter.getSelectedElePoi().discount + "折，优惠金额为:" + param;
-                                calculateResultTv.setText(info);
-                                ComManager.getInstance().getReceiver(VipPayComProtocol.VipCampaignCallback.class).onSelectedCoupon(info);
-                            }
-                        });
+                ComManager.getInstance().getProtocol(CheckoutComProtocol.class).calculateDiscountAndUpdateView(
+                        mOrder,
+                        mHeaderAndFooterAdapter.getData().get(position),
+                        ProxyTools.create(Callback1.class,
+                                new Callback1<Float>() {
+                                    @Override
+                                    public void call(final Float param) {
+                                        //TODO  临时方案 暂时不支持 属性注解
+                                        getActivity().runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                String info = "总金额:" + mOrder.amount + " 打" + (int) (mHeaderAndFooterAdapter.getSelectedElePoi().discount * 10) + "折，可优惠:" + param;
+                                                calculateResultTv.setText(info);
+                                                ComManager.getInstance().getReceiver(VipPayComProtocol.VipCampaignCallback.class).onSelectedCoupon(info);
+
+                                            }
+                                        });
+                                    }
+                                }));
             }
         });
 
@@ -187,13 +205,22 @@ public class VipDetailDialog extends DialogFragment {
 
         ComManager.getInstance().getProtocol(CheckoutComProtocol.class).sortVipPayCouponsAndUpdateView(
                 VipPayUserCenter.getInstance().getCouponList(),
-                new Callback1<List<Coupon>>() {
-                    @Override
-                    public void call(List<Coupon> param) {
-                        mHeaderAndFooterAdapter.setNewData(param);
-                        ComManager.getInstance().getReceiver(VipPayComProtocol.VipCampaignCallback.class).onSortedCouponList(param);
-                    }
-                });
+                ProxyTools.create(Callback1.class,
+                        new Callback1<List<Coupon>>() {
+                            @Override
+                            public void call(final List<Coupon> param) {
+
+                                //TODO  临时方案 暂时不支持 属性注解
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        mHeaderAndFooterAdapter.setNewData(param);
+                                        ComManager.getInstance().getReceiver(VipPayComProtocol.VipCampaignCallback.class).onSortedCouponList(param);
+                                    }
+                                });
+
+                            }
+                        }));
     }
 
     private View getHeaderView() {
@@ -221,5 +248,11 @@ public class VipDetailDialog extends DialogFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ComManager.getInstance().getReceiver(VipPayComProtocol.VipCampaignCallback.class).unbind();
     }
 }

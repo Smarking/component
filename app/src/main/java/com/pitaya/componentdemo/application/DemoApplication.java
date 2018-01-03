@@ -3,6 +3,7 @@ package com.pitaya.componentdemo.application;
 import android.app.Application;
 import android.support.annotation.UiThread;
 
+import com.elvishew.xlog.XLog;
 import com.pitaya.baselib.BuildConfigCenter;
 import com.pitaya.baselib.UserCenter;
 import com.pitaya.baselib.bean.BaseBuildConfig;
@@ -32,6 +33,7 @@ public class DemoApplication extends Application {
         super.onCreate();
         mInstance = DemoApplication.this;
         initBuildConfig();
+        initXlog();
         initComponent();
         //to do something  ......
     }
@@ -46,6 +48,9 @@ public class DemoApplication extends Application {
         initComponentBuildConfig(baseBuildConfig);
     }
 
+    private void initXlog() {
+        XLog.init();
+    }
 
     private void initComponent() {
         installComponent(VipPayComProtocol.ComponentName);

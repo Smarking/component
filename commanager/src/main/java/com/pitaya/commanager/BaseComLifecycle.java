@@ -66,7 +66,7 @@ public abstract class BaseComLifecycle implements ComLifecycle {
         }
 
         String protocolName = annotation.value();
-        Object proxyProtocolImpl = ProxyTools.create(interfaces[0].getClass(), protocolImpl);
+        Object proxyProtocolImpl = ProxyTools.create(interfaces[0], protocolImpl);
         mProtocolCenter.addProtocol(protocolName, proxyProtocolImpl);
     }
 

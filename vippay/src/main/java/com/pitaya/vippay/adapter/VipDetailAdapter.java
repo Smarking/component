@@ -5,9 +5,9 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.elvishew.xlog.XLog;
 import com.pitaya.comprotocol.vippay.bean.Coupon;
 import com.pitaya.vippay.R;
+import com.pitaya.vippay.R2;
 
 import java.util.List;
 
@@ -16,15 +16,20 @@ import butterknife.ButterKnife;
 
 public class VipDetailAdapter extends BaseQuickAdapter<Coupon, VipDetailAdapter.BindItemViewHolder> {
     private static final String TAG = "VipDetailAdapter";
-    private int mSelectedElePoiPosition = 0;
+    private int mSelectedElePoiPosition = -1;
     private double mConsumption;
 
     private void clearSelectedStatus() {
-        mSelectedElePoiPosition = 0;
+        mSelectedElePoiPosition = -1;
     }
 
     public Coupon getSelectedElePoi() {
-        return getData().get(mSelectedElePoiPosition);
+        Coupon coupon = null;
+        try {
+            coupon = getData().get(mSelectedElePoiPosition);
+        } catch (Throwable e) {
+        }
+        return coupon;
     }
 
 
@@ -35,8 +40,6 @@ public class VipDetailAdapter extends BaseQuickAdapter<Coupon, VipDetailAdapter.
 
     @Override
     protected void convert(BindItemViewHolder helper, Coupon coupon) {
-        XLog.d(helper.getLayoutPosition() + " " + helper.getItemViewType() + " " + coupon.name);
-
         if (coupon.rule > mConsumption) {
             helper.itemView.setEnabled(false);
         } else {
@@ -57,9 +60,9 @@ public class VipDetailAdapter extends BaseQuickAdapter<Coupon, VipDetailAdapter.
     }
 
     public static class BindItemViewHolder extends BaseViewHolder {
-        @BindView(R.id.coupon_name)
+        @BindView(R2.id.coupon_name)
         TextView couponName;
-        @BindView(R.id.use_rule)
+        @BindView(R2.id.use_rule)
         TextView useRule;
 
         public BindItemViewHolder(View itemView) {
