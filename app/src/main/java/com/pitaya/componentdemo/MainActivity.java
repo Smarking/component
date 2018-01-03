@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                ComManager.getInstance().getProtocol(CheckoutComProtocol.class).calculateDiscountAndUpdateView((getBaseContext(),"string", new Callback1<String>() {
+                ComManager.getInstance().getProtocol(CheckoutComProtocol.class).calculateDiscountAndUpdateView(getBaseContext(), "string", new Callback1<String>() {
                     @Override
                     public void call(String param) {
 
@@ -84,11 +84,11 @@ public class MainActivity extends AppCompatActivity {
 
 
         //TODO 线程切换 协议 K-V怎么办
-        mVipLoginUnbinder = ComManager.getInstance().registerStatusReceiver(VipPayComProtocol.LoginStatus.class,
+        mVipLoginUnbinder = ComManager.getInstance().registerStatusReceiver(
                 ProxyTools.create(VipPayComProtocol.LoginStatus.class, mLoginStatus));
 
         //协议
-        mVipLogoutUnbinder = ComManager.getInstance().registerStatusReceiver(VipPayComProtocol.LogoutStatus.class,
+        mVipLogoutUnbinder = ComManager.getInstance().registerStatusReceiver(
                 ProxyTools.create(VipPayComProtocol.LogoutStatus.class, mLogoutStatus));
     }
 
@@ -115,11 +115,11 @@ public class MainActivity extends AppCompatActivity {
 
         //方式一 独享
         mOpenVipCampaignDialogUnbinder = ComManager.getInstance().getProtocol(VipPayComProtocol.class)
-                .openVipCampaignDialog(getBaseContext(), new Order(), ProxyTools.create(VipPayComProtocol.VipCampaignCallback.class, new VipClass()));
+                .openVipCampaignDialog(MainActivity.this, new Order(), ProxyTools.create(VipPayComProtocol.VipCampaignCallback.class, new VipClass()));
 
         //方式二 匿名内部类，共享一个Callback
         mOpenVipCampaignDialogUnbinder = ComManager.getInstance().getProtocol(VipPayComProtocol.class)
-                .openVipCampaignDialog(getBaseContext(), new Order(), ProxyTools.create(VipPayComProtocol.VipCampaignCallback.class, campaignCallback));
+                .openVipCampaignDialog(MainActivity.this, new Order(), ProxyTools.create(VipPayComProtocol.VipCampaignCallback.class, campaignCallback));
         //方式三 用labmda呢
         //用Labmda的方式
 

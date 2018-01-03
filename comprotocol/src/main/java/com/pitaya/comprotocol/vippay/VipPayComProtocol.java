@@ -1,13 +1,13 @@
 package com.pitaya.comprotocol.vippay;
 
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 
 import com.pitaya.comannotation.ProtocolName;
 import com.pitaya.comannotation.Subscribe;
 import com.pitaya.comannotation.ThreadMode;
 import com.pitaya.comannotation.Unbinder;
 import com.pitaya.comcallback.Callback1;
-import com.pitaya.comcallback.Callback2;
 import com.pitaya.comprotocol.checkout.bean.Order;
 import com.pitaya.comprotocol.vippay.bean.Coupon;
 import com.pitaya.comprotocol.vippay.bean.VipUserInfo;
@@ -36,7 +36,7 @@ public interface VipPayComProtocol {
      * @return
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
-    Unbinder openVipCampaignDialog(Context context, Order order, VipCampaignCallback callback); //TODO  VipCampaignCallback 支持跨页面传递回调、支持回调线程切换
+    Unbinder openVipCampaignDialog(FragmentActivity context, Order order, VipCampaignCallback callback); //TODO  VipCampaignCallback 支持跨页面传递回调、支持回调线程切换
 
     /**
      * 开启会员储值Dialog
@@ -49,15 +49,17 @@ public interface VipPayComProtocol {
     /**
      * 会员结账服务接口
      *
-     * @param context
      * @param body
      * @param confirmCallback
      */
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    void confirmCheckoutVip(Context context, String body, ConfirmCallback confirmCallback);
+    void confirmCheckoutVip(Coupon body, ConfirmCallback confirmCallback);
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     void cancelCheckoutVip(Context context, String body, @Subscribe(threadMode = ThreadMode.MAIN) Callback1<String> resultCallback);//TODO 支持属性注解线程切换
+
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    void requestLogout();
 
     @Subscribe(threadMode = ThreadMode.POSTING)
     VipUserInfo getLoginInfo();
@@ -76,7 +78,7 @@ public interface VipPayComProtocol {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    interface LogoutStatus extends Callback2<VipUserInfo, String> {
+    interface LogoutStatus extends Callback1<VipUserInfo> {
     }
 
 
@@ -84,15 +86,32 @@ public interface VipPayComProtocol {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     interface VipCampaignCallback {
-        void onPresetPay(String result);
+        /**
+         * 排序后的优惠券列表，给副屏展示
+         *
+         * @param sortedList
+         */
+        void onSortedCouponList(List<Coupon> sortedList);
+
+        /**
+         * 选中的优惠，给副屏展示
+         *
+         * @param calculateInfo
+         */
+        void onSelectedCoupon(String calculateInfo);
+
+        /**
+         * 预结账成功回调，给副屏展示
+         *
+         * @param coupon
+         */
+        void onPresetPay(Coupon coupon);
 
         void onError(String msg);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     interface ConfirmCallback {
-        void onPresetPay(String result);
-
         void onCheckout(String result);
     }
 }

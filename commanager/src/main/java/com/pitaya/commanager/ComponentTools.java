@@ -92,16 +92,20 @@ public class ComponentTools {
 
     /**
      * MultiResultHandler  merge result from multi to single
+     * <p>
+     * 仅支持同进程
      *
      * @param tInterfaceClass
      * @param multiResultHandler
      * @param <T>
      * @return
      */
+    @Deprecated
     public <T> T getCallback(Class<T> tInterfaceClass, final MultiResultHandler multiResultHandler) {
         return getCallback(tInterfaceClass, multiResultHandler, null);
     }
 
+    @Deprecated
     public <T> T getCallback(Class<T> tInterfaceClass, final MultiResultHandler multiResultHandler, final NoSubscriberHandler noSubscriberHandler) {
         final List<T> instanceList = (List<T>) mTypesBySubscriber.get(tInterfaceClass);
 

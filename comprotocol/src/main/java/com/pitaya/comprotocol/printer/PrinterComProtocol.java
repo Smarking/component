@@ -7,7 +7,7 @@ import com.pitaya.comannotation.ProtocolName;
  */
 @ProtocolName("PrinterComProtocol")
 public interface PrinterComProtocol {
-    String ComponentName = "";
+    String ComponentName = "com.pitaya.printer.component.PrinterComponent";
 
     void print(String msg);
 

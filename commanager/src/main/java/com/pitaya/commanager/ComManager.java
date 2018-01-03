@@ -3,10 +3,14 @@ package com.pitaya.commanager;
 import android.app.Application;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.pitaya.comannotation.ProtocolName;
 import com.pitaya.comannotation.Unbinder;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -109,7 +113,7 @@ public class ComManager {
      * @param <T>
      * @return
      */
-    public <T> T getProtocol(Class<T> tProtocolClass) {
+    public <T> T getProtocol(final Class<T> tProtocolClass) {
         if (!tProtocolClass.isInterface()) {
             return null;
         }
@@ -129,7 +133,16 @@ public class ComManager {
                     return protocol;
                 }
             }
-            return null;
+
+            //返回一个代理，防止调用NullPointException
+            return (T) Proxy.newProxyInstance(tProtocolClass.getClassLoader(), new Class<?>[]{tProtocolClass},
+                    new InvocationHandler() {
+                        @Override
+                        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                            Log.e("ComManager", "ComManager not support " + tProtocolClass.getName());
+                            return null;
+                        }
+                    });
         } finally {
             mReadLock.unlock();
         }
@@ -161,17 +174,6 @@ public class ComManager {
         }
     }
 
-    /**
-     * 不依赖与
-     *
-     * @param tInterfaceClass
-     * @param statusReceiver
-     * @return
-     */
-    public Unbinder registerStatusReceiver(Class<?> tInterfaceClass, Object statusReceiver) {
-        return ComponentTools.getInstance().registerStatusReceiver(tInterfaceClass, statusReceiver);
-    }
-
     public Unbinder registerStatusReceiver(Object statusReceiver) {
         return ComponentTools.getInstance().registerStatusReceiver(statusReceiver);
     }
@@ -180,10 +182,12 @@ public class ComManager {
         return ComponentTools.getInstance().getCallback(tInterfaceClass);
     }
 
+    @Deprecated
     public <T> T getReceiver(Class<T> tInterfaceClass, ComponentTools.MultiResultHandler multiResultHandler) {
         return ComponentTools.getInstance().getCallback(tInterfaceClass, multiResultHandler);
     }
 
+    @Deprecated
     public <T> T getReceiver(Class<T> tInterfaceClass, ComponentTools.MultiResultHandler multiResultHandler, ComponentTools.NoSubscriberHandler noSubscriberHandler) {
         return ComponentTools.getInstance().getCallback(tInterfaceClass, multiResultHandler, noSubscriberHandler);
     }

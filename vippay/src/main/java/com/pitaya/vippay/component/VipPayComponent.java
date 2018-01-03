@@ -20,7 +20,6 @@ public class VipPayComponent extends BaseComLifecycle {
     public void onUserCenterChanged() {
         super.onUserCenterChanged();
         //请求后端判断 是否会员核销权限
-
         //网络请求
     }
 

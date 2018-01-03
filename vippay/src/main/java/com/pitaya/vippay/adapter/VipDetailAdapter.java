@@ -16,52 +16,43 @@ import butterknife.ButterKnife;
 
 public class VipDetailAdapter extends BaseQuickAdapter<Coupon, VipDetailAdapter.BindItemViewHolder> {
     private static final String TAG = "VipDetailAdapter";
-    private List<Coupon> mShopIdList;
-    private Coupon mSelectedElePoi = null;
+    private int mSelectedElePoiPosition = 0;
     private double mConsumption;
 
     private void clearSelectedStatus() {
-        for (Coupon shop : mShopIdList) {
-            shop.isSelected = false;
-        }
+        mSelectedElePoiPosition = 0;
     }
 
     public Coupon getSelectedElePoi() {
-        return mSelectedElePoi;
+        return getData().get(mSelectedElePoiPosition);
     }
 
 
     public VipDetailAdapter(List<Coupon> shopIdList, double consumption) {
         super(R.layout.vippay_coupon_item, shopIdList);
-        this.mShopIdList = shopIdList;
         this.mConsumption = consumption;
     }
 
     @Override
-    protected void convert(BindItemViewHolder helper, Coupon item) {
-        XLog.d(helper.getLayoutPosition() + " " + helper.getItemViewType() + " " + item.name);
-        onBindViewHolder2(helper, helper.getLayoutPosition() - getHeaderLayoutCount());
-    }
-
-    private void onBindViewHolder2(BindItemViewHolder holder, final int position) {
-        Coupon coupon = mShopIdList.get(position);
+    protected void convert(BindItemViewHolder helper, Coupon coupon) {
+        XLog.d(helper.getLayoutPosition() + " " + helper.getItemViewType() + " " + coupon.name);
 
         if (coupon.rule > mConsumption) {
-            holder.itemView.setEnabled(false);
+            helper.itemView.setEnabled(false);
         } else {
-            holder.itemView.setEnabled(true);
+            helper.itemView.setEnabled(true);
         }
 
-        holder.couponName.setText(coupon.name);
-        holder.useRule.setText("消费满" + coupon.rule + "元可用");
-        holder.itemView.setSelected(mShopIdList.get(position).isSelected);
+        helper.couponName.setText(coupon.name);
+        helper.useRule.setText("消费满" + coupon.rule + "元可用");
+
+        helper.itemView.setSelected(
+                mSelectedElePoiPosition == (helper.getLayoutPosition() - getHeaderLayoutCount()));
     }
 
     public void updateViewStatus(int position) {
         clearSelectedStatus();
-        mShopIdList.get(position).isSelected = true;
-        mSelectedElePoi = mShopIdList.get(position);
-        //TODO 修改为局部刷新
+        mSelectedElePoiPosition = position;
         VipDetailAdapter.this.notifyDataSetChanged();
     }
 

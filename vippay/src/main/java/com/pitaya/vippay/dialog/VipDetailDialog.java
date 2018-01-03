@@ -4,6 +4,8 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,18 +16,30 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.pitaya.baselib.network.ApiFactory;
+import com.pitaya.baselib.network.ApiResponse;
+import com.pitaya.comcallback.Callback1;
+import com.pitaya.commanager.ComManager;
+import com.pitaya.comprotocol.checkout.CheckoutComProtocol;
+import com.pitaya.comprotocol.checkout.bean.Order;
+import com.pitaya.comprotocol.vippay.VipPayComProtocol;
 import com.pitaya.comprotocol.vippay.bean.Coupon;
 import com.pitaya.vippay.R;
 import com.pitaya.vippay.adapter.VipDetailAdapter;
+import com.pitaya.vippay.network.VipPayService;
+import com.pitaya.vippay.utils.VipPayUserCenter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Smarking on 17/12/10.
@@ -44,7 +58,7 @@ public class VipDetailDialog extends DialogFragment {
     @BindView(R.id.cancel)
     TextView cancel;
     @BindView(R.id.confirm)
-    TextView mConfirm;
+    TextView confirm;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
     @BindView(R.id.progress_bar_tip)
@@ -54,13 +68,24 @@ public class VipDetailDialog extends DialogFragment {
 
     Unbinder unbinder;
 
-    VipDetailAdapter mHeaderAndFooterAdapter;
+    private VipDetailAdapter mHeaderAndFooterAdapter;
 
-    public static VipDetailDialog newInstance(String state) {
+    private VipPayService mVipPayService = ApiFactory.getApi(VipPayService.class);
+
+    private Order mOrder;
+
+    private static final String ARG_ORDER = "order";
+
+    public static VipDetailDialog newInstance(FragmentManager fragmentManager, Order order) {
+        Fragment fragment = fragmentManager.findFragmentByTag(VipDetailDialog.class.getName());
+        if (fragment != null) {
+            fragment.getArguments().putParcelable(ARG_ORDER, order);
+            return (VipDetailDialog) fragment;
+        }
         VipDetailDialog f = new VipDetailDialog();
         f.setStyle(STYLE_NO_TITLE, 0);
         Bundle args = new Bundle();
-        args.putString("mAuthState", state);
+        args.putParcelable(ARG_ORDER, order);
         f.setArguments(args);
         return f;
     }
@@ -68,6 +93,7 @@ public class VipDetailDialog extends DialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mOrder = getArguments().getParcelable(ARG_ORDER);
     }
 
     @Nullable
@@ -79,28 +105,79 @@ public class VipDetailDialog extends DialogFragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        List coupons = new ArrayList<Coupon>();
-        coupons.add(new Coupon(2017121001, "满100元9折", 100, 0.9f));
-        coupons.add(new Coupon(2017121002, "满100元8折", 100, 0.8f));
-        coupons.add(new Coupon(2017121003, "满80元9折", 80, 0.9f));
-        coupons.add(new Coupon(2017121004, "满80元6折", 80, 0.6f));
-        coupons.add(new Coupon(2017121005, "满200元8折", 200, 0.8f));
-        coupons.add(new Coupon(2017121007, "满100元9折", 100, 0.9f));
-        coupons.add(new Coupon(2017121007, "满30元95折", 30, 0.95f));
+        mVipInfoTv.setText(VipPayUserCenter.getInstance().getVipUserInfo().toString());
 
-        mHeaderAndFooterAdapter = new VipDetailAdapter(coupons, 90);
+        mLogoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ComManager.getInstance().getReceiver(VipPayComProtocol.LogoutStatus.class)
+                        .call(VipPayUserCenter.getInstance().getVipUserInfo());
+
+                mVipPayService.logoutVipPay(VipPayUserCenter.getInstance().getVipUserInfo().vipId)
+                        .onErrorReturnItem(new ApiResponse<String>(200, "succeed", null, true))
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Consumer<ApiResponse<String>>() {
+                            @Override
+                            public void accept(ApiResponse<String> stringApiResponse) throws Exception {
+                                Toast.makeText(getContext().getApplicationContext(), "会员卡退出成功", Toast.LENGTH_SHORT).show();
+                                VipPayUserCenter.getInstance().setCouponList(null);
+                                VipPayUserCenter.getInstance().setVipUserInfo(null);
+                                dismissAllowingStateLoss();
+                            }
+                        });
+            }
+        });
+
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mVipPayService.presetPay(mHeaderAndFooterAdapter.getSelectedElePoi())
+                        .onErrorReturnItem(new ApiResponse<String>(200, "succeed", null, true))
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Consumer<ApiResponse<String>>() {
+                            @Override
+                            public void accept(ApiResponse<String> stringApiResponse) throws Exception {
+                                if (stringApiResponse.isSuccess()) {
+                                    ComManager.getInstance().getReceiver(VipPayComProtocol.VipCampaignCallback.class).onPresetPay(mHeaderAndFooterAdapter.getSelectedElePoi());
+                                    dismissAllowingStateLoss();
+                                } else {
+                                    Toast.makeText(getContext().getApplicationContext(), "非法使用", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismissAllowingStateLoss();
+            }
+        });
+
+        mHeaderAndFooterAdapter = new VipDetailAdapter(null, mOrder.amount);
         mHeaderAndFooterAdapter.setHeaderViewAsFlow(true);
         mHeaderAndFooterAdapter.addHeaderView(getHeaderView());
         mHeaderAndFooterAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 ((VipDetailAdapter) adapter).updateViewStatus(position);
-                //TODO
-                //排序优惠 传递总金额
-                //选择优惠，checkout重新计算金额
+
+                ComManager.getInstance().getProtocol(CheckoutComProtocol.class).calculateDiscountAndUpdateView(mOrder, mHeaderAndFooterAdapter.getData().get(position),
+                        new Callback1<Float>() {
+                            @Override
+                            public void call(Float param) {
+                                String info = "总金额：" + mOrder.amount + " " + mHeaderAndFooterAdapter.getSelectedElePoi().discount + "折，优惠金额为:" + param;
+                                calculateResultTv.setText(info);
+                                ComManager.getInstance().getReceiver(VipPayComProtocol.VipCampaignCallback.class).onSelectedCoupon(info);
+                            }
+                        });
             }
         });
 
@@ -108,9 +185,16 @@ public class VipDetailDialog extends DialogFragment {
         mCouponRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mCouponRecyclerView.setAdapter(mHeaderAndFooterAdapter);
 
-
+        ComManager.getInstance().getProtocol(CheckoutComProtocol.class).sortVipPayCouponsAndUpdateView(
+                VipPayUserCenter.getInstance().getCouponList(),
+                new Callback1<List<Coupon>>() {
+                    @Override
+                    public void call(List<Coupon> param) {
+                        mHeaderAndFooterAdapter.setNewData(param);
+                        ComManager.getInstance().getReceiver(VipPayComProtocol.VipCampaignCallback.class).onSortedCouponList(param);
+                    }
+                });
     }
-
 
     private View getHeaderView() {
         return getActivity().getLayoutInflater().inflate(R.layout.vippay_coupon_item, (ViewGroup) mCouponRecyclerView.getParent(), false);

@@ -51,4 +51,7 @@ dependencies {
 
     compile deps.support.appcompatV7
     testCompile deps.unit.junit
+
+    compile project(path: deps.comprotocol)
+    compile project(path: deps.commanager)
 }
