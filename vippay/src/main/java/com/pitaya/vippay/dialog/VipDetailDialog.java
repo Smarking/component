@@ -23,7 +23,6 @@ import com.pitaya.baselib.network.ApiFactory;
 import com.pitaya.baselib.network.ApiResponse;
 import com.pitaya.comcallback.Callback1;
 import com.pitaya.commanager.ComManager;
-import com.pitaya.commanager.ProxyTools;
 import com.pitaya.comprotocol.checkout.CheckoutComProtocol;
 import com.pitaya.comprotocol.checkout.bean.Order;
 import com.pitaya.comprotocol.vippay.VipPayComProtocol;
@@ -180,22 +179,14 @@ public class VipDetailDialog extends DialogFragment {
                 ComManager.getInstance().getProtocol(CheckoutComProtocol.class).calculateDiscountAndUpdateView(
                         mOrder,
                         mHeaderAndFooterAdapter.getData().get(position),
-                        ProxyTools.create(Callback1.class,
-                                new Callback1<Float>() {
-                                    @Override
-                                    public void call(final Float param) {
-                                        //TODO  临时方案 暂时不支持 属性注解
-                                        getActivity().runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                String info = "总金额:" + mOrder.amount + " 打" + (int) (mHeaderAndFooterAdapter.getSelectedElePoi().discount * 10) + "折，可优惠:" + param;
-                                                calculateResultTv.setText(info);
-                                                ComManager.getInstance().getReceiver(VipPayComProtocol.VipCampaignCallback.class).onSelectedCoupon(info);
-
-                                            }
-                                        });
-                                    }
-                                }));
+                        new Callback1<Float>() {
+                            @Override
+                            public void call(final Float param) {
+                                String info = "总金额:" + mOrder.amount + " 打" + (int) (mHeaderAndFooterAdapter.getSelectedElePoi().discount * 10) + "折，可优惠:" + param;
+                                calculateResultTv.setText(info);
+                                ComManager.getInstance().getReceiver(VipPayComProtocol.VipCampaignCallback.class).onSelectedCoupon(info);
+                            }
+                        });
             }
         });
 
@@ -205,22 +196,13 @@ public class VipDetailDialog extends DialogFragment {
 
         ComManager.getInstance().getProtocol(CheckoutComProtocol.class).sortVipPayCouponsAndUpdateView(
                 VipPayUserCenter.getInstance().getCouponList(),
-                ProxyTools.create(Callback1.class,
-                        new Callback1<List<Coupon>>() {
-                            @Override
-                            public void call(final List<Coupon> param) {
-
-                                //TODO  临时方案 暂时不支持属性注解,需要支持
-                                getActivity().runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        mHeaderAndFooterAdapter.setNewData(param);
-                                        ComManager.getInstance().getReceiver(VipPayComProtocol.VipCampaignCallback.class).onSortedCouponList(param);
-                                    }
-                                });
-
-                            }
-                        }));
+                new Callback1<List<Coupon>>() {
+                    @Override
+                    public void call(final List<Coupon> param) {
+                        mHeaderAndFooterAdapter.setNewData(param);
+                        ComManager.getInstance().getReceiver(VipPayComProtocol.VipCampaignCallback.class).onSortedCouponList(param);
+                    }
+                });
     }
 
     private View getHeaderView() {

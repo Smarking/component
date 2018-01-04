@@ -12,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pitaya.commanager.ComManager;
-import com.pitaya.commanager.ProxyTools;
 import com.pitaya.comprotocol.checkout.bean.Order;
 import com.pitaya.comprotocol.printer.bean.PrinterComProtocol;
 import com.pitaya.comprotocol.vippay.VipPayComProtocol;
@@ -107,7 +106,7 @@ public class CheckoutActivity extends FragmentActivity {
                     Toast.makeText(getApplicationContext(), "会员支付中......", Toast.LENGTH_SHORT).show();
 
                     mVipPayComProtocol.confirmCheckoutVip(mSelectedCoupon,
-                            ProxyTools.create(VipPayComProtocol.ConfirmCallback.class, new VipPayComProtocol.ConfirmCallback() {
+                            new VipPayComProtocol.ConfirmCallback() {
                                 @Override
                                 public void onCheckout(String result) {
                                     if (TextUtils.isEmpty(result)) {
@@ -116,7 +115,7 @@ public class CheckoutActivity extends FragmentActivity {
                                     }
                                     checkout();
                                 }
-                            }));
+                            });
                 } else {
                     checkout();
                 }
@@ -223,49 +222,49 @@ public class CheckoutActivity extends FragmentActivity {
                 mAlreadyMoney = mSumMoney - mVipcardMoney;
                 updateView();
             } else if (viewId == R.id.vipcardBtn) {
-
-                if (openVipCampaignDialogUnbinder != null){
+                if (openVipCampaignDialogUnbinder != null) {
                     openVipCampaignDialogUnbinder.unbind();
                 }
-                openVipCampaignDialogUnbinder = mVipPayComProtocol.openVipCampaignDialog(CheckoutActivity.this, mOrder,
-                        ProxyTools.create(VipPayComProtocol.VipCampaignCallback.class, new VipPayComProtocol.VipCampaignCallback() {
-                            @Override
-                            public void unbind() {
-                                //TODO 反注册，副作用太大！！
-                                if (openVipCampaignDialogUnbinder != null) {
-                                    openVipCampaignDialogUnbinder.unbind();
-                                }
-                            }
-
-                            @Override
-                            public void onSortedCouponList(List<Coupon> sortedList) {
-                                updateSecondScreen(sortedList.toString());
-                            }
-
-                            @Override
-                            public void onSelectedCoupon(String calculateInfo) {
-                                updateSecondScreen(calculateInfo);
-                            }
-
-                            @Override
-                            public void onPresetPay(Coupon coupon) {
-                                if (coupon == null) {
-                                    return;
-                                }
-
-                                mSelectedCoupon = coupon;
-                                updateSecondScreen("预结账优惠：" + coupon.toString());
-
-                                mVipcardMoney = (1 - coupon.discount) * mSumMoney;
-                                updateView();
-                            }
-
-                            @Override
-                            public void onError(String msg) {
-
-                            }
-                        }));
+                openVipCampaignDialogUnbinder = mVipPayComProtocol.openVipCampaignDialog(CheckoutActivity.this, mOrder, mVipCampaignCallback);
             }
+        }
+    };
+
+    private VipPayComProtocol.VipCampaignCallback mVipCampaignCallback = new VipPayComProtocol.VipCampaignCallback() {
+        @Override
+        public void unbind() {
+            //TODO 反注册，副作用太大！！
+            if (openVipCampaignDialogUnbinder != null) {
+                openVipCampaignDialogUnbinder.unbind();
+            }
+        }
+
+        @Override
+        public void onSortedCouponList(List<Coupon> sortedList) {
+            updateSecondScreen(sortedList.toString());
+        }
+
+        @Override
+        public void onSelectedCoupon(String calculateInfo) {
+            updateSecondScreen(calculateInfo);
+        }
+
+        @Override
+        public void onPresetPay(Coupon coupon) {
+            if (coupon == null) {
+                return;
+            }
+
+            mSelectedCoupon = coupon;
+            updateSecondScreen("预结账优惠：" + coupon.toString());
+
+            mVipcardMoney = (1 - coupon.discount) * mSumMoney;
+            updateView();
+        }
+
+        @Override
+        public void onError(String msg) {
+
         }
     };
 }

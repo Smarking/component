@@ -67,8 +67,14 @@ public interface VipPayComProtocol {
     @Subscribe(threadMode = ThreadMode.POSTING)
     List<Coupon> getVipPayRule();
 
+    /**
+     * 这个方法有毒，容易造成内存泄漏
+     * @param statusReceiver
+     * @param <T>
+     * @return
+     */
     @Subscribe(threadMode = ThreadMode.POSTING)
-    Unbinder registerStatusReceiver(Object statusReceiver);
+    <T> Unbinder registerStatusReceiver(T statusReceiver);
 
 
     /******组件状态****/

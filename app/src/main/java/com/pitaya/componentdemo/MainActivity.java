@@ -70,24 +70,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void testInvoke() {
-        //TODO 设置回调的方式，走代理，为了线程切换，支持入参、方法、类三种注解
-
-        //方式一 独享
-        mOpenVipCampaignDialogUnbinder = ComManager.getInstance().getProtocol(VipPayComProtocol.class)
-                .openVipCampaignDialog(MainActivity.this, new Order(),
-                        ProxyTools.create(VipPayComProtocol.VipCampaignCallback.class, new VipClass()));
-
-        //方式二 匿名内部类，共享一个Callback
-        mOpenVipCampaignDialogUnbinder = ComManager.getInstance().getProtocol(VipPayComProtocol.class)
-                .openVipCampaignDialog(MainActivity.this, new Order(),
-
-                        ProxyTools.create(VipPayComProtocol.VipCampaignCallback.class, campaignCallback));
-        //方式三 用labmda呢
-        //用Labmda的方式
-
-        mVipLoginUnbinder = ComManager.getInstance().registerStatusReceiver(mLoginStatus);
-    }
+//    private void testInvoke() {
+//        //TODO 设置回调的方式，走代理，为了线程切换，支持入参、方法、类三种注解
+//
+//        //方式一 独享
+//        mOpenVipCampaignDialogUnbinder = ComManager.getInstance().getProtocol(VipPayComProtocol.class)
+//                .openVipCampaignDialog(MainActivity.this, new Order(),
+//                        ProxyTools.create(VipPayComProtocol.VipCampaignCallback.class, new VipClass()));
+//
+//        //方式二 匿名内部类，共享一个Callback
+//        mOpenVipCampaignDialogUnbinder = ComManager.getInstance().getProtocol(VipPayComProtocol.class)
+//                .openVipCampaignDialog(MainActivity.this, new Order(),
+//
+//                        ProxyTools.create(VipPayComProtocol.VipCampaignCallback.class, campaignCallback));
+//        //方式三 用labmda呢
+//        //用Labmda的方式
+//
+//        mVipLoginUnbinder = ComManager.getInstance().registerStatusReceiver(mLoginStatus);
+//    }
 
 
     VipPayComProtocol.VipCampaignCallback campaignCallback = new VipPayComProtocol.VipCampaignCallback() {

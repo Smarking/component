@@ -40,7 +40,7 @@ public class ComponentTools {
     }
 
 
-    public synchronized Unbinder registerStatusReceiver(Object interfaceInstance) {
+    protected synchronized Unbinder registerStatusReceiver(Object interfaceInstance) {
         Class<?>[] interfaces = interfaceInstance.getClass().getInterfaces();
 
         if (interfaces == null) {
@@ -66,7 +66,7 @@ public class ComponentTools {
      * @param interfaceInstance
      * @return
      */
-    public synchronized Unbinder registerStatusReceiver(final Class<?> tInterfaceClass, final Object interfaceInstance) {
+    protected synchronized Unbinder registerStatusReceiver(final Class<?> tInterfaceClass, final Object interfaceInstance) {
         List oList = mTypesBySubscriber.get(tInterfaceClass);
         if (oList == null) {
             oList = new ArrayList();
@@ -90,8 +90,7 @@ public class ComponentTools {
         };
     }
 
-
-    public <T> T getCallback(Class<T> tInterfaceClass) {
+    protected <T> T getCallback(Class<T> tInterfaceClass) {
         return getCallback(tInterfaceClass, null);
     }
 
@@ -106,12 +105,12 @@ public class ComponentTools {
      * @return
      */
     @Deprecated
-    public <T> T getCallback(Class<T> tInterfaceClass, final MultiResultHandler multiResultHandler) {
+    protected <T> T getCallback(Class<T> tInterfaceClass, final MultiResultHandler multiResultHandler) {
         return getCallback(tInterfaceClass, multiResultHandler, null);
     }
 
     @Deprecated
-    public <T> T getCallback(final Class<T> tInterfaceClass, final MultiResultHandler multiResultHandler, final NoSubscriberHandler noSubscriberHandler) {
+    protected <T> T getCallback(final Class<T> tInterfaceClass, final MultiResultHandler multiResultHandler, final NoSubscriberHandler noSubscriberHandler) {
 
         return (T) Proxy.newProxyInstance(tInterfaceClass.getClassLoader(), new Class<?>[]{tInterfaceClass},
                 new InvocationHandler() {
