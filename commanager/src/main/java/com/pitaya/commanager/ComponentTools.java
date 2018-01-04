@@ -40,7 +40,7 @@ public class ComponentTools {
     }
 
 
-    public synchronized Unbinder registerStatusReceiver(final Object interfaceInstance) {
+    public synchronized Unbinder registerStatusReceiver(Object interfaceInstance) {
         Class<?>[] interfaces = interfaceInstance.getClass().getInterfaces();
 
         if (interfaces == null) {
@@ -50,6 +50,11 @@ public class ComponentTools {
         if (interfaces.length > 1) {
             throw new IllegalArgumentException("addProtocol protocolImpl implement more than one interface");
         }
+
+        if (!(interfaceInstance instanceof Proxy)) {
+            interfaceInstance = ProxyTools.create(interfaces[0], interfaceInstance);
+        }
+
         return registerStatusReceiver(interfaces[0], interfaceInstance);
     }
 

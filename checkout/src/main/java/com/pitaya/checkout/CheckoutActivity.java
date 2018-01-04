@@ -223,6 +223,10 @@ public class CheckoutActivity extends FragmentActivity {
                 mAlreadyMoney = mSumMoney - mVipcardMoney;
                 updateView();
             } else if (viewId == R.id.vipcardBtn) {
+
+                if (openVipCampaignDialogUnbinder != null){
+                    openVipCampaignDialogUnbinder.unbind();
+                }
                 openVipCampaignDialogUnbinder = mVipPayComProtocol.openVipCampaignDialog(CheckoutActivity.this, mOrder,
                         ProxyTools.create(VipPayComProtocol.VipCampaignCallback.class, new VipPayComProtocol.VipCampaignCallback() {
                             @Override

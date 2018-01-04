@@ -181,17 +181,5 @@ public class ComManager {
     public <T> T getReceiver(Class<T> tInterfaceClass) {
         return ComponentTools.getInstance().getCallback(tInterfaceClass);
     }
-
-    @Deprecated
-    public <T> T getReceiver(Class<T> tInterfaceClass, ComponentTools.MultiResultHandler multiResultHandler) {
-        return ComponentTools.getInstance().getCallback(tInterfaceClass, multiResultHandler);
-    }
-
-    @Deprecated
-    public <T> T getReceiver(Class<T> tInterfaceClass, ComponentTools.MultiResultHandler multiResultHandler, ComponentTools.NoSubscriberHandler noSubscriberHandler) {
-        return ComponentTools.getInstance().getCallback(tInterfaceClass, multiResultHandler, noSubscriberHandler);
-    }
-
-
 }
 
