@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.pitaya.comannotation.ProtocolName;
 import com.pitaya.comannotation.Unbinder;
+import com.pitaya.commanager.tools.ComponentTools;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

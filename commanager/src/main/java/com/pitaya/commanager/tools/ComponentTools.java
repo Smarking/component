@@ -1,4 +1,4 @@
-package com.pitaya.commanager;
+package com.pitaya.commanager.tools;
 
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -40,7 +40,7 @@ public class ComponentTools {
     }
 
 
-    protected synchronized Unbinder registerStatusReceiver(Object interfaceInstance) {
+    public synchronized Unbinder registerStatusReceiver(Object interfaceInstance) {
         Class<?>[] interfaces = interfaceInstance.getClass().getInterfaces();
 
         if (interfaces == null) {
@@ -90,7 +90,7 @@ public class ComponentTools {
         };
     }
 
-    protected <T> T getCallback(Class<T> tInterfaceClass) {
+    public <T> T getCallback(Class<T> tInterfaceClass) {
         return getCallback(tInterfaceClass, null);
     }
 

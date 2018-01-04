@@ -5,6 +5,7 @@ import android.support.annotation.UiThread;
 import android.text.TextUtils;
 
 import com.pitaya.comannotation.ProtocolName;
+import com.pitaya.commanager.tools.ProxyTools;
 
 /**
  * Created by Smarking on 17/12/11.

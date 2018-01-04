@@ -1,4 +1,4 @@
-package com.pitaya.commanager;
+package com.pitaya.commanager.tools;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -8,6 +8,8 @@ import android.util.Log;
 
 import com.pitaya.comannotation.Subscribe;
 import com.pitaya.comannotation.ThreadMode;
+import com.pitaya.commanager.exception.MethodInfo;
+import com.pitaya.commanager.exception.ParameterThreadModeInfo;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
@@ -48,15 +50,24 @@ public class ProxyTools {
     }
 
 
-    public static <T> T create(final Class<T> interfaceName, final Object target) {
-        return create(interfaceName, target, null);
-    }
+    //TODO 可以借鉴Eventbus mMainHandler.sendEmptyMessage() 这样的话有内存泄漏，最好的做法是，sendEmptyMessage通知。但是不传递有效内容
+    private static Handler mMainHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            MethodInfo methodInfo = (MethodInfo) msg.obj;
+            try {
+                methodInfo.method.invoke(methodInfo.target, methodInfo.args);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        }
+    };
 
-    public static <T> T create(final Class<T> interfaceName, final Object target, Subscribe threadMode) {
-        return (T) Proxy.newProxyInstance(interfaceName.getClassLoader(),
-                new Class<?>[]{interfaceName},
-                new ThreadProxyHandler(interfaceName, target, threadMode));
-    }
+    private final static Executor mBackgroundThreadPool = Executors.newCachedThreadPool();
+
 
     /**
      * 动态代理支持线程切换
@@ -111,18 +122,18 @@ public class ProxyTools {
 
             //default ThreadMode.POSTING
             if (thread == null) {
-                return method.invoke(target, reallyArgs);
+                return invoke(method, target, reallyArgs);
             }
 
             //当前线程
             if (thread.threadMode().equals(ThreadMode.POSTING)) {
-                return method.invoke(target, reallyArgs);
+                return invoke(method, target, reallyArgs);
             }
 
             //主线程
             if (thread.threadMode().equals(ThreadMode.MAIN)) {
                 if (isMainThread) {
-                    return method.invoke(target, reallyArgs);
+                    return invoke(method, target, reallyArgs);
                 }
 
                 Message message = Message.obtain();
@@ -137,19 +148,13 @@ public class ProxyTools {
                     mBackgroundThreadPool.execute(new Runnable() {
                         @Override
                         public void run() {
-                            try {
-                                method.invoke(target, reallyArgs);
-                            } catch (IllegalAccessException e) {
-                                e.printStackTrace();
-                            } catch (InvocationTargetException e) {
-                                e.printStackTrace();
-                            }
+                            invoke(method, target, reallyArgs);
                         }
                     });
                     return null;
 
                 }
-                return method.invoke(target, reallyArgs);
+                return invoke(method, target, reallyArgs);
             }
 
             //异步
@@ -157,19 +162,27 @@ public class ProxyTools {
                 mBackgroundThreadPool.execute(new Runnable() {
                     @Override
                     public void run() {
-                        try {
-                            method.invoke(target, reallyArgs);
-                        } catch (IllegalAccessException e) {
-                            e.printStackTrace();
-                        } catch (InvocationTargetException e) {
-                            e.printStackTrace();
-                        }
+                        invoke(method, target, reallyArgs);
                     }
                 });
                 return null;
             }
 
-            return method.invoke(target, reallyArgs);
+            return invoke(method, target, reallyArgs);
+        }
+
+        private Object invoke(Method method, Object target, Object[] args) {
+            try {
+                long timeOld = System.currentTimeMillis();
+                Object result = method.invoke(target, args);
+                Log.d(TAG, String.format("%1$dms | ThreadName:%2$s | MethodName:%3$s ", System.currentTimeMillis() - timeOld, Thread.currentThread().getName(), method.toString()));
+                return result;
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+            return null;
         }
 
         /**
@@ -323,49 +336,15 @@ public class ProxyTools {
             }
             return c.getName().contentEquals(keyword);
         }
-
-        //TODO 可以借鉴Eventbus mMainHandler.sendEmptyMessage() 这样的话有内存泄漏，最好的做法是，sendEmptyMessage通知。但是不传递有效内容
-        private static Handler mMainHandler = new Handler(Looper.getMainLooper()) {
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                MethodInfo methodInfo = (MethodInfo) msg.obj;
-                try {
-                    methodInfo.method.invoke(methodInfo.target, methodInfo.args);
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-
-        private final static Executor mBackgroundThreadPool = Executors.newCachedThreadPool();
     }
 
-    private static class MethodInfo {
-        public Method method;
-        public Object target;
-        public Object[] args;
-
-        public MethodInfo(Method method, Object target, Object[] args) {
-            this.method = method;
-            this.target = target;
-            this.args = args;
-        }
+    public static <T> T create(final Class<T> interfaceName, final Object target) {
+        return create(interfaceName, target, null);
     }
 
-    private static class ParameterThreadModeInfo {
-        public int index;
-        public boolean isFromParameterAnnotation = false;
-        public Subscribe threadMode;
-        public Class<?> parameterClass;
-
-        public ParameterThreadModeInfo(int index, boolean isFromParameterAnnotation, Subscribe threadMode, Class<?> parameterClass) {
-            this.index = index;
-            this.isFromParameterAnnotation = isFromParameterAnnotation;
-            this.threadMode = threadMode;
-            this.parameterClass = parameterClass;
-        }
+    public static <T> T create(final Class<T> interfaceName, final Object target, Subscribe threadMode) {
+        return (T) Proxy.newProxyInstance(interfaceName.getClassLoader(),
+                new Class<?>[]{interfaceName},
+                new ThreadProxyHandler(interfaceName, target, threadMode));
     }
 }

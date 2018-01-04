@@ -24,7 +24,7 @@ public class CheckoutComProtocolImpl implements CheckoutComProtocol {
     }
 
     @Override
-    public void sortVipPayCouponsAndUpdateView(List<Coupon> couponList, Callback1<List<Coupon>> sortResult) {
+    public void sortVipPayCoupons(List<Coupon> couponList, Callback1<List<Coupon>> sortResult) {
         Collections.sort(couponList, new Comparator<Coupon>() {
             @Override
             public int compare(Coupon o1, Coupon o2) {
@@ -45,11 +45,18 @@ public class CheckoutComProtocolImpl implements CheckoutComProtocol {
             }
         });
 
+        try {
+            //TODO 模拟耗时任务，存在内存泄漏
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+
+        }
+
         sortResult.call(couponList);
     }
 
     @Override
-    public void calculateDiscountAndUpdateView(Order order, Coupon selectedCoupon, Callback1<Float> calculateResult) {
+    public void calculateDiscount(Order order, Coupon selectedCoupon, Callback1<Float> calculateResult) {
         calculateResult.call(((1 - selectedCoupon.discount) * order.amount));
     }
 }

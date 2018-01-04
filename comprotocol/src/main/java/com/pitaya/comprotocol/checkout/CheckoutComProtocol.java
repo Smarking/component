@@ -25,10 +25,9 @@ public interface CheckoutComProtocol {
 
     void openCheckoutPage(Context context);
 
-    //TODO 如何解决指定入参的执行线程呢
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    void sortVipPayCouponsAndUpdateView(List<Coupon> couponList, @Subscribe(threadMode = ThreadMode.MAIN) Callback1<List<Coupon>> sortResult);
+    void sortVipPayCoupons(List<Coupon> couponList, @Subscribe(threadMode = ThreadMode.MAIN) Callback1<List<Coupon>> sortResult);
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    void calculateDiscountAndUpdateView(Order order, Coupon selectedCoupon, @Subscribe(threadMode = ThreadMode.MAIN) Callback1<Float> calculateResult);
+    void calculateDiscount(Order order, Coupon selectedCoupon, @Subscribe(threadMode = ThreadMode.MAIN) Callback1<Float> calculateResult);
 }

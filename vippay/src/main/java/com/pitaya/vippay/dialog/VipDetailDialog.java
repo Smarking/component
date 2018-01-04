@@ -176,7 +176,7 @@ public class VipDetailDialog extends DialogFragment {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 ((VipDetailAdapter) adapter).updateViewStatus(position);
 
-                ComManager.getInstance().getProtocol(CheckoutComProtocol.class).calculateDiscountAndUpdateView(
+                ComManager.getInstance().getProtocol(CheckoutComProtocol.class).calculateDiscount(
                         mOrder,
                         mHeaderAndFooterAdapter.getData().get(position),
                         new Callback1<Float>() {
@@ -194,7 +194,7 @@ public class VipDetailDialog extends DialogFragment {
         mCouponRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mCouponRecyclerView.setAdapter(mHeaderAndFooterAdapter);
 
-        ComManager.getInstance().getProtocol(CheckoutComProtocol.class).sortVipPayCouponsAndUpdateView(
+        ComManager.getInstance().getProtocol(CheckoutComProtocol.class).sortVipPayCoupons(
                 VipPayUserCenter.getInstance().getCouponList(),
                 new Callback1<List<Coupon>>() {
                     @Override

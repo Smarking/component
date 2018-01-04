@@ -56,7 +56,7 @@ public interface VipPayComProtocol {
     void confirmCheckoutVip(Coupon body, ConfirmCallback confirmCallback);
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    void cancelCheckoutVip(Context context, String body, @Subscribe(threadMode = ThreadMode.MAIN) Callback1<String> resultCallback);//TODO 支持属性注解线程切换
+    void cancelCheckoutVip(Context context, String body, @Subscribe(threadMode = ThreadMode.MAIN) Callback1<String> resultCallback);
 
     @Subscribe(threadMode = ThreadMode.POSTING)
     void requestLogout();
@@ -69,6 +69,7 @@ public interface VipPayComProtocol {
 
     /**
      * 这个方法有毒，容易造成内存泄漏
+     *
      * @param statusReceiver
      * @param <T>
      * @return
