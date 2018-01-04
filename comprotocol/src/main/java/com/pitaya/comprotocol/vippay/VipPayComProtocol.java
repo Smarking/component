@@ -36,7 +36,7 @@ public interface VipPayComProtocol {
      * @return
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
-    Unbinder openVipCampaignDialog(FragmentActivity context, Order order, VipCampaignCallback callback); //TODO  VipCampaignCallback 支持跨页面传递回调、支持回调线程切换
+    void openVipCampaignDialog(FragmentActivity context, Order order, VipCampaignCallback callback); //TODO  VipCampaignCallback 支持跨页面传递回调、支持回调线程切换
 
     /**
      * 开启会员储值Dialog
@@ -68,7 +68,7 @@ public interface VipPayComProtocol {
     List<Coupon> getVipPayRule();
 
     /**
-     * 这个方法有毒，容易造成内存泄漏
+     * TODO 这个方法有毒，容易造成内存泄漏
      *
      * @param statusReceiver
      * @param <T>

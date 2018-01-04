@@ -202,14 +202,8 @@ public class CheckoutActivity extends FragmentActivity {
             unbinder.unbind();
         }
         mComUnbinderList.clear();
-
-        //TODO 副作用太大！！！
-        if (openVipCampaignDialogUnbinder != null) {
-            openVipCampaignDialogUnbinder.unbind();
-        }
     }
 
-    private com.pitaya.comannotation.Unbinder openVipCampaignDialogUnbinder;
 
     private View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
@@ -222,10 +216,7 @@ public class CheckoutActivity extends FragmentActivity {
                 mAlreadyMoney = mSumMoney - mVipcardMoney;
                 updateView();
             } else if (viewId == R.id.vipcardBtn) {
-                if (openVipCampaignDialogUnbinder != null) {
-                    openVipCampaignDialogUnbinder.unbind();
-                }
-                openVipCampaignDialogUnbinder = mVipPayComProtocol.openVipCampaignDialog(CheckoutActivity.this, mOrder, mVipCampaignCallback);
+                mVipPayComProtocol.openVipCampaignDialog(CheckoutActivity.this, mOrder, mVipCampaignCallback);
             }
         }
     };
@@ -233,10 +224,7 @@ public class CheckoutActivity extends FragmentActivity {
     private VipPayComProtocol.VipCampaignCallback mVipCampaignCallback = new VipPayComProtocol.VipCampaignCallback() {
         @Override
         public void unbind() {
-            //TODO 反注册，副作用太大！！
-            if (openVipCampaignDialogUnbinder != null) {
-                openVipCampaignDialogUnbinder.unbind();
-            }
+
         }
 
         @Override

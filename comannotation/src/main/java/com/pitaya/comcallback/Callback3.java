@@ -5,6 +5,7 @@ package com.pitaya.comcallback;
  *
  * @param <R>
  */
+@Deprecated
 public interface Callback3<R> {
     R call();
 }

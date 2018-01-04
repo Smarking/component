@@ -49,7 +49,7 @@ public class ProxyTools {
         return me.hashCode() == other.hashCode();
     }
 
-
+    private final static Executor mBackgroundThreadPool = Executors.newCachedThreadPool();
     //TODO 可以借鉴Eventbus mMainHandler.sendEmptyMessage() 这样的话有内存泄漏，最好的做法是，sendEmptyMessage通知。但是不传递有效内容
     private static Handler mMainHandler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -65,9 +65,6 @@ public class ProxyTools {
             }
         }
     };
-
-    private final static Executor mBackgroundThreadPool = Executors.newCachedThreadPool();
-
 
     /**
      * 动态代理支持线程切换
@@ -92,6 +89,11 @@ public class ProxyTools {
                     return equalsInternal(proxy, args[0]);
                 }
                 return method.invoke(this, args);
+            }
+
+            if (unRegister(method)) {
+                target = null;
+                return null;
             }
 
             if (target == null) {
@@ -172,6 +174,11 @@ public class ProxyTools {
         }
 
         private Object invoke(Method method, Object target, Object[] args) {
+            //已经被释放了
+            if (target == null) {
+                Log.d(TAG, "target is null ," + method.toString());
+                return null;
+            }
             try {
                 long timeOld = System.currentTimeMillis();
                 Object result = method.invoke(target, args);
@@ -183,6 +190,10 @@ public class ProxyTools {
                 e.printStackTrace();
             }
             return null;
+        }
+
+        private boolean unRegister(Method method) {
+            return false;
         }
 
         /**

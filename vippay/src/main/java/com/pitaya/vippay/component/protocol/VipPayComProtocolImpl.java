@@ -36,18 +36,18 @@ public class VipPayComProtocolImpl implements VipPayComProtocol {
     VipPayService mVipPayService = ApiFactory.getApi(VipPayService.class);
 
     @Override
-    public Unbinder openVipCampaignDialog(FragmentActivity context, Order order, VipCampaignCallback callback) {
+    public void openVipCampaignDialog(FragmentActivity context, Order order, VipCampaignCallback callback) {
         //打开页面
         FragmentManager fragmentManager = context.getSupportFragmentManager();
         VerifyPhoneDialog.newInstance(fragmentManager, order).show(fragmentManager, VerifyPhoneDialog.class.getName());
 
         //TODO 如何获取一次流程的生命周期回调呢？
-        return ComManager.getInstance().registerStatusReceiver(callback);
+        ComManager.getInstance().registerStatusReceiver(callback);
     }
 
     @Override
     public void openVipAssetPayDialog(Context context) {
-        //TODO to do something  使用会员金额
+        // to do something  使用会员金额
     }
 
     @Override
@@ -73,7 +73,7 @@ public class VipPayComProtocolImpl implements VipPayComProtocol {
 
     @Override
     public void cancelCheckoutVip(Context context, String body, @Subscribe(threadMode = ThreadMode.MAIN) Callback1<String> resultCallback) {
-        //TODO to do something 取消支付
+        // to do something 取消支付
     }
 
     @Override

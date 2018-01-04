@@ -68,11 +68,10 @@ public class VipDetailDialog extends DialogFragment {
     RelativeLayout progressBarContainer;
 
     Unbinder unbinder;
-
     private VipDetailAdapter mHeaderAndFooterAdapter;
 
     private VipPayService mVipPayService = ApiFactory.getApi(VipPayService.class);
-
+    private CheckoutComProtocol mCheckoutComProtocol = ComManager.getInstance().getProtocol(CheckoutComProtocol.class);
     private Order mOrder;
 
     private static final String ARG_ORDER = "order";
@@ -142,7 +141,7 @@ public class VipDetailDialog extends DialogFragment {
                     Toast.makeText(getContext().getApplicationContext(), "未选择优惠或者无可用优惠", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
+                //TODO 内存泄漏
                 mVipPayService.presetPay(mHeaderAndFooterAdapter.getSelectedElePoi())
                         .onErrorReturnItem(new ApiResponse<String>(200, "succeed", null, true))
                         .subscribeOn(Schedulers.io())
@@ -176,7 +175,7 @@ public class VipDetailDialog extends DialogFragment {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 ((VipDetailAdapter) adapter).updateViewStatus(position);
 
-                ComManager.getInstance().getProtocol(CheckoutComProtocol.class).calculateDiscount(
+                mCheckoutComProtocol.calculateDiscount(
                         mOrder,
                         mHeaderAndFooterAdapter.getData().get(position),
                         new Callback1<Float>() {
@@ -194,7 +193,7 @@ public class VipDetailDialog extends DialogFragment {
         mCouponRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mCouponRecyclerView.setAdapter(mHeaderAndFooterAdapter);
 
-        ComManager.getInstance().getProtocol(CheckoutComProtocol.class).sortVipPayCoupons(
+        mCheckoutComProtocol.sortVipPayCoupons(
                 VipPayUserCenter.getInstance().getCouponList(),
                 new Callback1<List<Coupon>>() {
                     @Override
