@@ -3,11 +3,11 @@ package com.pitaya.commanager;
 import android.app.Application;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.pitaya.comannotation.ProtocolName;
 import com.pitaya.comannotation.Unbinder;
 import com.pitaya.commanager.tools.ComponentTools;
+import com.pitaya.commanager.tools.ELog;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -140,7 +140,7 @@ public class ComManager {
                     new InvocationHandler() {
                         @Override
                         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                            Log.e("ComManager", "ComManager not support " + tProtocolClass.getName());
+                            ELog.e("ComManager", "ComManager not support " + tProtocolClass.getName());
                             return null;
                         }
                     });
@@ -175,12 +175,12 @@ public class ComManager {
         }
     }
 
-    public Unbinder registerStatusReceiver(Object statusReceiver) {
-        return ComponentTools.getInstance().registerStatusReceiver(statusReceiver);
+    public Unbinder registerEventReceiver(Object eventReceiver) {
+        return ComponentTools.getInstance().registerEventReceiver(eventReceiver);
     }
 
-    public <T> T getReceiver(Class<T> tInterfaceClass) {
-        return ComponentTools.getInstance().getCallback(tInterfaceClass);
+    public <T> T getReceiver(Class<T> eventInterfaceClass) {
+        return ComponentTools.getInstance().getCallback(eventInterfaceClass);
     }
 }
 

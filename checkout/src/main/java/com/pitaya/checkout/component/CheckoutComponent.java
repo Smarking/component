@@ -27,7 +27,6 @@ public class CheckoutComponent extends BaseComLifecycle {
 
     @Override
     public Class<?>[] getEvent() {
-        //TODO 不在这里注册的不允许对外发布 广播场景
         return null;
     }
 }

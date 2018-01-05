@@ -70,22 +70,22 @@ public interface VipPayComProtocol {
     /**
      * TODO 这个方法有毒，容易造成内存泄漏
      *
-     * @param statusReceiver
+     * @param eventReceiver
      * @param <T>
      * @return
      */
     @Subscribe(threadMode = ThreadMode.POSTING)
-    <T> Unbinder registerStatusReceiver(T statusReceiver);
+    <T> Unbinder registerEventReceiver(T eventReceiver);
 
 
     /******组件状态****/
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    interface LoginStatus extends Callback1<VipUserInfo> {
+    interface LoginEvent extends Callback1<VipUserInfo> {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    interface LogoutStatus extends Callback1<VipUserInfo> {
+    interface LogoutEvent extends Callback1<VipUserInfo> {
     }
 
 

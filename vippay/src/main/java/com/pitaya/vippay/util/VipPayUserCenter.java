@@ -1,4 +1,4 @@
-package com.pitaya.vippay.utils;
+package com.pitaya.vippay.util;
 
 import com.pitaya.comprotocol.vippay.bean.Coupon;
 import com.pitaya.comprotocol.vippay.bean.VipUserInfo;

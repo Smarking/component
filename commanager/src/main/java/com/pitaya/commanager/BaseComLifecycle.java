@@ -51,6 +51,8 @@ public abstract class BaseComLifecycle implements ComLifecycle {
             throw new NullPointerException("addProtocol protocolImpl is null");
         }
 
+        ((AbsProtocol) protocolImpl).setComponent(this);
+
         Class<?>[] interfaces = protocolImpl.getClass().getInterfaces();
 
         if (interfaces == null) {

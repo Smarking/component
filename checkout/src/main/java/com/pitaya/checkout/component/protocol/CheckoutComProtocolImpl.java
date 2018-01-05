@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.pitaya.checkout.CheckoutActivity;
 import com.pitaya.comcallback.Callback1;
+import com.pitaya.commanager.AbsProtocol;
 import com.pitaya.comprotocol.checkout.CheckoutComProtocol;
 import com.pitaya.comprotocol.checkout.bean.Order;
 import com.pitaya.comprotocol.vippay.bean.Coupon;
@@ -16,7 +17,7 @@ import java.util.List;
  * Created by Smarking on 17/12/12.
  */
 
-public class CheckoutComProtocolImpl implements CheckoutComProtocol {
+public class CheckoutComProtocolImpl extends AbsProtocol implements CheckoutComProtocol {
 
     @Override
     public void openCheckoutPage(Context context) {

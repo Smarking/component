@@ -11,6 +11,7 @@ import com.pitaya.comannotation.Subscribe;
 import com.pitaya.comannotation.ThreadMode;
 import com.pitaya.comannotation.Unbinder;
 import com.pitaya.comcallback.Callback1;
+import com.pitaya.commanager.AbsProtocol;
 import com.pitaya.commanager.ComManager;
 import com.pitaya.comprotocol.checkout.bean.Order;
 import com.pitaya.comprotocol.vippay.VipPayComProtocol;
@@ -18,7 +19,8 @@ import com.pitaya.comprotocol.vippay.bean.Coupon;
 import com.pitaya.comprotocol.vippay.bean.VipUserInfo;
 import com.pitaya.vippay.dialog.VerifyPhoneDialog;
 import com.pitaya.vippay.network.VipPayService;
-import com.pitaya.vippay.utils.VipPayUserCenter;
+import com.pitaya.vippay.util.VipPayUserCenter;
+import com.pitaya.vippay.util.VipPermissionHelper;
 
 import java.util.List;
 
@@ -31,18 +33,21 @@ import io.reactivex.schedulers.Schedulers;
  * Created by Smarking on 17/12/12.
  */
 
-public class VipPayComProtocolImpl implements VipPayComProtocol {
+public class VipPayComProtocolImpl extends AbsProtocol implements VipPayComProtocol {
 
     VipPayService mVipPayService = ApiFactory.getApi(VipPayService.class);
 
     @Override
     public void openVipCampaignDialog(FragmentActivity context, Order order, VipCampaignCallback callback) {
+        //无核销权限
+        if (!VipPermissionHelper.getInstance().hasVipCashPermission()) {
+        }
         //打开页面
         FragmentManager fragmentManager = context.getSupportFragmentManager();
         VerifyPhoneDialog.newInstance(fragmentManager, order).show(fragmentManager, VerifyPhoneDialog.class.getName());
 
         //TODO 如何获取一次流程的生命周期回调呢？
-        ComManager.getInstance().registerStatusReceiver(callback);
+        ComManager.getInstance().registerEventReceiver(callback);
     }
 
     @Override
@@ -107,7 +112,10 @@ public class VipPayComProtocolImpl implements VipPayComProtocol {
     }
 
     @Override
-    public Unbinder registerStatusReceiver(Object interfaceInstance) {
-        return ComManager.getInstance().registerStatusReceiver(interfaceInstance);
+    public Unbinder registerEventReceiver(Object eventReceiver) {
+        if (!super.isRegisteredEvent(eventReceiver)) {
+            return Unbinder.EMPTY;
+        }
+        return ComManager.getInstance().registerEventReceiver(eventReceiver);
     }
 }

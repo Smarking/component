@@ -8,8 +8,8 @@ import android.util.Log;
 
 import com.pitaya.comannotation.Subscribe;
 import com.pitaya.comannotation.ThreadMode;
-import com.pitaya.commanager.exception.MethodInfo;
-import com.pitaya.commanager.exception.ParameterThreadModeInfo;
+import com.pitaya.commanager.bean.MethodInfo;
+import com.pitaya.commanager.bean.ParameterThreadModeInfo;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by Smarking on 17/12/12.
@@ -73,6 +74,7 @@ public class ProxyTools {
         Class<?> interfaceName;
         Object target;
         Subscribe outsideThreadMode;
+        ReentrantLock reentrantLock = new ReentrantLock();
 
         public ThreadProxyHandler(final Class<?> interfaceName, final Object target, @Nullable Subscribe threadMode) {
             this.interfaceName = interfaceName;
@@ -97,7 +99,7 @@ public class ProxyTools {
             }
 
             if (target == null) {
-                Log.e(TAG, "target object is null");
+                ELog.e(TAG, "target object is null");
                 return null;
             }
 
@@ -176,13 +178,13 @@ public class ProxyTools {
         private Object invoke(Method method, Object target, Object[] args) {
             //已经被释放了
             if (target == null) {
-                Log.d(TAG, "target is null ," + method.toString());
+                ELog.d(TAG, "target is null ," + method.toString());
                 return null;
             }
             try {
                 long timeOld = System.currentTimeMillis();
                 Object result = method.invoke(target, args);
-                Log.d(TAG, String.format("%1$dms | ThreadName:%2$s | MethodName:%3$s ", System.currentTimeMillis() - timeOld, Thread.currentThread().getName(), method.toString()));
+                ELog.d(TAG, String.format("%1$dms | ThreadName:%2$s | MethodName:%3$s ", System.currentTimeMillis() - timeOld, Thread.currentThread().getName(), method.toString()));
                 return result;
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
@@ -207,16 +209,16 @@ public class ProxyTools {
          * @return
          */
         private Object[] processArgs(Method method, Object[] args) {
-            Log.d(TAG, "————————————————————" + method.getDeclaringClass() + " " + method.getName());
+            ELog.d(TAG, "————————————————————" + method.getDeclaringClass() + " " + method.getName());
             Class<?>[] parameterTypes = method.getParameterTypes();
             Annotation[][] annotations = method.getParameterAnnotations();
 
-            Log.d(TAG, "parameterTypes :" + getArrayInfo(parameterTypes));
-            Log.d(TAG, "ParameterAnnotations :" + getArrayInfo(annotations));
-            Log.d(TAG, "before :" + getArrayInfo(args));
+            ELog.d(TAG, "parameterTypes :" + getArrayInfo(parameterTypes));
+            ELog.d(TAG, "ParameterAnnotations :" + getArrayInfo(annotations));
+            ELog.d(TAG, "before :" + getArrayInfo(args));
 
             if (args == null || args.length == 0) {
-                Log.d(TAG, "——————————end——————————");
+                ELog.d(TAG, "——————————end——————————");
                 return null;
             }
 
@@ -231,8 +233,8 @@ public class ProxyTools {
                     }
                     return args;
                 } finally {
-                    Log.d(TAG, "after :" + getArrayInfo(args));
-                    Log.d(TAG, "——————————end from cache——————————");
+                    ELog.d(TAG, "after :" + getArrayInfo(args));
+                    ELog.d(TAG, "——————————end from cache——————————");
                 }
             }
 
@@ -287,8 +289,8 @@ public class ProxyTools {
                 mParameterTypeCacheMap.get(method).add(pThreadModeInfo);
             }
 
-            Log.d(TAG, "after :" + getArrayInfo(args));
-            Log.d(TAG, "——————————end——————————");
+            ELog.d(TAG, "after :" + getArrayInfo(args));
+            ELog.d(TAG, "——————————end——————————");
             return args;
         }
 
@@ -300,10 +302,13 @@ public class ProxyTools {
          */
         private void initCacheMap(Method method) {
             if (!mParameterTypeCacheMap.containsKey(method)) {
-                synchronized (ThreadProxyHandler.class) {
+                reentrantLock.lock();
+                try {
                     if (!mParameterTypeCacheMap.containsKey(method)) {
                         mParameterTypeCacheMap.put(method, new ArrayList<ParameterThreadModeInfo>());
                     }
+                } finally {
+                    reentrantLock.unlock();
                 }
             }
         }

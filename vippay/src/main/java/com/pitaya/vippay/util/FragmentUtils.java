@@ -1,4 +1,4 @@
-package com.pitaya.vippay.utils;
+package com.pitaya.vippay.util;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

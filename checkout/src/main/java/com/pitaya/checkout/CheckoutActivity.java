@@ -168,7 +168,7 @@ public class CheckoutActivity extends FragmentActivity {
         mOrder = new Order();
         mOrder.orderId = "12345";
         mComUnbinderList.add(
-                mVipPayComProtocol.registerStatusReceiver(new VipPayComProtocol.LoginStatus() {
+                mVipPayComProtocol.registerEventReceiver(new VipPayComProtocol.LoginEvent() {
 
                     @Override
                     public void call(VipUserInfo param) {
@@ -177,7 +177,7 @@ public class CheckoutActivity extends FragmentActivity {
                     }
                 }));
         mComUnbinderList.add(
-                mVipPayComProtocol.registerStatusReceiver(new VipPayComProtocol.LogoutStatus() {
+                mVipPayComProtocol.registerEventReceiver(new VipPayComProtocol.LogoutEvent() {
                     @Override
                     public void call(VipUserInfo param) {
                         mVipcardInfo.setText("无会员优惠: ");
@@ -220,7 +220,7 @@ public class CheckoutActivity extends FragmentActivity {
             }
         }
     };
-
+    //TODO 有内存泄漏，因为注册了多次，存在多份
     private VipPayComProtocol.VipCampaignCallback mVipCampaignCallback = new VipPayComProtocol.VipCampaignCallback() {
         @Override
         public void unbind() {

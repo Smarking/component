@@ -1,7 +1,6 @@
 package com.pitaya.commanager.tools;
 
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.pitaya.comannotation.Unbinder;
 
@@ -40,7 +39,7 @@ public class ComponentTools {
     }
 
 
-    public synchronized Unbinder registerStatusReceiver(Object interfaceInstance) {
+    public synchronized Unbinder registerEventReceiver(Object interfaceInstance) {
         Class<?>[] interfaces = interfaceInstance.getClass().getInterfaces();
 
         if (interfaces == null) {
@@ -55,7 +54,7 @@ public class ComponentTools {
             interfaceInstance = ProxyTools.create(interfaces[0], interfaceInstance);
         }
 
-        return registerStatusReceiver(interfaces[0], interfaceInstance);
+        return registerEventReceiver(interfaces[0], interfaceInstance);
     }
 
 
@@ -66,7 +65,7 @@ public class ComponentTools {
      * @param interfaceInstance
      * @return
      */
-    protected synchronized Unbinder registerStatusReceiver(final Class<?> tInterfaceClass, final Object interfaceInstance) {
+    protected synchronized Unbinder registerEventReceiver(final Class<?> tInterfaceClass, final Object interfaceInstance) {
         List oList = mTypesBySubscriber.get(tInterfaceClass);
         if (oList == null) {
             oList = new ArrayList();
@@ -82,9 +81,9 @@ public class ComponentTools {
                         && !oList.isEmpty()
                         && oList.contains(interfaceInstance)
                         && oList.remove(interfaceInstance)) {
-                    Log.d(TAG, tInterfaceClass.getName() + " remove successful");
+                    ELog.d(TAG, tInterfaceClass.getName() + " remove successful");
                 } else {
-                    Log.d(TAG, tInterfaceClass.getName() + " remove error");
+                    ELog.d(TAG, tInterfaceClass.getName() + " remove error");
                 }
             }
         };
@@ -120,7 +119,7 @@ public class ComponentTools {
                         List<T> instanceList = (List<T>) mTypesBySubscriber.get(tInterfaceClass);
 
                         if (instanceList == null || instanceList.isEmpty()) {
-                            Log.e(TAG, "instanceList is Empty");
+                            ELog.e(TAG, "instanceList is Empty");
                             if (noSubscriberHandler != null) {
                                 noSubscriberHandler.onNoSubscriber();
                             }

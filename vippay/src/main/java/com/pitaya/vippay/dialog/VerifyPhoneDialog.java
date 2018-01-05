@@ -26,7 +26,7 @@ import com.pitaya.comprotocol.vippay.bean.VipUserInfo;
 import com.pitaya.vippay.R;
 import com.pitaya.vippay.R2;
 import com.pitaya.vippay.network.VipPayService;
-import com.pitaya.vippay.utils.VipPayUserCenter;
+import com.pitaya.vippay.util.VipPayUserCenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -141,7 +141,7 @@ public class VerifyPhoneDialog extends DialogFragment {
                             @Override
                             public void accept(ApiResponse<List<Coupon>> listApiResponse) throws Exception {
                                 VipPayUserCenter.getInstance().setCouponList(listApiResponse.getData());
-                                ComManager.getInstance().getReceiver(VipPayComProtocol.LoginStatus.class).call(VipPayUserCenter.getInstance().getVipUserInfo());
+                                ComManager.getInstance().getReceiver(VipPayComProtocol.LoginEvent.class).call(VipPayUserCenter.getInstance().getVipUserInfo());
 
                                 jumpVipDetailDialog();
 

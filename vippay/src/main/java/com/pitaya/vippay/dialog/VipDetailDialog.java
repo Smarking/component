@@ -31,7 +31,7 @@ import com.pitaya.vippay.R;
 import com.pitaya.vippay.R2;
 import com.pitaya.vippay.adapter.VipDetailAdapter;
 import com.pitaya.vippay.network.VipPayService;
-import com.pitaya.vippay.utils.VipPayUserCenter;
+import com.pitaya.vippay.util.VipPayUserCenter;
 
 import java.util.List;
 
@@ -114,7 +114,7 @@ public class VipDetailDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
 
-                ComManager.getInstance().getReceiver(VipPayComProtocol.LogoutStatus.class)
+                ComManager.getInstance().getReceiver(VipPayComProtocol.LogoutEvent.class)
                         .call(VipPayUserCenter.getInstance().getVipUserInfo());
 
                 mVipPayService.logoutVipPay(VipPayUserCenter.getInstance().getVipUserInfo().vipId)

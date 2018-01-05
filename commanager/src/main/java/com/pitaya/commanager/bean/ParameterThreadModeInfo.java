@@ -1,4 +1,4 @@
-package com.pitaya.commanager.exception;
+package com.pitaya.commanager.bean;
 
 import com.pitaya.comannotation.Subscribe;
 

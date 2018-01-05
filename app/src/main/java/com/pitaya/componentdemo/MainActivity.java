@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 //        //方式三 用labmda呢
 //        //用Labmda的方式
 //
-//        mVipLoginUnbinder = ComManager.getInstance().registerStatusReceiver(mLoginStatus);
+//        mVipLoginUnbinder = ComManager.getInstance().registerEventReceiver(mLoginEvent);
 //    }
 
 
@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private VipPayComProtocol.LoginStatus mLoginStatus = new VipPayComProtocol.LoginStatus() {
+    private VipPayComProtocol.LoginEvent mLoginEvent = new VipPayComProtocol.LoginEvent() {
 
         @Override
         public void call(VipUserInfo param) {

@@ -18,6 +18,9 @@ import retrofit2.http.Query;
 
 public interface VipPayService {
 
+    @GET("api/vippay/getVipPermission")
+    Observable<ApiResponse<String>> getVipPermission();
+
     @POST("api/vippay/login")
     Observable<ApiResponse<VipUserInfo>> loginVipPay(@Body String phoneNum);
 
