@@ -6,13 +6,13 @@ import android.support.annotation.Nullable;
 import com.pitaya.comannotation.Subscribe;
 import com.pitaya.comannotation.ThreadMode;
 import com.pitaya.comannotation.Unbinder;
-import com.pitaya.commanager.ComManager;
 import com.pitaya.commanager.Disposable;
 import com.pitaya.commanager.poster.AsyncPoster;
 import com.pitaya.commanager.poster.BackgroundPoster;
 import com.pitaya.commanager.poster.HandlerPoster;
 import com.pitaya.commanager.poster.MainThreadSupport;
 import com.pitaya.commanager.poster.PendingPost;
+import com.pitaya.commanager.tools.ComponentTools;
 import com.pitaya.commanager.tools.ELog;
 
 import java.lang.ref.WeakReference;
@@ -110,7 +110,7 @@ public class ThreadProxyHandler implements InvocationHandler {
             if (proxy == null) {
                 continue;
             }
-            Unbinder unbinder = ComManager.getInstance().getUnBinderCacheMap().remove(proxy);
+            Unbinder unbinder = ComponentTools.getInstance().getUnBinderCacheMap().remove(proxy);
             if (unbinder != null) {
                 unbinder.unbind();
             }

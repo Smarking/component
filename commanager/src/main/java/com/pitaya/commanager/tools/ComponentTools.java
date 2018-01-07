@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by Smarking on 17/12/4.
@@ -39,8 +40,7 @@ public class ComponentTools {
         return mInstance;
     }
 
-
-    public synchronized Unbinder registerEventReceiver(Object interfaceInstance) {
+    public static Class getInterfaceClass(Object interfaceInstance) {
         Class<?>[] interfaces = interfaceInstance.getClass().getInterfaces();
 
         if (interfaces == null) {
@@ -51,13 +51,26 @@ public class ComponentTools {
             throw new IllegalArgumentException("addProtocol protocolImpl implement more than one interface");
         }
 
-        if (!(interfaceInstance instanceof Proxy)) {
-            interfaceInstance = ProxyTools.create(interfaces[0], interfaceInstance);
-        }
-
-        return registerEventReceiver(interfaces[0], interfaceInstance);
+        return interfaces[0];
     }
 
+
+    private final ConcurrentHashMap<Object, Unbinder> mUnBinderCacheMap = new ConcurrentHashMap();
+
+    public ConcurrentHashMap<Object, Unbinder> getUnBinderCacheMap() {
+        return mUnBinderCacheMap;
+    }
+
+    public synchronized Unbinder registerEventReceiver(Object interfaceInstance) {
+        Class<?> interfaceClass = getInterfaceClass(interfaceInstance);
+        if (!(interfaceInstance instanceof Proxy)) {
+            interfaceInstance = ProxyTools.create(interfaceClass, interfaceInstance);
+        }
+        Unbinder unbinder = registerEventReceiver(interfaceClass, interfaceInstance);
+
+        mUnBinderCacheMap.put(interfaceInstance, unbinder);
+        return unbinder;
+    }
 
     /**
      * 注册状态接受者
@@ -74,7 +87,7 @@ public class ComponentTools {
         }
         oList.add(interfaceInstance);
 
-        return new Unbinder() {
+        Unbinder unbinder = new Unbinder() {
             @Override
             public synchronized void unbind() {
                 List oList = mTypesBySubscriber.get(tInterfaceClass);
@@ -88,6 +101,7 @@ public class ComponentTools {
                 }
             }
         };
+        return unbinder;
     }
 
     public <T> T getCallback(Class<T> tInterfaceClass) {

@@ -42,13 +42,11 @@ public class VipPayComProtocolImpl extends AbsProtocol implements VipPayComProto
         }
 
         //TODO 如何获取一次流程的生命周期回调呢？ 不允许这样用了
-        registerGlobalCallbackOnlyOne("openVipCampaignDialog", callback);
+        registerGlobalOnlyOneCallback(callback);
 
         //打开页面
         FragmentManager fragmentManager = context.getSupportFragmentManager();
         VerifyPhoneDialog.newInstance(fragmentManager, order).show(fragmentManager, VerifyPhoneDialog.class.getName());
-
-
     }
 
     @Override

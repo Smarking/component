@@ -1,6 +1,7 @@
 package com.pitaya.commanager;
 
 import com.pitaya.comannotation.Unbinder;
+import com.pitaya.commanager.tools.ComponentTools;
 import com.pitaya.commanager.tools.ELog;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -49,27 +50,29 @@ public abstract class AbsProtocol {
         return false;
     }
 
-    private final ConcurrentHashMap<String, Unbinder> mUnBinderCacheMap = new ConcurrentHashMap();
+    private final ConcurrentHashMap<Class, Unbinder> mUnBinderCacheMap = new ConcurrentHashMap();
 
     /**
      * 设置全局callback，只有一份
      *
      * @param callback
      */
-    public final void registerGlobalCallbackOnlyOne(String tag, Object callback) {
-        Unbinder unbinder = mUnBinderCacheMap.remove(tag);
+    public final void registerGlobalOnlyOneCallback(Object callback) {
+        Class interfaceClass = ComponentTools.getInterfaceClass(callback);
+
+        Unbinder unbinder = mUnBinderCacheMap.remove(interfaceClass);
         if (unbinder != null) {
             unbinder.unbind();
         }
-        unbinder = ComManager.getInstance().registerEventReceiver(callback);
-        mUnBinderCacheMap.put(tag, unbinder);
+        unbinder = ComponentTools.getInstance().registerEventReceiver(callback);
+        mUnBinderCacheMap.put(interfaceClass, unbinder);
     }
 
     public final boolean registerEventReceiver(Object eventReceiver) {
         if (!isRegisteredEvent(eventReceiver)) {
             return false;
         }
-        ComManager.getInstance().registerEventReceiver(eventReceiver);
+        ComponentTools.getInstance().registerEventReceiver(eventReceiver);
         return true;
     }
 }

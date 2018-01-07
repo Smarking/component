@@ -140,7 +140,7 @@ public class VerifyPhoneDialog extends DialogFragment {
                             @Override
                             public void accept(ApiResponse<List<Coupon>> listApiResponse) throws Exception {
                                 VipPayUserCenter.getInstance().setCouponList(listApiResponse.getData());
-                                ComManager.getInstance().getReceiver(VipPayComProtocol.LoginEvent.class).call(VipPayUserCenter.getInstance().getVipUserInfo());
+                                ComManager.getInstance().getEventReceiver(VipPayComProtocol.LoginEvent.class).call(VipPayUserCenter.getInstance().getVipUserInfo());
 
                                 jumpVipDetailDialog();
 

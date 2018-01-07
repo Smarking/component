@@ -216,7 +216,7 @@ public class CheckoutActivity extends FragmentActivity {
             }
         }
     };
-    //TODO 有内存泄漏，因为注册了多次，存在多份
+    //TODO 有内存泄漏，因为注册了多次，存在多份，已解决，但是能不能缓存一下呢？
     private VipPayComProtocol.VipCampaignCallback mVipCampaignCallback = new VipPayComProtocol.VipCampaignCallback() {
         @Override
         public void onSortedCouponList(List<Coupon> sortedList) {

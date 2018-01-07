@@ -114,7 +114,7 @@ public class VipDetailDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
 
-                ComManager.getInstance().getReceiver(VipPayComProtocol.LogoutEvent.class)
+                ComManager.getInstance().getEventReceiver(VipPayComProtocol.LogoutEvent.class)
                         .call(VipPayUserCenter.getInstance().getVipUserInfo());
 
                 mVipPayService.logoutVipPay(VipPayUserCenter.getInstance().getVipUserInfo().vipId)
@@ -150,7 +150,8 @@ public class VipDetailDialog extends DialogFragment {
                             @Override
                             public void accept(ApiResponse<String> stringApiResponse) throws Exception {
                                 if (stringApiResponse.isSuccess()) {
-                                    ComManager.getInstance().getReceiver(VipPayComProtocol.VipCampaignCallback.class).onPresetPay(mHeaderAndFooterAdapter.getSelectedElePoi());
+                                    ComManager.getInstance().getGlobalOnlyOneCallbackReceiver(VipPayComProtocol.VipCampaignCallback.class)
+                                            .onPresetPay(mHeaderAndFooterAdapter.getSelectedElePoi());
                                     dismissAllowingStateLoss();
                                 } else {
                                     Toast.makeText(getContext().getApplicationContext(), "非法使用", Toast.LENGTH_SHORT).show();
@@ -183,7 +184,8 @@ public class VipDetailDialog extends DialogFragment {
                             public void call(final Float param) {
                                 String info = "总金额:" + mOrder.amount + " 打" + (int) (mHeaderAndFooterAdapter.getSelectedElePoi().discount * 10) + "折，可优惠:" + param;
                                 calculateResultTv.setText(info);
-                                ComManager.getInstance().getReceiver(VipPayComProtocol.VipCampaignCallback.class).onSelectedCoupon(info);
+                                ComManager.getInstance().getGlobalOnlyOneCallbackReceiver(VipPayComProtocol.VipCampaignCallback.class)
+                                        .onSelectedCoupon(info);
                             }
                         });
             }
@@ -199,7 +201,8 @@ public class VipDetailDialog extends DialogFragment {
                     @Override
                     public void call(final List<Coupon> param) {
                         mHeaderAndFooterAdapter.setNewData(param);
-                        ComManager.getInstance().getReceiver(VipPayComProtocol.VipCampaignCallback.class).onSortedCouponList(param);
+                        ComManager.getInstance().getGlobalOnlyOneCallbackReceiver(VipPayComProtocol.VipCampaignCallback.class)
+                                .onSortedCouponList(param);
                     }
                 });
     }

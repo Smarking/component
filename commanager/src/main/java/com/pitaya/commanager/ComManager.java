@@ -231,19 +231,11 @@ public class ComManager {
         }
     }
 
-    private final ConcurrentHashMap<Object, Unbinder> mUnBinderCacheMap = new ConcurrentHashMap();
-
-    public ConcurrentHashMap<Object, Unbinder> getUnBinderCacheMap() {
-        return mUnBinderCacheMap;
+    public <T> T getEventReceiver(Class<T> eventInterfaceClass) {
+        return ComponentTools.getInstance().getCallback(eventInterfaceClass);
     }
 
-    public Unbinder registerEventReceiver(Object eventReceiver) {
-        Unbinder unbinder = ComponentTools.getInstance().registerEventReceiver(eventReceiver);
-        mUnBinderCacheMap.put(eventReceiver, unbinder);
-        return unbinder;
-    }
-
-    public <T> T getReceiver(Class<T> eventInterfaceClass) {
+    public <T> T getGlobalOnlyOneCallbackReceiver(Class<T> eventInterfaceClass) {
         return ComponentTools.getInstance().getCallback(eventInterfaceClass);
     }
 }
