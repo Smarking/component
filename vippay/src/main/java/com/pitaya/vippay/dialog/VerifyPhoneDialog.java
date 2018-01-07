@@ -104,7 +104,6 @@ public class VerifyPhoneDialog extends DialogFragment {
         mCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ComManager.getInstance().getReceiver(VipPayComProtocol.VipCampaignCallback.class).unbind();
                 dismissAllowingStateLoss();
             }
         });
@@ -209,6 +208,7 @@ public class VerifyPhoneDialog extends DialogFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        ComManager.getInstance().unBind(this);
         mUnbinder.unbind();
     }
 }

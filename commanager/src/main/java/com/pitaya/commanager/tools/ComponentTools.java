@@ -3,6 +3,7 @@ package com.pitaya.commanager.tools;
 import android.support.annotation.Nullable;
 
 import com.pitaya.comannotation.Unbinder;
+import com.pitaya.commanager.proxy.ProxyTools;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -83,7 +84,7 @@ public class ComponentTools {
                         && oList.remove(interfaceInstance)) {
                     ELog.d(TAG, tInterfaceClass.getName() + " remove successful");
                 } else {
-                    ELog.d(TAG, tInterfaceClass.getName() + " remove error");
+                    ELog.d(TAG, tInterfaceClass.getName() + " remove error or has removed");
                 }
             }
         };

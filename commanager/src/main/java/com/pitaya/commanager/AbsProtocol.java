@@ -1,6 +1,9 @@
 package com.pitaya.commanager;
 
+import com.pitaya.comannotation.Unbinder;
 import com.pitaya.commanager.tools.ELog;
+
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by Smarking on 18/1/5.
@@ -42,7 +45,31 @@ public abstract class AbsProtocol {
             }
         }
 
-        ELog.e(TAG, eventReceiver.getClass().getName() + " unRegister to " + mComLifecycle.getComponentName());
+        ELog.e(TAG, eventReceiver.getClass().getName() + " unBind to " + mComLifecycle.getComponentName());
         return false;
+    }
+
+    private final ConcurrentHashMap<String, Unbinder> mUnBinderCacheMap = new ConcurrentHashMap();
+
+    /**
+     * 设置全局callback，只有一份
+     *
+     * @param callback
+     */
+    public final void registerGlobalCallbackOnlyOne(String tag, Object callback) {
+        Unbinder unbinder = mUnBinderCacheMap.remove(tag);
+        if (unbinder != null) {
+            unbinder.unbind();
+        }
+        unbinder = ComManager.getInstance().registerEventReceiver(callback);
+        mUnBinderCacheMap.put(tag, unbinder);
+    }
+
+    public final boolean registerEventReceiver(Object eventReceiver) {
+        if (!isRegisteredEvent(eventReceiver)) {
+            return false;
+        }
+        ComManager.getInstance().registerEventReceiver(eventReceiver);
+        return true;
     }
 }

@@ -71,7 +71,7 @@ public class VipDetailDialog extends DialogFragment {
     private VipDetailAdapter mHeaderAndFooterAdapter;
 
     private VipPayService mVipPayService = ApiFactory.getApi(VipPayService.class);
-    private CheckoutComProtocol mCheckoutComProtocol = ComManager.getInstance().getProtocol(CheckoutComProtocol.class);
+    private CheckoutComProtocol mCheckoutComProtocol = ComManager.getInstance().getProtocolAndBind(this, CheckoutComProtocol.class);
     private Order mOrder;
 
     private static final String ARG_ORDER = "order";
@@ -229,11 +229,6 @@ public class VipDetailDialog extends DialogFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        ComManager.getInstance().getReceiver(VipPayComProtocol.VipCampaignCallback.class).unbind();
+        ComManager.getInstance().unBind(this);
     }
 }

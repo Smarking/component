@@ -18,7 +18,6 @@ import com.pitaya.comprotocol.vippay.VipPayComProtocol;
 import com.pitaya.comprotocol.vippay.bean.Coupon;
 import com.pitaya.comprotocol.vippay.bean.VipUserInfo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -75,10 +74,8 @@ public class CheckoutActivity extends FragmentActivity {
     private float mAlreadyMoney = 0;
     private Coupon mSelectedCoupon;
 
-    private VipPayComProtocol mVipPayComProtocol = ComManager.getInstance().getProtocol(VipPayComProtocol.class);
-    private PrinterComProtocol mPrinterComProtocol = ComManager.getInstance().getProtocol(PrinterComProtocol.class);
-
-    private List<com.pitaya.comannotation.Unbinder> mComUnbinderList = new ArrayList<>();
+    private VipPayComProtocol mVipPayComProtocol;
+    private PrinterComProtocol mPrinterComProtocol;
 
     public static void launch(Context context) {
         context.startActivity(new Intent(context, CheckoutActivity.class));
@@ -147,6 +144,9 @@ public class CheckoutActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.checkout_activity_checkout);
         mUnbinder = ButterKnife.bind(this);
+        //作为默认初始化可行么？看smali默认值放在构造函数的首行执行，然后才是自己写的初始化代码
+        mVipPayComProtocol = ComManager.getInstance().getProtocolAndBind(CheckoutActivity.this, VipPayComProtocol.class);
+        mPrinterComProtocol = ComManager.getInstance().getProtocolAndBind(CheckoutActivity.this, PrinterComProtocol.class);
         initView();
         initData();
         updateView();
@@ -167,26 +167,24 @@ public class CheckoutActivity extends FragmentActivity {
     private void initData() {
         mOrder = new Order();
         mOrder.orderId = "12345";
-        mComUnbinderList.add(
-                mVipPayComProtocol.registerEventReceiver(new VipPayComProtocol.LoginEvent() {
+        mVipPayComProtocol.registerEventReceiver(new VipPayComProtocol.LoginEvent() {
 
-                    @Override
-                    public void call(VipUserInfo param) {
-                        mVipcardInfo.setText(param.vipName + " 会员卡优惠: ");
-                        updateSecondScreen("会员 " + param.vipName);
-                    }
-                }));
-        mComUnbinderList.add(
-                mVipPayComProtocol.registerEventReceiver(new VipPayComProtocol.LogoutEvent() {
-                    @Override
-                    public void call(VipUserInfo param) {
-                        mVipcardInfo.setText("无会员优惠: ");
-                        mVipcardMoney = 0;
-                        updateView();
+            @Override
+            public void call(VipUserInfo param) {
+                mVipcardInfo.setText(param.vipName + " 会员卡优惠: ");
+                updateSecondScreen("会员 " + param.vipName);
+            }
+        });
+        mVipPayComProtocol.registerEventReceiver(new VipPayComProtocol.LogoutEvent() {
+            @Override
+            public void call(VipUserInfo param) {
+                mVipcardInfo.setText("无会员优惠: ");
+                mVipcardMoney = 0;
+                updateView();
 
-                        updateSecondScreen("无会员优惠");
-                    }
-                }));
+                updateSecondScreen("无会员优惠");
+            }
+        });
     }
 
     private void updateSecondScreen(String msg) {
@@ -198,10 +196,8 @@ public class CheckoutActivity extends FragmentActivity {
     protected void onDestroy() {
         super.onDestroy();
         mUnbinder.unbind();
-        for (com.pitaya.comannotation.Unbinder unbinder : mComUnbinderList) {
-            unbinder.unbind();
-        }
-        mComUnbinderList.clear();
+
+        ComManager.getInstance().unBind(CheckoutActivity.this);
     }
 
 
@@ -222,11 +218,6 @@ public class CheckoutActivity extends FragmentActivity {
     };
     //TODO 有内存泄漏，因为注册了多次，存在多份
     private VipPayComProtocol.VipCampaignCallback mVipCampaignCallback = new VipPayComProtocol.VipCampaignCallback() {
-        @Override
-        public void unbind() {
-
-        }
-
         @Override
         public void onSortedCouponList(List<Coupon> sortedList) {
             updateSecondScreen(sortedList.toString());

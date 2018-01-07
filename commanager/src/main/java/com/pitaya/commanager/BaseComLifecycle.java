@@ -5,7 +5,7 @@ import android.support.annotation.UiThread;
 import android.text.TextUtils;
 
 import com.pitaya.comannotation.ProtocolName;
-import com.pitaya.commanager.tools.ProxyTools;
+import com.pitaya.commanager.proxy.ProxyTools;
 
 /**
  * Created by Smarking on 17/12/11.
@@ -41,14 +41,18 @@ public abstract class BaseComLifecycle implements ComLifecycle {
     @Override
     public <T> T getProtocol(String protocolName) {
         if (TextUtils.isEmpty(protocolName)) {
-            throw new NullPointerException("getProtocol protocolName is null");
+            throw new NullPointerException("getProtocolAndBind protocolName is null");
         }
         return (T) mProtocolCenter.getProtocol(protocolName);
     }
 
     protected void addProtocol(Object protocolImpl) {
-        if (protocolImpl == null) {
-            throw new NullPointerException("addProtocol protocolImpl is null");
+        if (protocolImpl == null || protocolImpl.getClass().isInterface()) {
+            throw new NullPointerException("addProtocol protocolImpl is null or is interface");
+        }
+
+        if (!protocolImpl.getClass().getSuperclass().isAssignableFrom(AbsProtocol.class)) {
+            throw new NullPointerException("addProtocol protocolImpl must extends AbsProtocol.class");
         }
 
         ((AbsProtocol) protocolImpl).setComponent(this);
@@ -69,8 +73,9 @@ public abstract class BaseComLifecycle implements ComLifecycle {
         }
 
         String protocolName = annotation.value();
-        Object proxyProtocolImpl = ProxyTools.create(interfaces[0], protocolImpl);
-        mProtocolCenter.addProtocol(protocolName, proxyProtocolImpl);
+//        Object proxyProtocolImpl = ProxyTools.create(interfaces[0], Disposable.class, protocolImpl);
+//        mProtocolCenter.addProtocol(protocolName, proxyProtocolImpl);
+        mProtocolCenter.addProtocol(protocolName, protocolImpl);
     }
 
     protected boolean onInstall() {

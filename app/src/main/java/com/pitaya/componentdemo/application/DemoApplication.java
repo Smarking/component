@@ -1,7 +1,11 @@
 package com.pitaya.componentdemo.application;
 
+import android.app.Activity;
 import android.app.Application;
+import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.UiThread;
+import android.util.Log;
 
 import com.elvishew.xlog.XLog;
 import com.pitaya.baselib.BuildConfigCenter;
@@ -14,6 +18,10 @@ import com.pitaya.comprotocol.checkout.CheckoutComProtocol;
 import com.pitaya.comprotocol.printer.bean.PrinterComProtocol;
 import com.pitaya.comprotocol.vippay.VipPayComProtocol;
 
+import java.lang.ref.WeakReference;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by Smarking on 17/12/12.
  */
@@ -22,6 +30,9 @@ public class DemoApplication extends Application {
     private static DemoApplication mInstance;
     private boolean isComponentBuildConfig = false;
     private boolean isComponentUserInfo = false;
+    private Map<Integer, WeakReference<Activity>> mList = new HashMap<>();
+    private Handler mHandler = new Handler();
+    private static final String TAG = "DemoApplication";
 
 
     public static DemoApplication getApp() {
@@ -35,6 +46,7 @@ public class DemoApplication extends Application {
         initBuildConfig();
         initXlog();
         initComponent();
+        initCheckLeaky();
         //to do something  ......
     }
 
@@ -115,5 +127,56 @@ public class DemoApplication extends Application {
         }
 
         ComManager.getInstance().notifyUserCenterChanged();
+    }
+
+    private void initCheckLeaky() {
+        registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+            @Override
+            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+                Log.d(TAG, "新创建 " + activity.hashCode());
+            }
+
+            @Override
+            public void onActivityStarted(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityResumed(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityPaused(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityStopped(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+            }
+
+            @Override
+            public void onActivityDestroyed(Activity activity) {
+                final int hashCode = activity.hashCode();
+                mList.put(hashCode, new WeakReference(activity));
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mList.get(hashCode).get() == null) {
+                            Log.d(TAG, "没有泄漏 " + hashCode);
+                            return;
+                        }
+
+                        Log.d(TAG, "有泄漏 " + hashCode + mList.get(hashCode).get().getClass().getName());
+                    }
+                }, 5000);
+            }
+        });
     }
 }

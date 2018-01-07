@@ -9,10 +9,8 @@ import com.pitaya.baselib.network.ApiFactory;
 import com.pitaya.baselib.network.ApiResponse;
 import com.pitaya.comannotation.Subscribe;
 import com.pitaya.comannotation.ThreadMode;
-import com.pitaya.comannotation.Unbinder;
 import com.pitaya.comcallback.Callback1;
 import com.pitaya.commanager.AbsProtocol;
-import com.pitaya.commanager.ComManager;
 import com.pitaya.comprotocol.checkout.bean.Order;
 import com.pitaya.comprotocol.vippay.VipPayComProtocol;
 import com.pitaya.comprotocol.vippay.bean.Coupon;
@@ -42,12 +40,15 @@ public class VipPayComProtocolImpl extends AbsProtocol implements VipPayComProto
         //无核销权限
         if (!VipPermissionHelper.getInstance().hasVipCashPermission()) {
         }
+
+        //TODO 如何获取一次流程的生命周期回调呢？ 不允许这样用了
+        registerGlobalCallbackOnlyOne("openVipCampaignDialog", callback);
+
         //打开页面
         FragmentManager fragmentManager = context.getSupportFragmentManager();
         VerifyPhoneDialog.newInstance(fragmentManager, order).show(fragmentManager, VerifyPhoneDialog.class.getName());
 
-        //TODO 如何获取一次流程的生命周期回调呢？
-        ComManager.getInstance().registerEventReceiver(callback);
+
     }
 
     @Override
@@ -112,10 +113,12 @@ public class VipPayComProtocolImpl extends AbsProtocol implements VipPayComProto
     }
 
     @Override
-    public Unbinder registerEventReceiver(Object eventReceiver) {
-        if (!super.isRegisteredEvent(eventReceiver)) {
-            return Unbinder.EMPTY;
-        }
-        return ComManager.getInstance().registerEventReceiver(eventReceiver);
+    public void registerEventReceiver(LoginEvent eventReceiver) {
+        super.registerEventReceiver(eventReceiver);
+    }
+
+    @Override
+    public void registerEventReceiver(LogoutEvent eventReceiver) {
+        super.registerEventReceiver(eventReceiver);
     }
 }

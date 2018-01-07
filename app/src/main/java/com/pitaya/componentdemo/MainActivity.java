@@ -33,14 +33,16 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.printerBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ComManager.getInstance().getProtocol(PrinterComProtocol.class).print("有新的打印任务");
+                //TODO 耗时统计
+                //TODO 能自动被回收么
+                ComManager.getInstance().getProtocolAndBind(MainActivity.this, PrinterComProtocol.class).print("有新的打印任务");
             }
         });
 
         findViewById(R.id.checkoutBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ComManager.getInstance().getProtocol(CheckoutComProtocol.class).openCheckoutPage(MainActivity.this);
+                ComManager.getInstance().getProtocolAndBind(MainActivity.this, CheckoutComProtocol.class).openCheckoutPage(MainActivity.this);
             }
         });
     }
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        ComManager.getInstance().unBind(MainActivity.this);
     }
 
     private void mockLogin() {
@@ -72,12 +75,12 @@ public class MainActivity extends AppCompatActivity {
 //        //TODO 设置回调的方式，走代理，为了线程切换，支持入参、方法、类三种注解
 //
 //        //方式一 独享
-//        mOpenVipCampaignDialogUnbinder = ComManager.getInstance().getProtocol(VipPayComProtocol.class)
+//        mOpenVipCampaignDialogUnbinder = ComManager.getInstance().getProtocolAndBind(VipPayComProtocol.class)
 //                .openVipCampaignDialog(MainActivity.this, new Order(),
 //                        ProxyTools.create(VipPayComProtocol.VipCampaignCallback.class, new VipClass()));
 //
 //        //方式二 匿名内部类，共享一个Callback
-//        mOpenVipCampaignDialogUnbinder = ComManager.getInstance().getProtocol(VipPayComProtocol.class)
+//        mOpenVipCampaignDialogUnbinder = ComManager.getInstance().getProtocolAndBind(VipPayComProtocol.class)
 //                .openVipCampaignDialog(MainActivity.this, new Order(),
 //
 //                        ProxyTools.create(VipPayComProtocol.VipCampaignCallback.class, campaignCallback));
@@ -89,12 +92,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     VipPayComProtocol.VipCampaignCallback campaignCallback = new VipPayComProtocol.VipCampaignCallback() {
-
-
-        @Override
-        public void unbind() {
-            mOpenVipCampaignDialogUnbinder.unbind();
-        }
 
         @Override
         public void onSortedCouponList(List<Coupon> sortedList) {
@@ -137,11 +134,6 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onError(String msg) {
-
-        }
-
-        @Override
-        public void unbind() {
 
         }
     }

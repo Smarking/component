@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentActivity;
 import com.pitaya.comannotation.ProtocolName;
 import com.pitaya.comannotation.Subscribe;
 import com.pitaya.comannotation.ThreadMode;
-import com.pitaya.comannotation.Unbinder;
 import com.pitaya.comcallback.Callback1;
 import com.pitaya.comprotocol.checkout.bean.Order;
 import com.pitaya.comprotocol.vippay.bean.Coupon;
@@ -67,19 +66,13 @@ public interface VipPayComProtocol {
     @Subscribe(threadMode = ThreadMode.POSTING)
     List<Coupon> getVipPayRule();
 
-    /**
-     * TODO 这个方法有毒，容易造成内存泄漏
-     *
-     * @param eventReceiver
-     * @param <T>
-     * @return
-     */
     @Subscribe(threadMode = ThreadMode.POSTING)
-    <T> Unbinder registerEventReceiver(T eventReceiver);
+    void registerEventReceiver(LoginEvent eventReceiver);
 
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    void registerEventReceiver(LogoutEvent eventReceiver);
 
     /******组件状态****/
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     interface LoginEvent extends Callback1<VipUserInfo> {
     }
@@ -92,7 +85,7 @@ public interface VipPayComProtocol {
     /******Callback****/
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    interface VipCampaignCallback extends Unbinder {
+    interface VipCampaignCallback {
         /**
          * 排序后的优惠券列表，给副屏展示
          *

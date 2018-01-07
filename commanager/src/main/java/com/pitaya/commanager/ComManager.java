@@ -6,18 +6,23 @@ import android.text.TextUtils;
 
 import com.pitaya.comannotation.ProtocolName;
 import com.pitaya.comannotation.Unbinder;
+import com.pitaya.commanager.proxy.ProxyTools;
 import com.pitaya.commanager.tools.ComponentTools;
 import com.pitaya.commanager.tools.ELog;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class ComManager {
+    //TODO* 保证线程安全，一组操作的原子性（事务）
     private Map<String, ComLifecycle> mComponents = new LinkedHashMap<>();
     private ReentrantReadWriteLock mReadWriteLock = new ReentrantReadWriteLock();
     ReentrantReadWriteLock.WriteLock mWriteLock = mReadWriteLock.writeLock();
@@ -108,19 +113,20 @@ public class ComManager {
     }
 
     /**
+     * TODO  re（protocol） unre(pro)
      * 获取组件能力接口
      *
      * @param tProtocolClass 协议类class
      * @param <T>
      * @return
      */
-    public <T> T getProtocol(final Class<T> tProtocolClass) {
+    public <T> T getProtocolAndBind(final Object object, final Class<T> tProtocolClass) {
         if (!tProtocolClass.isInterface()) {
             return null;
         }
         ProtocolName annotation = tProtocolClass.getAnnotation(ProtocolName.class);
         if (annotation == null) {
-            throw new NullPointerException("getProtocol protocolName is null , protocolClass is " + tProtocolClass.getName());
+            throw new NullPointerException("getProtocolAndBind protocolName is null , protocolClass is " + tProtocolClass.getName());
         }
         String protocolName = annotation.value();
 
@@ -131,7 +137,18 @@ public class ComManager {
                 ComLifecycle comLifecycle = iterator.next().getValue();
                 T protocol = comLifecycle.getProtocol(protocolName);
                 if (protocol != null) {
-                    return protocol;
+
+                    //线程安全
+                    initCacheMap(object);
+
+                    if (mDisposeCacheMap.get(object).containsKey(tProtocolClass)) {
+                        return (T) mDisposeCacheMap.get(object).get(tProtocolClass);
+                    } else {
+                        Object proxyProtocolImpl = ProxyTools.create(protocol.getClass().getInterfaces()[0],
+                                Disposable.class, protocol);
+                        mDisposeCacheMap.get(object).put(tProtocolClass, ((Disposable) proxyProtocolImpl));
+                        return (T) proxyProtocolImpl;
+                    }
                 }
             }
 
@@ -149,6 +166,46 @@ public class ComManager {
         }
     }
 
+    public void unBind(Object object) {
+        clearCacheMap(object);
+    }
+
+    private static final ConcurrentHashMap<Object, Map<Class, Disposable>> mDisposeCacheMap = new ConcurrentHashMap();
+    private final ReentrantLock mReentrantLock = new ReentrantLock();
+
+    /**
+     * ConcurrentHashMap无法保证一组操作的原子性
+     *
+     * @param object
+     */
+    private void initCacheMap(Object object) {
+        if (!mDisposeCacheMap.containsKey(object)) {
+            mReentrantLock.lock();
+            try {
+                if (!mDisposeCacheMap.containsKey(object)) {
+                    mDisposeCacheMap.put(object, new HashMap<Class, Disposable>());
+                }
+            } finally {
+                mReentrantLock.unlock();
+            }
+        }
+    }
+
+    private void clearCacheMap(Object object) {
+        mReentrantLock.lock();
+        try {
+            Map<Class, Disposable> map = mDisposeCacheMap.remove(object);
+            if (map == null) {
+                return;
+            }
+            for (Map.Entry<Class, Disposable> protocol : map.entrySet()) {
+                protocol.getValue().dispose();
+            }
+            map.clear();
+        } finally {
+            mReentrantLock.unlock();
+        }
+    }
 
     public void notifyBuildConfigChanged() {
         mReadLock.lock();
@@ -160,7 +217,6 @@ public class ComManager {
         } finally {
             mReadLock.unlock();
         }
-
     }
 
     public void notifyUserCenterChanged() {
@@ -175,8 +231,16 @@ public class ComManager {
         }
     }
 
+    private final ConcurrentHashMap<Object, Unbinder> mUnBinderCacheMap = new ConcurrentHashMap();
+
+    public ConcurrentHashMap<Object, Unbinder> getUnBinderCacheMap() {
+        return mUnBinderCacheMap;
+    }
+
     public Unbinder registerEventReceiver(Object eventReceiver) {
-        return ComponentTools.getInstance().registerEventReceiver(eventReceiver);
+        Unbinder unbinder = ComponentTools.getInstance().registerEventReceiver(eventReceiver);
+        mUnBinderCacheMap.put(eventReceiver, unbinder);
+        return unbinder;
     }
 
     public <T> T getReceiver(Class<T> eventInterfaceClass) {

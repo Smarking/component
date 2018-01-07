@@ -18,4 +18,8 @@ public class ELog {
     public static void e(String tag, Throwable e) {
         Log.e(tag, null, e);
     }
+
+    public static void e(String tag, String msg, Throwable e) {
+        Log.e(tag, msg, e);
+    }
 }
