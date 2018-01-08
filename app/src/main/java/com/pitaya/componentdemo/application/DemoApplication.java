@@ -5,7 +5,6 @@ import android.app.Application;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.UiThread;
-import android.util.Log;
 
 import com.elvishew.xlog.XLog;
 import com.pitaya.baselib.BuildConfigCenter;
@@ -14,6 +13,7 @@ import com.pitaya.baselib.bean.BaseBuildConfig;
 import com.pitaya.baselib.bean.BaseUserInfo;
 import com.pitaya.commanager.ComLifecycle;
 import com.pitaya.commanager.ComManager;
+import com.pitaya.commanager.tools.ELog;
 import com.pitaya.comprotocol.checkout.CheckoutComProtocol;
 import com.pitaya.comprotocol.printer.bean.PrinterComProtocol;
 import com.pitaya.comprotocol.vippay.VipPayComProtocol;
@@ -133,7 +133,7 @@ public class DemoApplication extends Application {
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-                Log.d(TAG, "新创建 " + activity.hashCode());
+                ELog.d(TAG, "新创建 " + activity.hashCode());
             }
 
             @Override
@@ -169,13 +169,13 @@ public class DemoApplication extends Application {
                     @Override
                     public void run() {
                         if (mList.get(hashCode).get() == null) {
-                            Log.d(TAG, "没有泄漏 " + hashCode);
+                            ELog.d(TAG, "没有泄漏 " + hashCode);
                             return;
                         }
 
-                        Log.d(TAG, "有泄漏 " + hashCode + mList.get(hashCode).get().getClass().getName());
+                        ELog.d(TAG, "有泄漏 " + hashCode + mList.get(hashCode).get().getClass().getName());
                     }
-                }, 5000);
+                }, 12000);
             }
         });
     }

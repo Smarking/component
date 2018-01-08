@@ -20,7 +20,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
 
-import com.pitaya.commanager.exception.EventBusException;
+import com.pitaya.commanager.exception.ComException;
 import com.pitaya.commanager.proxy.ThreadProxyHandler;
 
 public class HandlerPoster extends Handler implements Poster {
@@ -43,7 +43,7 @@ public class HandlerPoster extends Handler implements Poster {
             if (!handlerActive) {
                 handlerActive = true;
                 if (!sendMessage(obtainMessage())) {
-                    throw new EventBusException("Could not send handler message");
+                    throw new ComException("Could not send handler message");
                 }
             }
         }
@@ -79,7 +79,7 @@ public class HandlerPoster extends Handler implements Poster {
                 long timeInMethod = SystemClock.uptimeMillis() - started;
                 if (timeInMethod >= maxMillisInsideHandleMessage) {
                     if (!sendMessage(obtainMessage())) {
-                        throw new EventBusException("Could not send handler message");
+                        throw new ComException("Could not send handler message");
                     }
                     rescheduled = true;
                     return;

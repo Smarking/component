@@ -54,14 +54,16 @@ public class ComponentTools {
         return interfaces[0];
     }
 
-
+    /**
+     * ,全局状态，对应的unBinder
+     */
     private final ConcurrentHashMap<Object, Unbinder> mUnBinderCacheMap = new ConcurrentHashMap();
 
     public ConcurrentHashMap<Object, Unbinder> getUnBinderCacheMap() {
         return mUnBinderCacheMap;
     }
 
-    public synchronized Unbinder registerEventReceiver(Object interfaceInstance) {
+    public Unbinder registerEventReceiver(Object interfaceInstance) {
         Class<?> interfaceClass = getInterfaceClass(interfaceInstance);
         if (!(interfaceInstance instanceof Proxy)) {
             interfaceInstance = ProxyTools.create(interfaceClass, interfaceInstance);
@@ -79,25 +81,29 @@ public class ComponentTools {
      * @param interfaceInstance
      * @return
      */
-    protected synchronized Unbinder registerEventReceiver(final Class<?> tInterfaceClass, final Object interfaceInstance) {
-        List oList = mTypesBySubscriber.get(tInterfaceClass);
-        if (oList == null) {
-            oList = new ArrayList();
-            mTypesBySubscriber.put(tInterfaceClass, oList);
+    protected Unbinder registerEventReceiver(final Class<?> tInterfaceClass, final Object interfaceInstance) {
+        synchronized (mTypesBySubscriber) {
+            List oList = mTypesBySubscriber.get(tInterfaceClass);
+            if (oList == null) {
+                oList = new ArrayList();
+                mTypesBySubscriber.put(tInterfaceClass, oList);
+            }
+            oList.add(interfaceInstance);
         }
-        oList.add(interfaceInstance);
 
         Unbinder unbinder = new Unbinder() {
             @Override
-            public synchronized void unbind() {
-                List oList = mTypesBySubscriber.get(tInterfaceClass);
-                if (oList != null
-                        && !oList.isEmpty()
-                        && oList.contains(interfaceInstance)
-                        && oList.remove(interfaceInstance)) {
-                    ELog.d(TAG, tInterfaceClass.getName() + " remove successful");
-                } else {
-                    ELog.d(TAG, tInterfaceClass.getName() + " remove error or has removed");
+            public void unbind() {
+                synchronized (mTypesBySubscriber) {
+                    List oList = mTypesBySubscriber.get(tInterfaceClass);
+                    if (oList != null
+                            && !oList.isEmpty()
+                            && oList.contains(interfaceInstance)
+                            && oList.remove(interfaceInstance)) {
+                        ELog.d(TAG, tInterfaceClass.getName() + " remove successful");
+                    } else {
+                        ELog.d(TAG, tInterfaceClass.getName() + " remove error or has removed");
+                    }
                 }
             }
         };
@@ -130,30 +136,32 @@ public class ComponentTools {
                 new InvocationHandler() {
                     @Override
                     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                        synchronized (mTypesBySubscriber) {
+                            List<T> instanceList = (List<T>) mTypesBySubscriber.get(tInterfaceClass);
 
-                        List<T> instanceList = (List<T>) mTypesBySubscriber.get(tInterfaceClass);
+                            if (instanceList == null || instanceList.isEmpty()) {
+                                ELog.e(TAG, "instanceList is Empty");
+                                if (noSubscriberHandler != null) {
+                                    noSubscriberHandler.onNoSubscriber();
+                                }
+                                return null;
+                            }
 
-                        if (instanceList == null || instanceList.isEmpty()) {
-                            ELog.e(TAG, "instanceList is Empty");
-                            if (noSubscriberHandler != null) {
-                                noSubscriberHandler.onNoSubscriber();
+                            if (instanceList.size() == 1) {
+                                return method.invoke(instanceList.get(0), args);
+                            }
+
+                            List resultList = new ArrayList();
+                            for (T instance : instanceList) {
+                                Object obj = method.invoke(instance, args);
+                                resultList.add(obj);
+                            }
+                            if (multiResultHandler != null) {
+                                return multiResultHandler.convert(resultList);
                             }
                             return null;
                         }
 
-                        if (instanceList.size() == 1) {
-                            return method.invoke(instanceList.get(0), args);
-                        }
-
-                        List resultList = new ArrayList();
-                        for (T instance : instanceList) {
-                            Object obj = method.invoke(instance, args);
-                            resultList.add(obj);
-                        }
-                        if (multiResultHandler != null) {
-                            return multiResultHandler.convert(resultList);
-                        }
-                        return null;
                     }
                 });
     }

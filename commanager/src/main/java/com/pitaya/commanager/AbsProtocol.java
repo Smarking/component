@@ -12,14 +12,14 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class AbsProtocol {
     private static final String TAG = "AbsProtocol";
+    private final ConcurrentHashMap<Class, Unbinder> mUnBinderCacheMap = new ConcurrentHashMap();
+    protected ComLifecycle mComLifecycle;
 
-    ComLifecycle mComLifecycle;
-
-    public void setComponent(ComLifecycle comLifecycle) {
+    public final void setComponent(ComLifecycle comLifecycle) {
         mComLifecycle = comLifecycle;
     }
 
-    public ComLifecycle getComponent() {
+    public final ComLifecycle getComponent() {
         return mComLifecycle;
     }
 
@@ -46,11 +46,9 @@ public abstract class AbsProtocol {
             }
         }
 
-        ELog.e(TAG, eventReceiver.getClass().getName() + " unBind to " + mComLifecycle.getComponentName());
+        ELog.e(TAG, eventReceiver.getClass().getName() + " unbind to " + mComLifecycle.getComponentName());
         return false;
     }
-
-    private final ConcurrentHashMap<Class, Unbinder> mUnBinderCacheMap = new ConcurrentHashMap();
 
     /**
      * 设置全局callback，只有一份

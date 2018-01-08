@@ -45,13 +45,29 @@ public class MainActivity extends AppCompatActivity {
                 ComManager.getInstance().getProtocolAndBind(MainActivity.this, CheckoutComProtocol.class).openCheckoutPage(MainActivity.this);
             }
         });
+
+        findViewById(R.id.installCheckoutBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ComManager.getInstance().installComponent(getApplication(), CheckoutComProtocol.ComponentName);
+            }
+        });
+
+
+        findViewById(R.id.unInstallCheckoutBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ComManager.getInstance().unInstallComponent(CheckoutComProtocol.ComponentName);
+            }
+        });
+
     }
 
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ComManager.getInstance().unBind(MainActivity.this);
+        ComManager.getInstance().unbind(MainActivity.this);
     }
 
     private void mockLogin() {

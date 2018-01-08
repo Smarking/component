@@ -232,6 +232,6 @@ public class VipDetailDialog extends DialogFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-        ComManager.getInstance().unBind(this);
+        ComManager.getInstance().unbind(this);
     }
 }

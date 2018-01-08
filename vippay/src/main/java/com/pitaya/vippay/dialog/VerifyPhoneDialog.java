@@ -208,7 +208,7 @@ public class VerifyPhoneDialog extends DialogFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ComManager.getInstance().unBind(this);
+        ComManager.getInstance().unbind(this);
         mUnbinder.unbind();
     }
 }

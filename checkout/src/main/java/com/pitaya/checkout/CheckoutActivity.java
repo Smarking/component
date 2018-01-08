@@ -197,7 +197,7 @@ public class CheckoutActivity extends FragmentActivity {
         super.onDestroy();
         mUnbinder.unbind();
 
-        ComManager.getInstance().unBind(CheckoutActivity.this);
+        ComManager.getInstance().unbind(CheckoutActivity.this);
     }
 
 

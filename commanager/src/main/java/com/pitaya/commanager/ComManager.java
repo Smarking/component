@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.pitaya.comannotation.ProtocolName;
-import com.pitaya.comannotation.Unbinder;
+import com.pitaya.commanager.exception.ComException;
 import com.pitaya.commanager.proxy.ProxyTools;
 import com.pitaya.commanager.tools.ComponentTools;
 import com.pitaya.commanager.tools.ELog;
@@ -113,17 +113,17 @@ public class ComManager {
     }
 
     /**
-     * TODO  re（protocol） unre(pro)
      * 获取组件能力接口
      *
      * @param tProtocolClass 协议类class
      * @param <T>
      * @return
      */
-    public <T> T getProtocolAndBind(final Object object, final Class<T> tProtocolClass) {
+    public <T> T getProtocolAndBind(final Object host, final Class<T> tProtocolClass) {
         if (!tProtocolClass.isInterface()) {
-            return null;
+            throw new ComException(tProtocolClass + " must be interface");
         }
+
         ProtocolName annotation = tProtocolClass.getAnnotation(ProtocolName.class);
         if (annotation == null) {
             throw new NullPointerException("getProtocolAndBind protocolName is null , protocolClass is " + tProtocolClass.getName());
@@ -137,18 +137,7 @@ public class ComManager {
                 ComLifecycle comLifecycle = iterator.next().getValue();
                 T protocol = comLifecycle.getProtocol(protocolName);
                 if (protocol != null) {
-
-                    //线程安全
-                    initCacheMap(object);
-
-                    if (mDisposeCacheMap.get(object).containsKey(tProtocolClass)) {
-                        return (T) mDisposeCacheMap.get(object).get(tProtocolClass);
-                    } else {
-                        Object proxyProtocolImpl = ProxyTools.create(protocol.getClass().getInterfaces()[0],
-                                Disposable.class, protocol);
-                        mDisposeCacheMap.get(object).put(tProtocolClass, ((Disposable) proxyProtocolImpl));
-                        return (T) proxyProtocolImpl;
-                    }
+                    return initCacheMapAndPut(host, tProtocolClass, protocol);
                 }
             }
 
@@ -166,35 +155,46 @@ public class ComManager {
         }
     }
 
-    public void unBind(Object object) {
-        clearCacheMap(object);
+    public void unbind(Object host) {
+        clearCacheMap(host);
     }
 
+    /**
+     * 存储当前host中用到了ProxyProtocol实例列表，方便在host生命周期结束后，销毁ProxyProtocol，防止内存泄漏。销毁线程队列中的任务、销毁注册到全局的状态观察者
+     * Class的作用是复用，保证一个host内同类型协议只有一份ProxyProtocol实例
+     */
     private static final ConcurrentHashMap<Object, Map<Class, Disposable>> mDisposeCacheMap = new ConcurrentHashMap();
     private final ReentrantLock mReentrantLock = new ReentrantLock();
 
     /**
      * ConcurrentHashMap无法保证一组操作的原子性
      *
-     * @param object
+     * @param host
      */
-    private void initCacheMap(Object object) {
-        if (!mDisposeCacheMap.containsKey(object)) {
-            mReentrantLock.lock();
-            try {
-                if (!mDisposeCacheMap.containsKey(object)) {
-                    mDisposeCacheMap.put(object, new HashMap<Class, Disposable>());
-                }
-            } finally {
-                mReentrantLock.unlock();
+    private <T> T initCacheMapAndPut(Object host, final Class<T> tProtocolClass, Object protocol) {
+        mReentrantLock.lock();
+        try {
+
+            if (!mDisposeCacheMap.containsKey(host)) {
+                mDisposeCacheMap.put(host, new HashMap<Class, Disposable>());
             }
+
+            if (mDisposeCacheMap.get(host).containsKey(tProtocolClass)) {
+                return (T) mDisposeCacheMap.get(host).get(tProtocolClass);
+            } else {
+                Object proxyProtocolImpl = ProxyTools.create(tProtocolClass, Disposable.class, protocol);
+                mDisposeCacheMap.get(host).put(tProtocolClass, ((Disposable) proxyProtocolImpl));
+                return (T) proxyProtocolImpl;
+            }
+        } finally {
+            mReentrantLock.unlock();
         }
     }
 
-    private void clearCacheMap(Object object) {
+    private void clearCacheMap(Object host) {
         mReentrantLock.lock();
         try {
-            Map<Class, Disposable> map = mDisposeCacheMap.remove(object);
+            Map<Class, Disposable> map = mDisposeCacheMap.remove(host);
             if (map == null) {
                 return;
             }
@@ -235,8 +235,8 @@ public class ComManager {
         return ComponentTools.getInstance().getCallback(eventInterfaceClass);
     }
 
-    public <T> T getGlobalOnlyOneCallbackReceiver(Class<T> eventInterfaceClass) {
-        return ComponentTools.getInstance().getCallback(eventInterfaceClass);
+    public <T> T getGlobalOnlyOneCallbackReceiver(Class<T> callbackInterfaceClass) {
+        return ComponentTools.getInstance().getCallback(callbackInterfaceClass);
     }
 }
 

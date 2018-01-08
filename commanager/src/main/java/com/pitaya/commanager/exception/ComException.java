@@ -6,19 +6,19 @@ package com.pitaya.commanager.exception;
  * @author Markus
  * 
  */
-public class EventBusException extends RuntimeException {
+public class ComException extends RuntimeException {
 
     private static final long serialVersionUID = -2912559384646531479L;
 
-    public EventBusException(String detailMessage) {
+    public ComException(String detailMessage) {
         super(detailMessage);
     }
 
-    public EventBusException(Throwable throwable) {
+    public ComException(Throwable throwable) {
         super(throwable);
     }
 
-    public EventBusException(String detailMessage, Throwable throwable) {
+    public ComException(String detailMessage, Throwable throwable) {
         super(detailMessage, throwable);
     }
 

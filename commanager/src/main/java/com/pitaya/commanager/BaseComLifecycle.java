@@ -5,7 +5,6 @@ import android.support.annotation.UiThread;
 import android.text.TextUtils;
 
 import com.pitaya.comannotation.ProtocolName;
-import com.pitaya.commanager.proxy.ProxyTools;
 
 /**
  * Created by Smarking on 17/12/11.
@@ -28,7 +27,9 @@ public abstract class BaseComLifecycle implements ComLifecycle {
 
     @Override
     public void unInstall() {
+        //TODO 干掉当前组件相关缓存
         onUnInstall();
+
         mApplication = null;
         isAlive = false;
     }
