@@ -1,9 +1,4 @@
-if (isRunAlone == 'true') {
-    apply plugin: 'com.android.application'
-} else {
-    apply plugin: 'com.android.library'
-}
-
+apply plugin: 'com.pitaya.component'
 apply plugin: 'com.jakewharton.butterknife'
 
 android {
@@ -31,21 +26,6 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-    }
-}
-
-
-if (isRunAlone == 'true') {
-    println 'vippay component' + isRunAlone
-    project.android.sourceSets {
-        main {
-            manifest.srcFile 'src/main/runalone/AndroidManifest.xml'
-            java.srcDirs = ['src/main/java', 'src/main/runalone/java']
-            res.srcDirs = ['src/main/res', 'src/main/runalone/res']
-        }
-    }
-    project.android.defaultConfig {
-        applicationId "com.pitaya.vippay"
     }
 }
 

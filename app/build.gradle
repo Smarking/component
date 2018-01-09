@@ -1,4 +1,4 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.pitaya.component'
 
 android {
     compileSdkVersion versions.compileSdkVersion
@@ -41,10 +41,5 @@ android {
         compile project(':baselib')
         compile project(':commanager')
         compile project(':comprotocol')
-
-        compile project(':vippay')
-        compile project(':checkout')
-        compile project(':printer')
-
     }
 }

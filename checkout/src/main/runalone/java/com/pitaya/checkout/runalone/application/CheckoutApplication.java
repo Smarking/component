@@ -1,14 +1,28 @@
 package com.pitaya.checkout.runalone.application;
 
-import android.app.Application;
+import com.pitaya.baselib.BaseApplication;
+import com.pitaya.commanager.ComManager;
+import com.pitaya.comprotocol.checkout.CheckoutComProtocol;
+import com.pitaya.comprotocol.printer.bean.PrinterComProtocol;
+import com.pitaya.comprotocol.vippay.VipPayComProtocol;
 
-public class CheckoutApplication extends Application {
+public class CheckoutApplication extends BaseApplication {
 
     @Override
-    public void onCreate() {
-        super.onCreate();
-        //如果isRegisterCompoAuto为false，则需要通过反射加载组件
-//        Router.registerComponent("com.mrzhang.share.applike.ShareApplike");
+    protected void notifyUserCenterChanged() {
+        ComManager.getInstance().notifyBuildConfigChanged();
+    }
+
+    @Override
+    protected void notifyBuildConfigChanged() {
+        ComManager.getInstance().notifyUserCenterChanged();
+    }
+
+    @Override
+    protected void initComponent() {
+        ComManager.getInstance().installComponent(this, PrinterComProtocol.ComponentName);
+        ComManager.getInstance().installComponent(this, VipPayComProtocol.ComponentName);
+        ComManager.getInstance().installComponent(this, CheckoutComProtocol.ComponentName);
     }
 
 }

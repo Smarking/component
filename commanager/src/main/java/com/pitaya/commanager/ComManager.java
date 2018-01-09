@@ -43,6 +43,17 @@ public class ComManager {
         return mInstance;
     }
 
+    public ComLifecycle installComponent(Application application, @NonNull String componentClassName, boolean isComponentBuildConfig, boolean isComponentUserInfo) {
+        ComLifecycle comLifecycle = ComManager.getInstance().installComponent(application, componentClassName);
+        if (isComponentBuildConfig) {
+            comLifecycle.onBuildConfigChanged();
+        }
+        if (isComponentUserInfo) {
+            comLifecycle.onUserCenterChanged();
+        }
+        return comLifecycle;
+    }
+
     /**
      * 安装组件
      *

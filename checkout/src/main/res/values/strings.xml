@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">pitaya_checkout</string>
+    <string name="checkout_app_name">pitaya_checkout</string>
     <string name="checkout_info_takeout">from checkout subProject</string>
 
     <string name="checkout_paytype_cash">现金</string>

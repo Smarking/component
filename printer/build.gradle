@@ -1,11 +1,4 @@
-if (isRunAlone == 'true') {
-    apply plugin: 'com.android.application'
-    println("takeoutPlugin application")
-} else {
-    apply plugin: 'com.android.library'
-    println("takeoutPlugin library")
-}
-
+apply plugin: 'com.pitaya.component'
 
 android {
     compileSdkVersion versions.compileSdkVersion
@@ -29,19 +22,19 @@ android {
 }
 
 
-
-if (isRunAlone == 'true') {
-    project.android.sourceSets {
-        main {
-            manifest.srcFile 'src/main/runalone/AndroidManifest.xml'
-            java.srcDirs = ['src/main/java', 'src/main/runalone/java']
-            res.srcDirs = ['src/main/res', 'src/main/runalone/res']
-        }
-    }
-    project.android.defaultConfig {
-        applicationId "com.pitaya.printer"
-    }
-}
+//
+//if (isRunAlone == 'true') {
+//    project.android.sourceSets {
+//        main {
+//            manifest.srcFile 'src/main/runalone/AndroidManifest.xml'
+//            java.srcDirs = ['src/main/java', 'src/main/runalone/java']
+//            res.srcDirs = ['src/main/res', 'src/main/runalone/res']
+//        }
+//    }
+//    project.android.defaultConfig {
+//        applicationId "com.pitaya.printer"
+//    }
+//}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -54,4 +47,5 @@ dependencies {
 
     compile project(path: deps.comprotocol)
     compile project(path: deps.commanager)
+    compile project(path: deps.baselib)
 }

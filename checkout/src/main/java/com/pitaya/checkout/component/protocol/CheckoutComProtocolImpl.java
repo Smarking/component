@@ -48,7 +48,7 @@ public class CheckoutComProtocolImpl extends AbsProtocol implements CheckoutComP
 
         try {
             //TODO 模拟耗时任务，存在内存泄漏
-            Thread.sleep(3000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
 
         }

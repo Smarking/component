@@ -1,11 +1,4 @@
-assert isRunAlone instanceof String
-
-if (isRunAlone == 'true') {
-    apply plugin: 'com.android.application'
-} else {
-    apply plugin: 'com.android.library'
-}
-
+apply plugin: 'com.pitaya.component'
 apply plugin: 'com.jakewharton.butterknife'
 
 android {
@@ -28,18 +21,7 @@ android {
     resourcePrefix "checkout_"
 }
 
-if (isRunAlone == 'true') {
-    project.android.sourceSets {
-        main {
-            manifest.srcFile 'src/main/runalone/AndroidManifest.xml'
-            java.srcDirs = ['src/main/java', 'src/main/runalone/java']
-            res.srcDirs = ['src/main/res', 'src/main/runalone/res']
-        }
-    }
-    project.android.defaultConfig {
-        applicationId "com.pitaya.checkout"
-    }
-}
+//applicationId "com.pitaya.checkout"
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -49,7 +31,6 @@ dependencies {
 
     compile deps.support.appcompatV7
     testCompile deps.unit.junit
-    compile project(path: deps.baselib)
     compile deps.butterknife
     annotationProcessor deps.butterknifeCompiler
 
