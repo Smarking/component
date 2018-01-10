@@ -51,8 +51,8 @@ public class HandlerPoster extends Handler implements Poster {
 
     @Override
     public void onDestroy() {
-        //TODO 防止内存泄漏 及时清理
         queue.clear();
+        threadProxyHandler = null;
     }
 
     @Override
@@ -73,7 +73,9 @@ public class HandlerPoster extends Handler implements Poster {
                     }
                 }
 
-                threadProxyHandler.innerInvoke(pendingPost.method, pendingPost.target, pendingPost.args);
+                if (threadProxyHandler != null) {
+                    threadProxyHandler.innerInvoke(pendingPost.method, pendingPost.target, pendingPost.args);
+                }
                 MethodPendingPost.releasePendingPost(pendingPost);
 
                 long timeInMethod = SystemClock.uptimeMillis() - started;

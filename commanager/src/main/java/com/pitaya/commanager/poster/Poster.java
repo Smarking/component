@@ -26,5 +26,8 @@ public interface Poster {
      */
     void enqueue(MethodPendingPost pendingPost);
 
+    /**
+     * 防止内存泄漏 及时清理 对外部的引用
+     */
     void onDestroy();
 }

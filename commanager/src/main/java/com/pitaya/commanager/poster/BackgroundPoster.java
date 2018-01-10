@@ -50,6 +50,7 @@ public final class BackgroundPoster implements Runnable, Poster {
     @Override
     public void onDestroy() {
         queue.clear();
+        threadProxyHandler = null;
     }
 
     @Override
@@ -68,7 +69,9 @@ public final class BackgroundPoster implements Runnable, Poster {
                             }
                         }
                     }
-                    threadProxyHandler.innerInvoke(pendingPost.method, pendingPost.target, pendingPost.args);
+                    if (threadProxyHandler != null) {
+                        threadProxyHandler.innerInvoke(pendingPost.method, pendingPost.target, pendingPost.args);
+                    }
                     MethodPendingPost.releasePendingPost(pendingPost);
                 }
             } catch (InterruptedException e) {

@@ -41,6 +41,7 @@ public class AsyncPoster implements Runnable, Poster {
     @Override
     public void onDestroy() {
         queue.clear();
+        threadProxyHandler = null;
     }
 
     @Override
@@ -49,8 +50,9 @@ public class AsyncPoster implements Runnable, Poster {
         if (pendingPost == null) {
             return;
         }
-
-        threadProxyHandler.innerInvoke(pendingPost.method, pendingPost.target, pendingPost.args);
+        if (threadProxyHandler != null) {
+            threadProxyHandler.innerInvoke(pendingPost.method, pendingPost.target, pendingPost.args);
+        }
         MethodPendingPost.releasePendingPost(pendingPost);
     }
 }
