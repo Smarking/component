@@ -37,7 +37,7 @@ public final class BackgroundPoster implements Runnable, Poster {
         queue = new PendingPostQueue();
     }
 
-    public void enqueue(PendingPost pendingPost) {
+    public void enqueue(MethodPendingPost pendingPost) {
         synchronized (this) {
             queue.enqueue(pendingPost);
             if (!executorRunning) {
@@ -57,7 +57,7 @@ public final class BackgroundPoster implements Runnable, Poster {
         try {
             try {
                 while (true) {
-                    PendingPost pendingPost = queue.poll(1000);
+                    MethodPendingPost pendingPost = queue.poll(1000);
                     if (pendingPost == null) {
                         synchronized (this) {
                             // Check again, this time in synchronized
@@ -69,7 +69,7 @@ public final class BackgroundPoster implements Runnable, Poster {
                         }
                     }
                     threadProxyHandler.innerInvoke(pendingPost.method, pendingPost.target, pendingPost.args);
-                    PendingPost.releasePendingPost(pendingPost);
+                    MethodPendingPost.releasePendingPost(pendingPost);
                 }
             } catch (InterruptedException e) {
                 ELog.e(TAG, Thread.currentThread().getName() + " was interruppted", e);

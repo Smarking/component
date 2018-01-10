@@ -19,26 +19,26 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class PendingPost {
-    private final static List<PendingPost> pendingPostPool = new ArrayList<PendingPost>();
+public final class MethodPendingPost {
+    private final static List<MethodPendingPost> pendingPostPool = new ArrayList<MethodPendingPost>();
 
     public Method method;
     public Object target;
     public Object[] args;
 
-    PendingPost next;
+    MethodPendingPost next;
 
-    private PendingPost(Method method, Object target, Object[] args) {
+    private MethodPendingPost(Method method, Object target, Object[] args) {
         this.method = method;
         this.target = target;
         this.args = args;
     }
 
-    public static PendingPost obtainPendingPost(Method method, Object target, Object[] args) {
+    public static MethodPendingPost obtainPendingPost(Method method, Object target, Object[] args) {
         synchronized (pendingPostPool) {
             int size = pendingPostPool.size();
             if (size > 0) {
-                PendingPost pendingPost = pendingPostPool.remove(size - 1);
+                MethodPendingPost pendingPost = pendingPostPool.remove(size - 1);
                 pendingPost.method = method;
                 pendingPost.target = target;
                 pendingPost.args = args;
@@ -46,10 +46,10 @@ public final class PendingPost {
                 return pendingPost;
             }
         }
-        return new PendingPost(method, target, args);
+        return new MethodPendingPost(method, target, args);
     }
 
-    public static void releasePendingPost(PendingPost pendingPost) {
+    public static void releasePendingPost(MethodPendingPost pendingPost) {
         if (pendingPost == null) {
             return;
         }
@@ -59,7 +59,7 @@ public final class PendingPost {
         pendingPost.next = null;
         synchronized (pendingPostPool) {
             // Don't let the pool grow indefinitely
-            if (pendingPostPool.size() < 10000) {
+            if (pendingPostPool.size() < 1000) {
                 pendingPostPool.add(pendingPost);
             }
         }

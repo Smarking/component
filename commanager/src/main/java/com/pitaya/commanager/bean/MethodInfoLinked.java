@@ -2,25 +2,25 @@ package com.pitaya.commanager.bean;
 
 import java.lang.reflect.Method;
 
-public class MethodInfo {
+public class MethodInfoLinked {
     public Method method;
     public Object target;
     public Object[] args;
     /*package*/ int flags;
 
-    /*package*/ MethodInfo next;
+    /*package*/ MethodInfoLinked next;
     private static final Object sPoolSync = new Object();
-    private static MethodInfo sPool;
+    private static MethodInfoLinked sPool;
     private static volatile int sPoolSize = 0;
     private static final int MAX_POOL_SIZE = 50;
 
-    private MethodInfo() {
+    private MethodInfoLinked() {
     }
 
-    public static MethodInfo obtain() {
+    public static MethodInfoLinked obtain() {
         synchronized (sPoolSync) {
             if (sPool != null) {
-                MethodInfo m = sPool;
+                MethodInfoLinked m = sPool;
                 sPool = m.next;
                 m.next = null;
                 m.flags = 0; // clear in-use flag
@@ -28,11 +28,11 @@ public class MethodInfo {
                 return m;
             }
         }
-        return new MethodInfo();
+        return new MethodInfoLinked();
     }
 
-    public static MethodInfo obtain(Method method, Object target, Object[] args) {
-        MethodInfo m = obtain();
+    public static MethodInfoLinked obtain(Method method, Object target, Object[] args) {
+        MethodInfoLinked m = obtain();
         m.method = method;
         m.target = target;
         m.args = args;

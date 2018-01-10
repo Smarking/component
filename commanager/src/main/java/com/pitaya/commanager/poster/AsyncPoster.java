@@ -33,7 +33,7 @@ public class AsyncPoster implements Runnable, Poster {
         queue = new PendingPostQueue();
     }
 
-    public void enqueue(PendingPost pendingPost) {
+    public void enqueue(MethodPendingPost pendingPost) {
         queue.enqueue(pendingPost);
         ThreadProxyHandler.DefaultBackgroundThreadPool.execute(this);
     }
@@ -45,12 +45,12 @@ public class AsyncPoster implements Runnable, Poster {
 
     @Override
     public void run() {
-        PendingPost pendingPost = queue.poll();
+        MethodPendingPost pendingPost = queue.poll();
         if (pendingPost == null) {
             return;
         }
 
         threadProxyHandler.innerInvoke(pendingPost.method, pendingPost.target, pendingPost.args);
-        PendingPost.releasePendingPost(pendingPost);
+        MethodPendingPost.releasePendingPost(pendingPost);
     }
 }

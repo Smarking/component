@@ -37,7 +37,7 @@ public class HandlerPoster extends Handler implements Poster {
         queue = new PendingPostQueue();
     }
 
-    public void enqueue(PendingPost pendingPost) {
+    public void enqueue(MethodPendingPost pendingPost) {
         synchronized (this) {
             queue.enqueue(pendingPost);
             if (!handlerActive) {
@@ -61,7 +61,7 @@ public class HandlerPoster extends Handler implements Poster {
         try {
             long started = SystemClock.uptimeMillis();
             while (true) {
-                PendingPost pendingPost = queue.poll();
+                MethodPendingPost pendingPost = queue.poll();
                 if (pendingPost == null) {
                     synchronized (this) {
                         // Check again, this time in synchronized
@@ -74,7 +74,7 @@ public class HandlerPoster extends Handler implements Poster {
                 }
 
                 threadProxyHandler.innerInvoke(pendingPost.method, pendingPost.target, pendingPost.args);
-                PendingPost.releasePendingPost(pendingPost);
+                MethodPendingPost.releasePendingPost(pendingPost);
 
                 long timeInMethod = SystemClock.uptimeMillis() - started;
                 if (timeInMethod >= maxMillisInsideHandleMessage) {

@@ -24,7 +24,7 @@ public interface Poster {
     /**
      * Enqueue an event to be posted for a particular subscription.
      */
-    void enqueue(PendingPost pendingPost);
+    void enqueue(MethodPendingPost pendingPost);
 
     void onDestroy();
 }

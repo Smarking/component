@@ -17,15 +17,15 @@
 package com.pitaya.commanager.poster;
 
 public final class PendingPostQueue {
-    private PendingPost head;
-    private PendingPost tail;
+    private MethodPendingPost head;
+    private MethodPendingPost tail;
 
     private volatile boolean isAlive = true;
 
     synchronized void clear() {
         isAlive = false;
-        for (PendingPost temp = null; head != null; head = head.next) {
-            PendingPost.releasePendingPost(temp);
+        for (MethodPendingPost temp = null; head != null; head = head.next) {
+            MethodPendingPost.releasePendingPost(temp);
             temp = head;
         }
         head = tail = null;
@@ -33,7 +33,7 @@ public final class PendingPostQueue {
         //TODO clear
     }
 
-    synchronized void enqueue(PendingPost pendingPost) {
+    synchronized void enqueue(MethodPendingPost pendingPost) {
         if (!isAlive) {
             return;
         }
@@ -52,12 +52,12 @@ public final class PendingPostQueue {
         notifyAll();
     }
 
-    synchronized PendingPost poll() {
+    synchronized MethodPendingPost poll() {
         if (!isAlive) {
             return null;
         }
 
-        PendingPost pendingPost = head;
+        MethodPendingPost pendingPost = head;
         if (head != null) {
             head = head.next;
             if (head == null) {
@@ -67,7 +67,7 @@ public final class PendingPostQueue {
         return pendingPost;
     }
 
-    synchronized PendingPost poll(int maxMillisToWait) throws InterruptedException {
+    synchronized MethodPendingPost poll(int maxMillisToWait) throws InterruptedException {
         if (!isAlive) {
             return null;
         }

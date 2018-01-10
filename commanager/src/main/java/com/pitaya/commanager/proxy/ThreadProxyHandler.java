@@ -11,7 +11,7 @@ import com.pitaya.commanager.poster.AsyncPoster;
 import com.pitaya.commanager.poster.BackgroundPoster;
 import com.pitaya.commanager.poster.HandlerPoster;
 import com.pitaya.commanager.poster.MainThreadSupport;
-import com.pitaya.commanager.poster.PendingPost;
+import com.pitaya.commanager.poster.MethodPendingPost;
 import com.pitaya.commanager.tools.ComponentTools;
 import com.pitaya.commanager.tools.ELog;
 
@@ -31,11 +31,11 @@ import java.util.concurrent.TimeUnit;
 /**
  * 动态代理支持线程切换
  */
-public class ThreadProxyHandler implements InvocationHandler {
+public class ThreadProxyHandler implements InvocationHandler, Disposable {
 
     private static final String TAG = "ThreadProxyHandler";
-    private static final Method OBJECT_EQUALS = getObjectMethod(Object.class, "equals", Object.class);
-    private static final Method DISPOSE_unRegister = getObjectMethod(Disposable.class, "dispose");
+    private static final Method OBJECT_equals = getObjectMethod(Object.class, "equals", Object.class);
+    private static final Method DISPOSABLE_dispose = getObjectMethod(Disposable.class, "dispose");
 
     private static Method getObjectMethod(Class target, String name, Class... types) {
         try {
@@ -94,10 +94,10 @@ public class ThreadProxyHandler implements InvocationHandler {
         //提前解析 当前类
     }
 
-    /**
-     * 销毁
-     */
-    public void onDestroy() {
+    private List<WeakReference<Proxy>> mCallbackList = new ArrayList<>();
+
+    @Override
+    public void dispose() {
         mainThreadPoster.onDestroy();
         backgroundPoster.onDestroy();
         asyncPoster.onDestroy();
@@ -114,36 +114,37 @@ public class ThreadProxyHandler implements InvocationHandler {
             if (unbinder != null) {
                 unbinder.unbind();
             }
-            ThreadProxyHandler handler = (ThreadProxyHandler) Proxy.getInvocationHandler(proxy);
-            handler.onDestroy();
+            Disposable handler = (Disposable) Proxy.getInvocationHandler(proxy);
+            handler.dispose();
         }
     }
 
-    private List<WeakReference<Proxy>> mCallbackList = new ArrayList<>();
+    private boolean isDefaultMethod(Method method) {
+        return method.getDeclaringClass() == Disposable.class;
+    }
+
+    private Object invokeDefaultMethod(Method method) {
+        if (method.equals(DISPOSABLE_dispose)) {
+            dispose();
+        }
+        return null;
+    }
 
     @Override
     public Object invoke(Object proxy, final Method method, Object... args)
             throws Throwable {
         // If the method is a method from Object then defer to normal invocation.
         if (method.getDeclaringClass() == Object.class) {
-            if (method.equals(OBJECT_EQUALS)) {
+            if (method.equals(OBJECT_equals)) {
                 return equalsInternal(proxy, args[0]);
             }
             return method.invoke(this, args);
         }
 
-        //如果来自AbsProtocol的方法，则立即执行
-        if (method.getDeclaringClass() == Disposable.class) {
-            ELog.e("zxx", method.getName());
-            if (method.equals(DISPOSE_unRegister)) {
-                onDestroy();
-                return null;
-            }
-        }
-
-        if (unRegister(method)) {
-            target = null;
-            return null;
+        //拦截，立即执行处理
+        if (isDefaultMethod(method)) {
+            ELog.e(TAG, interfaceName + " invoke DefaultMethod:" + method.getName());
+            return invokeDefaultMethod(method);
         }
 
         if (target == null) {
@@ -189,20 +190,20 @@ public class ThreadProxyHandler implements InvocationHandler {
             if (isMainThread) {
                 return innerInvoke(method, target, reallyArgs);
             }
-            mainThreadPoster.enqueue(PendingPost.obtainPendingPost(method, target, reallyArgs));
+            mainThreadPoster.enqueue(MethodPendingPost.obtainPendingPost(method, target, reallyArgs));
             return null;
         }
 
         //异步主线程
         if (thread.threadMode().equals(ThreadMode.MAIN_ORDERED)) {
-            mainThreadPoster.enqueue(PendingPost.obtainPendingPost(method, target, reallyArgs));
+            mainThreadPoster.enqueue(MethodPendingPost.obtainPendingPost(method, target, reallyArgs));
             return null;
         }
 
         //后台线程
         if (thread.threadMode().equals(ThreadMode.BACKGROUND)) {
             if (isMainThread) {
-                backgroundPoster.enqueue(PendingPost.obtainPendingPost(method, target, reallyArgs));
+                backgroundPoster.enqueue(MethodPendingPost.obtainPendingPost(method, target, reallyArgs));
                 return null;
             }
             return innerInvoke(method, target, reallyArgs);
@@ -210,7 +211,7 @@ public class ThreadProxyHandler implements InvocationHandler {
 
         //异步
         if (thread.threadMode().equals(ThreadMode.ASYNC)) {
-            asyncPoster.enqueue(PendingPost.obtainPendingPost(method, target, reallyArgs));
+            asyncPoster.enqueue(MethodPendingPost.obtainPendingPost(method, target, reallyArgs));
             return null;
         }
 
@@ -235,32 +236,5 @@ public class ThreadProxyHandler implements InvocationHandler {
         }
         return null;
     }
-
-    private boolean unRegister(Method method) {
-        return false;
-    }
-
 }
-
-
-//    /**
-//     * 5个核心线程，阻塞队列最大容量20个，MAX_VALUE个最大线程数。根据业务类型可调优
-//     */
-//    private final static Executor mBackgroundThreadPool = new ThreadPoolExecutor(5, Integer.MAX_VALUE,
-//            60L, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(20));
-//TODO 可以借鉴Eventbus mMainHandler.sendEmptyMessage() 这样的话有内存泄漏，最好的做法是，sendEmptyMessage通知。但是不传递有效内容
-//    private static Handler mMainHandler = new Handler(Looper.getMainLooper()) {
-//        @Override
-//        public void handleMessage(Message msg) {
-//            super.handleMessage(msg);
-//            MethodInfo methodInfo = (MethodInfo) msg.obj;
-//            try {
-//                methodInfo.method.innerInvoke(methodInfo.target, methodInfo.args);
-//            } catch (IllegalAccessException e) {
-//                e.printStackTrace();
-//            } catch (InvocationTargetException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    };
 
