@@ -4,7 +4,7 @@ import android.app.Application;
 import android.support.annotation.UiThread;
 import android.text.TextUtils;
 
-import com.pitaya.comannotation.ProtocolName;
+import com.pitaya.comannotation.annotation.ProtocolName;
 
 /**
  * Created by Smarking on 17/12/11.

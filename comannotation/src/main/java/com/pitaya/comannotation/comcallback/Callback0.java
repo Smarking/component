@@ -1,4 +1,4 @@
-package com.pitaya.comcallback;
+package com.pitaya.comannotation.comcallback;
 
 /**
  * From Rxjava

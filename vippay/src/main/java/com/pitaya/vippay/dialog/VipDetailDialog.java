@@ -21,7 +21,7 @@ import android.widget.Toast;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.pitaya.baselib.network.ApiFactory;
 import com.pitaya.baselib.network.ApiResponse;
-import com.pitaya.comcallback.Callback1;
+import com.pitaya.comannotation.comcallback.Callback1;
 import com.pitaya.commanager.ComManager;
 import com.pitaya.comprotocol.checkout.CheckoutComProtocol;
 import com.pitaya.comprotocol.checkout.bean.Order;

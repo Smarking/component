@@ -1,6 +1,6 @@
 package com.pitaya.commanager.bean;
 
-import com.pitaya.comannotation.Subscribe;
+import com.pitaya.comannotation.annotation.Subscribe;
 
 public class ParameterThreadModeInfo {
     public int index;

@@ -1,4 +1,4 @@
-package com.pitaya.comannotation;
+package com.pitaya.comannotation.annotation;
 
 
 /**

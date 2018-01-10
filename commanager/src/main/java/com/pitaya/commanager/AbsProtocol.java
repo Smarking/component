@@ -1,6 +1,6 @@
 package com.pitaya.commanager;
 
-import com.pitaya.comannotation.Unbinder;
+import com.pitaya.comannotation.annotation.Unbinder;
 import com.pitaya.commanager.tools.ComponentTools;
 import com.pitaya.commanager.tools.ELog;
 

@@ -1,6 +1,6 @@
 package com.pitaya.commanager.proxy;
 
-import com.pitaya.comannotation.Subscribe;
+import com.pitaya.comannotation.annotation.Subscribe;
 import com.pitaya.commanager.bean.ParameterThreadModeInfo;
 import com.pitaya.commanager.tools.ELog;
 

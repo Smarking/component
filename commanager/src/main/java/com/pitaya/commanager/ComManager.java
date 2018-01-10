@@ -4,7 +4,7 @@ import android.app.Application;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.pitaya.comannotation.ProtocolName;
+import com.pitaya.comannotation.annotation.ProtocolName;
 import com.pitaya.commanager.exception.ComException;
 import com.pitaya.commanager.proxy.ProxyTools;
 import com.pitaya.commanager.tools.ComponentTools;

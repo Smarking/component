@@ -3,7 +3,7 @@ package com.pitaya.checkout.component.protocol;
 import android.content.Context;
 
 import com.pitaya.checkout.CheckoutActivity;
-import com.pitaya.comcallback.Callback1;
+import com.pitaya.comannotation.comcallback.Callback1;
 import com.pitaya.commanager.AbsProtocol;
 import com.pitaya.comprotocol.checkout.CheckoutComProtocol;
 import com.pitaya.comprotocol.checkout.bean.Order;

@@ -89,7 +89,6 @@
 
 # 组件
 -keep class com.pitaya.comannotation.**{*;}
--keep class com.pitaya.comcallback.**{*;}
 -keep class com.pitaya.commanager.**{*;}
 -keep class com.pitaya.comprotocol.**{*;}
 

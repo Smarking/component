@@ -1,6 +1,6 @@
 package com.pitaya.comprotocol.printer.bean;
 
-import com.pitaya.comannotation.ProtocolName;
+import com.pitaya.comannotation.annotation.ProtocolName;
 
 /**
  * Created by Smarking on 17/12/10.

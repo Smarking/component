@@ -1,6 +1,6 @@
 package com.pitaya.commanager.proxy;
 
-import com.pitaya.comannotation.Subscribe;
+import com.pitaya.comannotation.annotation.Subscribe;
 
 import java.lang.reflect.Proxy;
 

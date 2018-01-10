@@ -3,10 +3,10 @@ package com.pitaya.comprotocol.vippay;
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 
-import com.pitaya.comannotation.ProtocolName;
-import com.pitaya.comannotation.Subscribe;
-import com.pitaya.comannotation.ThreadMode;
-import com.pitaya.comcallback.Callback1;
+import com.pitaya.comannotation.annotation.ProtocolName;
+import com.pitaya.comannotation.annotation.Subscribe;
+import com.pitaya.comannotation.annotation.ThreadMode;
+import com.pitaya.comannotation.comcallback.Callback1;
 import com.pitaya.comprotocol.checkout.bean.Order;
 import com.pitaya.comprotocol.vippay.bean.Coupon;
 import com.pitaya.comprotocol.vippay.bean.VipUserInfo;

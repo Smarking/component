@@ -1,4 +1,4 @@
-package com.pitaya.comannotation;
+package com.pitaya.comannotation.annotation;
 
 /**
  * From Eventbus3.1.1

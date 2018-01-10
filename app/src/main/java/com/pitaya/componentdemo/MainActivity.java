@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.pitaya.baselib.bean.BaseUserInfo;
-import com.pitaya.comannotation.Unbinder;
+import com.pitaya.comannotation.annotation.Unbinder;
 import com.pitaya.commanager.ComManager;
 import com.pitaya.componentdemo.application.DemoApplication;
 import com.pitaya.comprotocol.checkout.CheckoutComProtocol;

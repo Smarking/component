@@ -1,4 +1,4 @@
-package com.pitaya.comcallback;
+package com.pitaya.comannotation.comcallback;
 
 /**
  * A one-result callback.

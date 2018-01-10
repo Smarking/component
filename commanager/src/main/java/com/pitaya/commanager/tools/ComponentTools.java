@@ -2,7 +2,7 @@ package com.pitaya.commanager.tools;
 
 import android.support.annotation.Nullable;
 
-import com.pitaya.comannotation.Unbinder;
+import com.pitaya.comannotation.annotation.Unbinder;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

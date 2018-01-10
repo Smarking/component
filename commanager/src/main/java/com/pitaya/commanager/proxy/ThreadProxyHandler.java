@@ -3,9 +3,9 @@ package com.pitaya.commanager.proxy;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 
-import com.pitaya.comannotation.Subscribe;
-import com.pitaya.comannotation.ThreadMode;
-import com.pitaya.comannotation.Unbinder;
+import com.pitaya.comannotation.annotation.Subscribe;
+import com.pitaya.comannotation.annotation.ThreadMode;
+import com.pitaya.comannotation.annotation.Unbinder;
 import com.pitaya.commanager.Disposable;
 import com.pitaya.commanager.poster.AsyncPoster;
 import com.pitaya.commanager.poster.BackgroundPoster;
