@@ -5,6 +5,7 @@ import com.pitaya.comannotation.Subscribe;
 public class ParameterThreadModeInfo {
     public int index;
     public boolean isFromParameterAnnotation = false;
+    //isFromParameterAnnotation为Ture时 才生效
     public Subscribe threadMode;
     public Class<?> parameterClass;
 

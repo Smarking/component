@@ -4,6 +4,7 @@ import com.pitaya.comannotation.Unbinder;
 import com.pitaya.commanager.tools.ComponentTools;
 import com.pitaya.commanager.tools.ELog;
 
+import java.lang.reflect.Proxy;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -53,24 +54,32 @@ public abstract class AbsProtocol {
     /**
      * 设置全局callback，只有一份
      *
-     * @param callback
+     * @param proxyCallback
      */
-    public final void registerGlobalOnlyOneCallback(Object callback) {
-        Class interfaceClass = ComponentTools.getInterfaceClass(callback);
+    public final void registerGlobalOnlyOneCallback(Object proxyCallback) {
+        if (!(proxyCallback instanceof Proxy)) {
+            throw new IllegalArgumentException(proxyCallback.getClass() + " is not Proxy.class, Please use Annotation Subscribe");
+        }
+
+        Class interfaceClass = ComponentTools.getInterfaceClass(proxyCallback);
 
         Unbinder unbinder = mUnBinderCacheMap.remove(interfaceClass);
         if (unbinder != null) {
             unbinder.unbind();
         }
-        unbinder = ComponentTools.getInstance().registerEventReceiver(callback);
+        unbinder = ComponentTools.getInstance().registerEventReceiver(proxyCallback);
         mUnBinderCacheMap.put(interfaceClass, unbinder);
     }
 
-    public final boolean registerEventReceiver(Object eventReceiver) {
-        if (!isRegisteredEvent(eventReceiver)) {
+    public final boolean registerEventReceiver(Object proxyEventReceiver) {
+        if (!(proxyEventReceiver instanceof Proxy)) {
+            throw new IllegalArgumentException(proxyEventReceiver.getClass() + " is not Proxy.class, Please use Annotation Subscribe");
+        }
+
+        if (!isRegisteredEvent(proxyEventReceiver)) {
             return false;
         }
-        ComponentTools.getInstance().registerEventReceiver(eventReceiver);
+        ComponentTools.getInstance().registerEventReceiver(proxyEventReceiver);
         return true;
     }
 }

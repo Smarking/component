@@ -52,4 +52,15 @@ public class ComProtocolCenter {
             mWriteLock.unlock();
         }
     }
+
+    public void removeAllProtocol() {
+        mWriteLock.lock();
+        try {
+            mProtocols.clear();
+        } finally {
+            mWriteLock.unlock();
+        }
+    }
+
+
 }

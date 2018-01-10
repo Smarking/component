@@ -29,7 +29,7 @@ public abstract class BaseComLifecycle implements ComLifecycle {
     public void unInstall() {
         //TODO 干掉当前组件相关缓存
         onUnInstall();
-
+        mProtocolCenter.removeAllProtocol();
         mApplication = null;
         isAlive = false;
     }
@@ -74,8 +74,6 @@ public abstract class BaseComLifecycle implements ComLifecycle {
         }
 
         String protocolName = annotation.value();
-//        Object proxyProtocolImpl = ProxyTools.create(interfaces[0], Disposable.class, protocolImpl);
-//        mProtocolCenter.addProtocol(protocolName, proxyProtocolImpl);
         mProtocolCenter.addProtocol(protocolName, protocolImpl);
     }
 

@@ -6,6 +6,7 @@ package com.pitaya.commanager;
 
 public interface Disposable {
     /**
+     * destroy 防止内存泄漏
      * Dispose the resource, the operation should be idempotent.
      */
     void dispose();

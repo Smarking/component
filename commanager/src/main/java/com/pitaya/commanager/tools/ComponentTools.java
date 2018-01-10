@@ -3,7 +3,6 @@ package com.pitaya.commanager.tools;
 import android.support.annotation.Nullable;
 
 import com.pitaya.comannotation.Unbinder;
-import com.pitaya.commanager.proxy.ProxyTools;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -63,14 +62,22 @@ public class ComponentTools {
         return mUnBinderCacheMap;
     }
 
-    public Unbinder registerEventReceiver(Object interfaceInstance) {
-        Class<?> interfaceClass = getInterfaceClass(interfaceInstance);
-        if (!(interfaceInstance instanceof Proxy)) {
-            interfaceInstance = ProxyTools.create(interfaceClass, interfaceInstance);
+    /**
+     * 必须是通过ProcessArgsTools.processArgs转化而来的Proxy，否则存在内存泄漏，
+     * 因为ThreadProxyHandler.invoke中只能收集到转化为Proxy的入参，未收集到的如果加入mUnBinderCacheMap则无法释放，
+     * 引起进程级别的内存泄漏
+     *
+     * @param proxyInstance
+     * @return
+     */
+    public Unbinder registerEventReceiver(Object proxyInstance) {
+        Class<?> interfaceClass = getInterfaceClass(proxyInstance);
+        if (!(proxyInstance instanceof Proxy)) {
+            throw new IllegalArgumentException(proxyInstance.getClass() + " is not Proxy.class, Please use Annotation Subscribe");
         }
-        Unbinder unbinder = registerEventReceiver(interfaceClass, interfaceInstance);
+        Unbinder unbinder = registerEventReceiver(interfaceClass, proxyInstance);
 
-        mUnBinderCacheMap.put(interfaceInstance, unbinder);
+        mUnBinderCacheMap.put(proxyInstance, unbinder);
         return unbinder;
     }
 

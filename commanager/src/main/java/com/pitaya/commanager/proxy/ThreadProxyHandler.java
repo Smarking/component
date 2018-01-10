@@ -94,6 +94,7 @@ public class ThreadProxyHandler implements InvocationHandler, Disposable {
         //提前解析 当前类
     }
 
+    //根据保存参数类型生成的ProxyCallback，移除target，防止内存泄漏
     private List<WeakReference<Proxy>> mCallbackList = new ArrayList<>();
 
     @Override
