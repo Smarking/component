@@ -94,12 +94,3 @@
 
 -keep public class * extends com.pitaya.commanager.ComLifecycle
 -keep public class * extends com.pitaya.commanager.AbsProtocol
-
-
-# recyclerview
--keepclasseswithmembers class * extends com.meituan.sankuai.cep.component.recyclerviewadapter.BaseViewHolder{
-      <init>(...);
-}
-
--keep class com.meituan.sankuai.cep.component.** {*;}
--keep public class * extends com.meituan.sankuai.cep.component.recyclerviewadapter.BaseQuickAdapter
