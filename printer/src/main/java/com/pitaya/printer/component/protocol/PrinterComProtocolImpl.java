@@ -3,7 +3,7 @@ package com.pitaya.printer.component.protocol;
 import android.util.Log;
 
 import com.pitaya.commanager.AbsProtocol;
-import com.pitaya.comprotocol.printer.bean.PrinterComProtocol;
+import com.pitaya.comprotocol.printer.PrinterComProtocol;
 
 /**
  * Created by Smarking on 17/12/12.

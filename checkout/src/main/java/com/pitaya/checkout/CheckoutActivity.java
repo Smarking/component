@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.pitaya.commanager.ComManager;
 import com.pitaya.comprotocol.checkout.bean.Order;
-import com.pitaya.comprotocol.printer.bean.PrinterComProtocol;
+import com.pitaya.comprotocol.printer.PrinterComProtocol;
 import com.pitaya.comprotocol.vippay.VipPayComProtocol;
 import com.pitaya.comprotocol.vippay.bean.Coupon;
 import com.pitaya.comprotocol.vippay.bean.VipUserInfo;

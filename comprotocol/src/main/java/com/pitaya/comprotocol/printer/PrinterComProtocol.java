@@ -1,4 +1,4 @@
-package com.pitaya.comprotocol.printer.bean;
+package com.pitaya.comprotocol.printer;
 
 import com.pitaya.comannotation.annotation.ProtocolName;
 
