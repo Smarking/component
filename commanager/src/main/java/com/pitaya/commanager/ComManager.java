@@ -7,7 +7,7 @@ import android.text.TextUtils;
 import com.pitaya.comannotation.annotation.ProtocolName;
 import com.pitaya.commanager.exception.ComException;
 import com.pitaya.commanager.proxy.ProxyTools;
-import com.pitaya.commanager.tools.ComponentTools;
+import com.pitaya.commanager.tools.ComBroadcastTools;
 import com.pitaya.commanager.tools.ELog;
 
 import java.lang.reflect.InvocationHandler;
@@ -243,11 +243,11 @@ public class ComManager {
     }
 
     public <T> T getEventReceiver(Class<T> eventInterfaceClass) {
-        return ComponentTools.getInstance().getCallback(eventInterfaceClass);
+        return ComBroadcastTools.getInstance().getCallback(eventInterfaceClass);
     }
 
     public <T> T getGlobalOnlyOneCallbackReceiver(Class<T> callbackInterfaceClass) {
-        return ComponentTools.getInstance().getCallback(callbackInterfaceClass);
+        return ComBroadcastTools.getInstance().getCallback(callbackInterfaceClass);
     }
 }
 

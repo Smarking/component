@@ -12,7 +12,7 @@ import com.pitaya.commanager.poster.BackgroundPoster;
 import com.pitaya.commanager.poster.HandlerPoster;
 import com.pitaya.commanager.poster.MainThreadSupport;
 import com.pitaya.commanager.poster.MethodPendingPost;
-import com.pitaya.commanager.tools.ComponentTools;
+import com.pitaya.commanager.tools.ComBroadcastTools;
 import com.pitaya.commanager.tools.ELog;
 
 import java.lang.ref.WeakReference;
@@ -111,7 +111,7 @@ public class ThreadProxyHandler implements InvocationHandler, Disposable {
             if (proxy == null) {
                 continue;
             }
-            Unbinder unbinder = ComponentTools.getInstance().getUnBinderCacheMap().remove(proxy);
+            Unbinder unbinder = ComBroadcastTools.getInstance().getUnBinderCacheMap().remove(proxy);
             if (unbinder != null) {
                 unbinder.unbind();
             }

@@ -17,29 +17,29 @@ import java.util.concurrent.ConcurrentHashMap;
  * Created by Smarking on 17/12/4.
  */
 
-public class ComponentTools {
+public class ComBroadcastTools {
     //定义组件支持的广播  到这里来注册
 
-    private static String TAG = "ComponentTools";
+    private static String TAG = "ComBroadcastTools";
     private Map<Class<?>, List<?>> mTypesBySubscriber = new HashMap<>();
 
-    private static volatile ComponentTools mInstance;
+    private static volatile ComBroadcastTools mInstance;
 
-    private ComponentTools() {
+    private ComBroadcastTools() {
     }
 
-    public static ComponentTools getInstance() {
+    public static ComBroadcastTools getInstance() {
         if (mInstance == null) {
-            synchronized (ComponentTools.class) {
+            synchronized (ComBroadcastTools.class) {
                 if (mInstance == null) {
-                    mInstance = new ComponentTools();
+                    mInstance = new ComBroadcastTools();
                 }
             }
         }
         return mInstance;
     }
 
-    public static Class getInterfaceClass(Object interfaceInstance) {
+    public static Class getInterface(Object interfaceInstance) {
         Class<?>[] interfaces = interfaceInstance.getClass().getInterfaces();
 
         if (interfaces == null) {
@@ -71,7 +71,7 @@ public class ComponentTools {
      * @return
      */
     public Unbinder registerEventReceiver(Object proxyInstance) {
-        Class<?> interfaceClass = getInterfaceClass(proxyInstance);
+        Class<?> interfaceClass = getInterface(proxyInstance);
         if (!(proxyInstance instanceof Proxy)) {
             throw new IllegalArgumentException(proxyInstance.getClass() + " is not Proxy.class, Please use Annotation Subscribe");
         }

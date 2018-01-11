@@ -1,7 +1,7 @@
 package com.pitaya.commanager;
 
 import com.pitaya.comannotation.annotation.Unbinder;
-import com.pitaya.commanager.tools.ComponentTools;
+import com.pitaya.commanager.tools.ComBroadcastTools;
 import com.pitaya.commanager.tools.ELog;
 
 import java.lang.reflect.Proxy;
@@ -61,13 +61,13 @@ public abstract class AbsProtocol {
             throw new IllegalArgumentException(proxyCallback.getClass() + " is not Proxy.class, Please use Annotation Subscribe");
         }
 
-        Class interfaceClass = ComponentTools.getInterfaceClass(proxyCallback);
+        Class interfaceClass = ComBroadcastTools.getInterface(proxyCallback);
 
         Unbinder unbinder = mUnBinderCacheMap.remove(interfaceClass);
         if (unbinder != null) {
             unbinder.unbind();
         }
-        unbinder = ComponentTools.getInstance().registerEventReceiver(proxyCallback);
+        unbinder = ComBroadcastTools.getInstance().registerEventReceiver(proxyCallback);
         mUnBinderCacheMap.put(interfaceClass, unbinder);
     }
 
@@ -79,7 +79,7 @@ public abstract class AbsProtocol {
         if (!isRegisteredEvent(proxyEventReceiver)) {
             return false;
         }
-        ComponentTools.getInstance().registerEventReceiver(proxyEventReceiver);
+        ComBroadcastTools.getInstance().registerEventReceiver(proxyEventReceiver);
         return true;
     }
 }
