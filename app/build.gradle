@@ -41,5 +41,7 @@ android {
         compile project(':baselib')
         compile project(':commanager')
         compile project(':comprotocol')
+
+        compile project(path: deps.lib)
     }
 }

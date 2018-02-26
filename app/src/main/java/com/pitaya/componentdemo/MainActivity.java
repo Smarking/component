@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
                 //TODO 耗时统计
                 //TODO 能自动被回收么
                 ComManager.getInstance().getProtocolAndBind(MainActivity.this, PrinterComProtocol.class).print("有新的打印任务");
+                ComManager.getInstance().getProtocolAndBind(MainActivity.this, PrinterComProtocol.class).openPrinterPage(MainActivity.this);
             }
         });
 

@@ -2,10 +2,9 @@ package com.pitaya.printer.runalone.application;
 
 import com.pitaya.baselib.BaseApplication;
 import com.pitaya.commanager.ComManager;
-import com.pitaya.comprotocol.printer.bean.PrinterComProtocol;
+import com.pitaya.comprotocol.printer.PrinterComProtocol;
 
 public class PrinterApplication extends BaseApplication {
-
 
     @Override
     protected void notifyUserCenterChanged() {

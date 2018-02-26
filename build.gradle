@@ -116,6 +116,8 @@ ext.deps = [
         butterknife                  : 'com.jakewharton:butterknife:8.5.0',
         butterknifeCompiler          : 'com.jakewharton:butterknife-compiler:8.5.0',
 
+        lib                          : ':lib',
+
         baselib                      : ':baselib',
         comprotocol                  : ':comprotocol',
         commanager                   : ':commanager',

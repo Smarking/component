@@ -1,5 +1,7 @@
 package com.pitaya.comprotocol.printer;
 
+import android.content.Context;
+
 import com.pitaya.comannotation.annotation.ProtocolName;
 
 /**
@@ -10,5 +12,7 @@ public interface PrinterComProtocol {
     String ComponentName = "com.pitaya.printer.component.PrinterComponent";
 
     void print(String msg);
+
+    void openPrinterPage(Context context);
 
 }

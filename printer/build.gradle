@@ -21,7 +21,6 @@ android {
 
 }
 
-
 //
 //if (isRunAlone == 'true') {
 //    project.android.sourceSets {
@@ -44,6 +43,10 @@ dependencies {
 
     compile deps.support.appcompatV7
     testCompile deps.unit.junit
+
+//    provided project(path: deps.lib)
+    compile project(path: deps.lib)
+    //狸猫换太子，开发阶段去除依赖，打包阶段开启依赖，手动依赖，包版本管理，如果是aar呢？跨层级依赖允许么？
 
     compile project(path: deps.comprotocol)
     compile project(path: deps.commanager)
