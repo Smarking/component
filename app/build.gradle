@@ -28,20 +28,22 @@ android {
             }
         }
     }
+}
 
-    dependencies {
-        compile fileTree(dir: 'libs', include: ['*.jar'])
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
 
-        androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-            exclude group: 'com.android.support', module: 'support-annotations'
-        })
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
 
-        compile deps.support.appcompatV7
-        testCompile deps.unit.junit
-        compile project(':baselib')
-        compile project(':commanager')
-        compile project(':comprotocol')
+    compile deps.support.appcompatV7
+    testCompile deps.unit.junit
+    compile project(':baselib')
+    compile project(':commanager')
+    compile project(':comprotocol')
 
-        compile project(path: deps.lib)
-    }
+    compile project(':printer')
+
+    compile project(path: deps.lib)
 }
