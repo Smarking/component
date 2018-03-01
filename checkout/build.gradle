@@ -1,5 +1,7 @@
 apply plugin: 'com.pitaya.component'
+//apply plugin: 'com.android.application'
 apply plugin: 'com.jakewharton.butterknife'
+apply plugin: 'com.pitaya.apicomponent'
 
 android {
     compileSdkVersion versions.compileSdkVersion
@@ -37,7 +39,73 @@ dependencies {
     compile project(path: deps.baselib)
     compile project(path: deps.comprotocol)
     compile project(path: deps.commanager)
-
-    compile project(':printer')
-
+    bundleCompile project(':printer')
 }
+//
+//Configuration config = project.getConfigurations().getByName('compile')
+//project.logger.error "config => ${config.toString()}"
+//
+//config.dependencies.toSet().each { file ->
+//    project.logger.error "config.dependencies.toSet() => ${file.toString()}"
+//}
+//
+//config.toSet().each { file ->
+//    project.logger.error "config.toSet() => ${file.toString()}"
+//}
+
+/*
+*
+COMPILE_CONFIGURATION_NAME Configuration find => configuration ':checkout:compile'
+BUNDLE_COMPILE Configuration find => configuration ':checkout:bundleCompile'
+config => configuration ':checkout:compile'
+config.dependencies.toSet() => DefaultProjectDependency{dependencyProject='project ':baselib'', configuration='default'}
+config.dependencies.toSet() => DefaultExternalModuleDependency{group='com.android.support', name='appcompat-v7', version='25.1.1', configuration='default'}
+config.dependencies.toSet() => DefaultProjectDependency{dependencyProject='project ':comprotocol'', configuration='default'}
+config.dependencies.toSet() => DefaultExternalModuleDependency{group='com.jakewharton', name='butterknife', version='8.5.0', configuration='default'}
+config.dependencies.toSet() => DefaultProjectDependency{dependencyProject='project ':commanager'', configuration='default'}
+config.dependencies.toSet() => org.gradle.api.internal.artifacts.dependencies.DefaultSelfResolvingDependency_Decorated@433edba9
+config.toSet() => /Users/Smarking/AndroidStudioProjects/newworld/ComponentDemo/comannotation/build/libs/comannotation.jar
+config.toSet() => /Users/Smarking/AndroidStudioProjects/newworld/ComponentDemo/commanager/build/outputs/aar/commanager-release.aar
+config.toSet() => /Users/Smarking/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.13.0/a9283170b7305c8d92d25aff02a6ab7e45d06cbe/okio-1.13.0.jar
+config.toSet() => /Users/Smarking/AndroidStudioProjects/newworld/ComponentDemo/baselib/build/outputs/aar/baselib-release.aar
+config.toSet() => /Users/Smarking/.gradle/caches/modules-2/files-2.1/com.android.support/support-core-ui/25.2.0/cf763201f9c8ad8d4865932580dc9d3666611565/support-core-ui-25.2.0.aar
+config.toSet() => /Users/Smarking/AndroidStudioProjects/newworld/ComponentDemo/comprotocol/build/outputs/aar/comprotocol-release.aar
+config.toSet() => /Users/Smarking/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.7/751f548c85fa49f330cecbb1875893f971b33c4e/gson-2.7.jar
+*
+* */
+
+/**
+ *
+ *
+ file  => /Users/Smarking/android-sdk-mac_x86/extras/android/m2repository/com/android/support/appcompat-v7/25.1.1/appcompat-v7-25.1.1.aar
+ file  => /Users/Smarking/.gradle/caches/modules-2/files-2.1/com.jakewharton/butterknife/8.5.0/42bbf11dd4c47e84bdc681e48852a82e1ba7da5b/butterknife-8.5.0.aar
+ file  => /Users/Smarking/AndroidStudioProjects/newworld/ComponentDemo/baselib/build/outputs/aar/baselib-release.aar
+ file  => /Users/Smarking/AndroidStudioProjects/newworld/ComponentDemo/comprotocol/build/outputs/aar/comprotocol-release.aar
+ file  => /Users/Smarking/AndroidStudioProjects/newworld/ComponentDemo/commanager/build/outputs/aar/commanager-release.aar
+ file  => /Users/Smarking/android-sdk-mac_x86/extras/android/m2repository/com/android/support/support-vector-drawable/25.1.1/support-vector-drawable-25.1.1.aar
+ file  => /Users/Smarking/android-sdk-mac_x86/extras/android/m2repository/com/android/support/animated-vector-drawable/25.1.1/animated-vector-drawable-25.1.1.aar
+ file  => /Users/Smarking/.gradle/caches/modules-2/files-2.1/com.jakewharton/butterknife-annotations/8.5.0/e0743a5ca3710001cb3edf7727399fcad083457b/butterknife-annotations-8.5.0.jar
+ file  => /Users/Smarking/.gradle/caches/modules-2/files-2.1/com.elvishew/xlog/1.4.0/fe0ffa7fd866b77371580557dd87e0e4240f6fd0/xlog-1.4.0.aar
+ file  => /Users/Smarking/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.8.0/5a11f020cce2d11eb71ba916700600e18c4547e7/okhttp-3.8.0.jar
+ file  => /Users/Smarking/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/logging-interceptor/3.8.0/f765f004f3e201bd6ad0904266e605d7fb776d5/logging-interceptor-3.8.0.jar
+ file  => /Users/Smarking/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit2/converter-gson/2.3.0/9e09011e9767bb76b5e27c9b8223476b93b14631/converter-gson-2.3.0.jar
+ file  => /Users/Smarking/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit2/retrofit/2.3.0/bcacde6a8ccedcc56c127403d26b76072fe6214d/retrofit-2.3.0.jar
+ file  => /Users/Smarking/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit2/adapter-rxjava2/2.3.0/f436637f9500ab5b8bc32afe556373180894b4a5/adapter-rxjava2-2.3.0.jar
+ file  => /Users/Smarking/.gradle/caches/modules-2/files-2.1/io.reactivex.rxjava2/rxandroid/2.0.1/c192035f52624f35143cadfc9d5832cd621319eb/rxandroid-2.0.1.aar
+ file  => /Users/Smarking/.gradle/caches/modules-2/files-2.1/io.reactivex.rxjava2/rxjava/2.1.3/c6a633c63607f09f77f424b5c52522a7607cedae/rxjava-2.1.3.jar
+ file  => /Users/Smarking/.gradle/caches/modules-2/files-2.1/com.google.dagger/dagger/2.13/37dc0fc55b65aa10f6e1edc4691a1231c904cfb1/dagger-2.13.jar
+ file  => /Users/Smarking/AndroidStudioProjects/newworld/ComponentDemo/comannotation/build/libs/comannotation.jar
+ file  => /Users/Smarking/.gradle/caches/modules-2/files-2.1/com.alibaba/arouter-annotation/1.0.4/1a052775986931f733338255dd73829f0ecd10d/arouter-annotation-1.0.4.jar
+ file  => /Users/Smarking/.gradle/caches/modules-2/files-2.1/com.alibaba/arouter-api/1.2.4/3f1f5c42e394038a54e27a289281fe7f9d5cd437/arouter-api-1.2.4.aar
+ file  => /Users/Smarking/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.13.0/a9283170b7305c8d92d25aff02a6ab7e45d06cbe/okio-1.13.0.jar
+ file  => /Users/Smarking/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.7/751f548c85fa49f330cecbb1875893f971b33c4e/gson-2.7.jar
+ file  => /Users/Smarking/.gradle/caches/modules-2/files-2.1/javax.inject/javax.inject/1/6975da39a7040257bd51d21a231b76c915872d38/javax.inject-1.jar
+ file  => /Users/Smarking/.gradle/caches/modules-2/files-2.1/org.reactivestreams/reactive-streams/1.0.1/1b1c911686eb40179219466e6a59b634b9d7a748/reactive-streams-1.0.1.jar
+ file  => /Users/Smarking/android-sdk-mac_x86/extras/android/m2repository/com/android/support/support-v4/25.2.0/support-v4-25.2.0.aar
+ file  => /Users/Smarking/android-sdk-mac_x86/extras/android/m2repository/com/android/support/support-compat/25.2.0/support-compat-25.2.0.aar
+ file  => /Users/Smarking/android-sdk-mac_x86/extras/android/m2repository/com/android/support/support-media-compat/25.2.0/support-media-compat-25.2.0.aar
+ file  => /Users/Smarking/android-sdk-mac_x86/extras/android/m2repository/com/android/support/support-core-utils/25.2.0/support-core-utils-25.2.0.aar
+ file  => /Users/Smarking/android-sdk-mac_x86/extras/android/m2repository/com/android/support/support-core-ui/25.2.0/support-core-ui-25.2.0.aar
+ file  => /Users/Smarking/android-sdk-mac_x86/extras/android/m2repository/com/android/support/support-fragment/25.2.0/support-fragment-25.2.0.aar
+ file  => /Users/Smarking/android-sdk-mac_x86/extras/android/m2repository/com/android/support/support-annotations/25.2.0/support-annotations-25.2.0.jar
+ */

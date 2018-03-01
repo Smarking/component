@@ -17,6 +17,7 @@ import com.pitaya.comprotocol.printer.PrinterComProtocol;
 import com.pitaya.comprotocol.vippay.VipPayComProtocol;
 import com.pitaya.comprotocol.vippay.bean.Coupon;
 import com.pitaya.comprotocol.vippay.bean.VipUserInfo;
+import com.pitaya.printer.PrinterActivity;
 
 import java.util.List;
 
@@ -147,6 +148,10 @@ public class CheckoutActivity extends FragmentActivity {
         //作为默认初始化可行么？看smali默认值放在构造函数的首行执行，然后才是自己写的初始化代码
         mVipPayComProtocol = ComManager.getInstance().getProtocolAndBind(CheckoutActivity.this, VipPayComProtocol.class);
         mPrinterComProtocol = ComManager.getInstance().getProtocolAndBind(CheckoutActivity.this, PrinterComProtocol.class);
+        //TODO 修改了依赖方式
+        PrinterActivity printerActivity = new PrinterActivity();
+        printerActivity.closeContextMenu();
+
         initView();
         initData();
         updateView();

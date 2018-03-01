@@ -1,0 +1,375 @@
+------begin----current subProject is :app
+taskNames is [clean, :checkout:assembleDebug]
+subHostName  is :checkout
+mainHostName is :app
+NDK is missing a "platforms" directory.
+If you are using NDK, verify the ndk.dir is set to a valid NDK directory.  It is currently set to /Users/Smarking/android-sdk-mac_x86/ndk-bundle.
+If you are not using NDK, unset the NDK variable from ANDROID_NDK_HOME or local.properties to remove this warning.
+
+mainHostName is :app
+apply plugin is com.android.application  isMainHost:true
+dependency is :checkout
+dependency is :printer
+dependency is :vippay
+------end----current subProject is :app
+------begin----current subProject is :checkout
+taskNames is [clean, :checkout:assembleDebug]
+subHostName  is :checkout
+NDK is missing a "platforms" directory.
+If you are using NDK, verify the ndk.dir is set to a valid NDK directory.  It is currently set to /Users/Smarking/android-sdk-mac_x86/ndk-bundle.
+If you are not using NDK, unset the NDK variable from ANDROID_NDK_HOME or local.properties to remove this warning.
+
+mainHostName is :app
+apply plugin is com.android.application  isMainHost:false
+dependency is :vippay
+------end----current subProject is :checkout
+NDK is missing a "platforms" directory.
+If you are using NDK, verify the ndk.dir is set to a valid NDK directory.  It is currently set to /Users/Smarking/android-sdk-mac_x86/ndk-bundle.
+If you are not using NDK, unset the NDK variable from ANDROID_NDK_HOME or local.properties to remove this warning.
+
+NDK is missing a "platforms" directory.
+If you are using NDK, verify the ndk.dir is set to a valid NDK directory.  It is currently set to /Users/Smarking/android-sdk-mac_x86/ndk-bundle.
+If you are not using NDK, unset the NDK variable from ANDROID_NDK_HOME or local.properties to remove this warning.
+
+NDK is missing a "platforms" directory.
+If you are using NDK, verify the ndk.dir is set to a valid NDK directory.  It is currently set to /Users/Smarking/android-sdk-mac_x86/ndk-bundle.
+If you are not using NDK, unset the NDK variable from ANDROID_NDK_HOME or local.properties to remove this warning.
+
+NDK is missing a "platforms" directory.
+If you are using NDK, verify the ndk.dir is set to a valid NDK directory.  It is currently set to /Users/Smarking/android-sdk-mac_x86/ndk-bundle.
+If you are not using NDK, unset the NDK variable from ANDROID_NDK_HOME or local.properties to remove this warning.
+
+------begin----current subProject is :vippay
+taskNames is [clean, :checkout:assembleDebug]
+subHostName  is :checkout
+mainHostName is :app
+NDK is missing a "platforms" directory.
+If you are using NDK, verify the ndk.dir is set to a valid NDK directory.  It is currently set to /Users/Smarking/android-sdk-mac_x86/ndk-bundle.
+If you are not using NDK, unset the NDK variable from ANDROID_NDK_HOME or local.properties to remove this warning.
+
+apply plugin is com.android.library
+------end----current subProject is :vippay
+WARNING: Dependency ComponentDemo:checkout:unspecified on project app resolves to an APK archive which is not supported as a compilation dependency. File: /Users/Smarking/AndroidStudioProjects/newworld/ComponentDemo/checkout/build/outputs/apk/checkout-release-unsigned.apk
+WARNING: Dependency ComponentDemo:checkout:unspecified on project app resolves to an APK archive which is not supported as a compilation dependency. File: /Users/Smarking/AndroidStudioProjects/newworld/ComponentDemo/checkout/build/outputs/apk/checkout-release-unsigned.apk
+WARNING: Dependency ComponentDemo:checkout:unspecified on project app resolves to an APK archive which is not supported as a compilation dependency. File: /Users/Smarking/AndroidStudioProjects/newworld/ComponentDemo/checkout/build/outputs/apk/checkout-release-unsigned.apk
+WARNING: Dependency ComponentDemo:checkout:unspecified on project app resolves to an APK archive which is not supported as a compilation dependency. File: /Users/Smarking/AndroidStudioProjects/newworld/ComponentDemo/checkout/build/outputs/apk/checkout-release-unsigned.apk
+WARNING: Dependency ComponentDemo:checkout:unspecified on project app resolves to an APK archive which is not supported as a compilation dependency. File: /Users/Smarking/AndroidStudioProjects/newworld/ComponentDemo/checkout/build/outputs/apk/checkout-release-unsigned.apk
+WARNING: Dependency ComponentDemo:checkout:unspecified on project app resolves to an APK archive which is not supported as a compilation dependency. File: /Users/Smarking/AndroidStudioProjects/newworld/ComponentDemo/checkout/build/outputs/apk/checkout-release-unsigned.apk
+:clean
+:app:clean
+:baselib:clean
+:checkout:clean
+:comannotation:clean
+:commanager:clean
+:comprotocol:clean
+:lib:clean
+:printer:clean
+:vippay:clean
+:baselib:preBuild UP-TO-DATE
+:baselib:preReleaseBuild UP-TO-DATE
+:baselib:checkReleaseManifest
+:baselib:preDebugAndroidTestBuild UP-TO-DATE
+:baselib:preDebugBuild UP-TO-DATE
+:baselib:preDebugUnitTestBuild UP-TO-DATE
+:baselib:preReleaseUnitTestBuild UP-TO-DATE
+:baselib:prepareComAndroidSupportAnimatedVectorDrawable2511Library
+:baselib:prepareComAndroidSupportAppcompatV72511Library
+:baselib:prepareComAndroidSupportSupportCompat2511Library
+:baselib:prepareComAndroidSupportSupportCoreUi2511Library
+:baselib:prepareComAndroidSupportSupportCoreUtils2511Library
+:baselib:prepareComAndroidSupportSupportFragment2511Library
+:baselib:prepareComAndroidSupportSupportMediaCompat2511Library
+:baselib:prepareComAndroidSupportSupportV42511Library
+:baselib:prepareComAndroidSupportSupportVectorDrawable2511Library
+:baselib:prepareComElvishewXlog140Library
+:baselib:prepareIoReactivexRxjava2Rxandroid201Library
+:baselib:prepareReleaseDependencies
+:baselib:compileReleaseAidl
+:baselib:compileReleaseNdk NO-SOURCE
+:baselib:compileLint
+:baselib:copyReleaseLint NO-SOURCE
+:baselib:compileReleaseRenderscript
+:baselib:generateReleaseBuildConfig
+:baselib:generateReleaseResValues
+:baselib:generateReleaseResources
+:baselib:mergeReleaseResources
+:baselib:processReleaseManifest
+:baselib:processReleaseResources
+:baselib:generateReleaseSources
+:baselib:incrementalReleaseJavaCompilationSafeguard
+:baselib:javaPreCompileRelease
+:baselib:compileReleaseJavaWithJavac
+:baselib:extractReleaseAnnotations
+:baselib:mergeReleaseShaders
+:baselib:compileReleaseShaders
+:baselib:generateReleaseAssets
+:baselib:mergeReleaseAssets
+:baselib:mergeReleaseProguardFiles UP-TO-DATE
+:baselib:packageReleaseRenderscript NO-SOURCE
+:baselib:packageReleaseResources
+:baselib:processReleaseJavaRes NO-SOURCE
+:baselib:transformResourcesWithMergeJavaResForRelease
+:baselib:transformClassesAndResourcesWithSyncLibJarsForRelease
+:baselib:mergeReleaseJniLibFolders
+:baselib:transformNativeLibsWithMergeJniLibsForRelease
+:baselib:transformNativeLibsWithSyncJniLibsForRelease
+:baselib:bundleRelease
+:checkout:preBuild
+:checkout:preDebugBuild
+:checkout:checkDebugManifest
+:checkout:preReleaseBuild
+:checkout:prepareComAlibabaArouterApi124Library
+:checkout:prepareComAndroidSupportAnimatedVectorDrawable2511Library
+:checkout:prepareComAndroidSupportAppcompatV72511Library
+:checkout:prepareComAndroidSupportRecyclerviewV72511Library
+:checkout:prepareComAndroidSupportSupportCompat2520Library
+:checkout:prepareComAndroidSupportSupportCoreUi2520Library
+:checkout:prepareComAndroidSupportSupportCoreUtils2520Library
+:checkout:prepareComAndroidSupportSupportFragment2520Library
+:checkout:prepareComAndroidSupportSupportMediaCompat2520Library
+:checkout:prepareComAndroidSupportSupportV42520Library
+:checkout:prepareComAndroidSupportSupportVectorDrawable2511Library
+:checkout:prepareComElvishewXlog140Library
+:checkout:prepareComGithubCymChadBaseRecyclerViewAdapterHelper2934Library
+:checkout:prepareComJakewhartonButterknife850Library
+:checkout:prepareIoReactivexRxjava2Rxandroid201Library
+:comannotation:compileJava
+:comannotation:processResources NO-SOURCE
+:comannotation:classes
+:comannotation:jar
+:commanager:preBuild UP-TO-DATE
+:commanager:preReleaseBuild UP-TO-DATE
+:commanager:checkReleaseManifest
+:commanager:preDebugAndroidTestBuild UP-TO-DATE
+:commanager:preDebugBuild UP-TO-DATE
+:commanager:preDebugUnitTestBuild UP-TO-DATE
+:commanager:preReleaseUnitTestBuild UP-TO-DATE
+:commanager:prepareComAlibabaArouterApi124Library
+:commanager:prepareComAndroidSupportAnimatedVectorDrawable2511Library
+:commanager:prepareComAndroidSupportAppcompatV72511Library
+:commanager:prepareComAndroidSupportSupportCompat2520Library
+:commanager:prepareComAndroidSupportSupportCoreUi2520Library
+:commanager:prepareComAndroidSupportSupportCoreUtils2520Library
+:commanager:prepareComAndroidSupportSupportFragment2520Library
+:commanager:prepareComAndroidSupportSupportMediaCompat2520Library
+:commanager:prepareComAndroidSupportSupportV42520Library
+:commanager:prepareComAndroidSupportSupportVectorDrawable2511Library
+:commanager:prepareReleaseDependencies
+:commanager:compileReleaseAidl
+:commanager:compileReleaseNdk NO-SOURCE
+:commanager:compileLint
+:commanager:copyReleaseLint NO-SOURCE
+:commanager:compileReleaseRenderscript
+:commanager:generateReleaseBuildConfig
+:commanager:generateReleaseResValues
+:commanager:generateReleaseResources
+:commanager:mergeReleaseResources
+:commanager:processReleaseManifest
+:commanager:processReleaseResources
+:commanager:generateReleaseSources
+:commanager:incrementalReleaseJavaCompilationSafeguard
+:commanager:javaPreCompileRelease
+:commanager:compileReleaseJavaWithJavac
+:commanager:extractReleaseAnnotations
+:commanager:mergeReleaseShaders
+:commanager:compileReleaseShaders
+:commanager:generateReleaseAssets
+:commanager:mergeReleaseAssets
+:commanager:mergeReleaseProguardFiles UP-TO-DATE
+:commanager:packageReleaseRenderscript NO-SOURCE
+:commanager:packageReleaseResources
+:commanager:processReleaseJavaRes NO-SOURCE
+:commanager:transformResourcesWithMergeJavaResForRelease
+:commanager:transformClassesAndResourcesWithSyncLibJarsForRelease
+:commanager:mergeReleaseJniLibFolders
+:commanager:transformNativeLibsWithMergeJniLibsForRelease
+:commanager:transformNativeLibsWithSyncJniLibsForRelease
+:commanager:bundleRelease
+:comprotocol:preBuild UP-TO-DATE
+:comprotocol:preReleaseBuild UP-TO-DATE
+:comprotocol:checkReleaseManifest
+:comprotocol:preDebugAndroidTestBuild UP-TO-DATE
+:comprotocol:preDebugBuild UP-TO-DATE
+:comprotocol:preDebugUnitTestBuild UP-TO-DATE
+:comprotocol:preReleaseUnitTestBuild UP-TO-DATE
+:comprotocol:prepareComAndroidSupportAnimatedVectorDrawable2511Library
+:comprotocol:prepareComAndroidSupportAppcompatV72511Library
+:comprotocol:prepareComAndroidSupportSupportCompat2511Library
+:comprotocol:prepareComAndroidSupportSupportCoreUi2511Library
+:comprotocol:prepareComAndroidSupportSupportCoreUtils2511Library
+:comprotocol:prepareComAndroidSupportSupportFragment2511Library
+:comprotocol:prepareComAndroidSupportSupportMediaCompat2511Library
+:comprotocol:prepareComAndroidSupportSupportV42511Library
+:comprotocol:prepareComAndroidSupportSupportVectorDrawable2511Library
+:comprotocol:prepareReleaseDependencies
+:comprotocol:compileReleaseAidl
+:comprotocol:compileReleaseNdk NO-SOURCE
+:comprotocol:compileLint
+:comprotocol:copyReleaseLint NO-SOURCE
+:comprotocol:compileReleaseRenderscript
+:comprotocol:generateReleaseBuildConfig
+:comprotocol:generateReleaseResValues
+:comprotocol:generateReleaseResources
+:comprotocol:mergeReleaseResources
+:comprotocol:processReleaseManifest
+:comprotocol:processReleaseResources
+:comprotocol:generateReleaseSources
+:comprotocol:incrementalReleaseJavaCompilationSafeguard
+:comprotocol:javaPreCompileRelease
+:comprotocol:compileReleaseJavaWithJavac
+:comprotocol:compileReleaseJavaWithJavac - is not incremental (e.g. outputs have changed, no previous execution, etc.).
+:comprotocol:extractReleaseAnnotations
+:comprotocol:mergeReleaseShaders
+:comprotocol:compileReleaseShaders
+:comprotocol:generateReleaseAssets
+:comprotocol:mergeReleaseAssets
+:comprotocol:mergeReleaseProguardFiles UP-TO-DATE
+:comprotocol:packageReleaseRenderscript NO-SOURCE
+:comprotocol:packageReleaseResources
+:comprotocol:processReleaseJavaRes NO-SOURCE
+:comprotocol:transformResourcesWithMergeJavaResForRelease
+:comprotocol:transformClassesAndResourcesWithSyncLibJarsForRelease
+:comprotocol:mergeReleaseJniLibFolders
+:comprotocol:transformNativeLibsWithMergeJniLibsForRelease
+:comprotocol:transformNativeLibsWithSyncJniLibsForRelease
+:comprotocol:bundleRelease
+:lib:compileJava
+:lib:processResources
+:lib:classes
+:lib:jar
+:printer:preBuild
+:printer:preReleaseBuild
+:printer:checkReleaseManifest
+:printer:preDebugAndroidTestBuild
+:printer:preDebugBuild
+:printer:preDebugUnitTestBuild
+:printer:preReleaseUnitTestBuild
+:printer:prepareComAlibabaArouterApi124Library
+:printer:prepareComAndroidSupportAnimatedVectorDrawable2511Library
+:printer:prepareComAndroidSupportAppcompatV72511Library
+:printer:prepareComAndroidSupportSupportCompat2520Library
+:printer:prepareComAndroidSupportSupportCoreUi2520Library
+:printer:prepareComAndroidSupportSupportCoreUtils2520Library
+:printer:prepareComAndroidSupportSupportFragment2520Library
+:printer:prepareComAndroidSupportSupportMediaCompat2520Library
+:printer:prepareComAndroidSupportSupportV42520Library
+:printer:prepareComAndroidSupportSupportVectorDrawable2511Library
+:printer:prepareComElvishewXlog140Library
+:printer:prepareIoReactivexRxjava2Rxandroid201Library
+:printer:prepareReleaseDependencies
+:printer:processComponentApiTask
+:printer:compileReleaseAidl
+:printer:compileReleaseNdk NO-SOURCE
+:printer:compileLint
+:printer:copyReleaseLint NO-SOURCE
+:printer:compileReleaseRenderscript
+:printer:generateReleaseBuildConfig
+:printer:generateReleaseResValues
+:printer:generateReleaseResources
+:printer:mergeReleaseResources
+:printer:processReleaseManifest
+:printer:processReleaseResources
+:printer:generateReleaseSources
+:printer:incrementalReleaseJavaCompilationSafeguard
+:printer:javaPreCompileRelease
+:printer:compileReleaseJavaWithJavac
+:printer:extractReleaseAnnotations
+:printer:mergeReleaseShaders
+:printer:compileReleaseShaders
+:printer:generateReleaseAssets
+:printer:mergeReleaseAssets
+:printer:mergeReleaseProguardFiles UP-TO-DATE
+:printer:packageReleaseRenderscript NO-SOURCE
+:printer:packageReleaseResources
+:printer:processReleaseJavaRes NO-SOURCE
+:printer:transformResourcesWithMergeJavaResForRelease
+:printer:transformClassesAndResourcesWithSyncLibJarsForRelease
+:printer:mergeReleaseJniLibFolders
+:printer:transformNativeLibsWithMergeJniLibsForRelease
+:printer:transformNativeLibsWithSyncJniLibsForRelease
+:printer:bundleRelease
+:vippay:preBuild UP-TO-DATE
+:vippay:preReleaseBuild UP-TO-DATE
+:vippay:checkReleaseManifest
+:vippay:preDebugAndroidTestBuild UP-TO-DATE
+:vippay:preDebugBuild UP-TO-DATE
+:vippay:preDebugUnitTestBuild UP-TO-DATE
+:vippay:preReleaseUnitTestBuild UP-TO-DATE
+:vippay:prepareComAlibabaArouterApi124Library
+:vippay:prepareComAndroidSupportAnimatedVectorDrawable2511Library
+:vippay:prepareComAndroidSupportAppcompatV72511Library
+:vippay:prepareComAndroidSupportRecyclerviewV72511Library
+:vippay:prepareComAndroidSupportSupportCompat2520Library
+:vippay:prepareComAndroidSupportSupportCoreUi2520Library
+:vippay:prepareComAndroidSupportSupportCoreUtils2520Library
+:vippay:prepareComAndroidSupportSupportFragment2520Library
+:vippay:prepareComAndroidSupportSupportMediaCompat2520Library
+:vippay:prepareComAndroidSupportSupportV42520Library
+:vippay:prepareComAndroidSupportSupportVectorDrawable2511Library
+:vippay:prepareComElvishewXlog140Library
+:vippay:prepareComGithubCymChadBaseRecyclerViewAdapterHelper2934Library
+:vippay:prepareComJakewhartonButterknife850Library
+:vippay:prepareIoReactivexRxjava2Rxandroid201Library
+:vippay:prepareReleaseDependencies
+:vippay:compileReleaseAidl
+:vippay:compileReleaseNdk NO-SOURCE
+:vippay:compileLint
+:vippay:copyReleaseLint NO-SOURCE
+:vippay:compileReleaseRenderscript
+:vippay:generateReleaseBuildConfig
+:vippay:generateReleaseResValues
+:vippay:generateReleaseResources
+:vippay:mergeReleaseResources
+:vippay:processReleaseManifest
+:vippay:processReleaseResources
+:vippay:generateReleaseSources
+:vippay:incrementalReleaseJavaCompilationSafeguard
+:vippay:javaPreCompileRelease
+:vippay:compileReleaseJavaWithJavac
+:vippay:extractReleaseAnnotations
+:vippay:mergeReleaseShaders
+:vippay:compileReleaseShaders
+:vippay:generateReleaseAssets
+:vippay:mergeReleaseAssets
+:vippay:mergeReleaseProguardFiles UP-TO-DATE
+:vippay:packageReleaseRenderscript NO-SOURCE
+:vippay:packageReleaseResources
+:vippay:processReleaseJavaRes NO-SOURCE
+:vippay:transformResourcesWithMergeJavaResForRelease
+:vippay:transformClassesAndResourcesWithSyncLibJarsForRelease
+:vippay:mergeReleaseJniLibFolders
+:vippay:transformNativeLibsWithMergeJniLibsForRelease
+:vippay:transformNativeLibsWithSyncJniLibsForRelease
+:vippay:bundleRelease
+:checkout:prepareDebugDependencies
+:checkout:processComponentApiTask
+:checkout:compileDebugAidl
+:checkout:compileDebugRenderscript
+:checkout:generateDebugBuildConfig
+:checkout:generateDebugResValues
+:checkout:generateDebugResources
+:checkout:mergeDebugResources
+:checkout:processDebugManifest
+:checkout:processDebugResources
+:checkout:generateDebugSources
+:checkout:incrementalDebugJavaCompilationSafeguard
+:checkout:javaPreCompileDebug
+:checkout:compileDebugJavaWithJavac
+:checkout:compileDebugNdk NO-SOURCE
+:checkout:compileDebugSources
+:checkout:mergeDebugShaders
+:checkout:compileDebugShaders
+:checkout:generateDebugAssets
+:checkout:mergeDebugAssets
+:checkout:transformClassesWithDexForDebug
+:checkout:mergeDebugJniLibFolders
+:checkout:transformNativeLibsWithMergeJniLibsForDebug
+:checkout:processDebugJavaRes NO-SOURCE
+:checkout:transformResourcesWithMergeJavaResForDebug
+:checkout:validateSigningDebug
+:checkout:packageDebug
+:checkout:assembleDebug
+
+BUILD SUCCESSFUL
+
+Total time: 9.03 secs
