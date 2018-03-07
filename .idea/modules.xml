@@ -10,6 +10,7 @@
       <module fileurl="file://$PROJECT_DIR$/commanager/commanager.iml" filepath="$PROJECT_DIR$/commanager/commanager.iml" />
       <module fileurl="file://$PROJECT_DIR$/comprotocol/comprotocol.iml" filepath="$PROJECT_DIR$/comprotocol/comprotocol.iml" />
       <module fileurl="file://$PROJECT_DIR$/lib/lib.iml" filepath="$PROJECT_DIR$/lib/lib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pitaya-api-autogen/pitaya-api-autogen.iml" filepath="$PROJECT_DIR$/pitaya-api-autogen/pitaya-api-autogen.iml" />
       <module fileurl="file://$PROJECT_DIR$/printer/printer.iml" filepath="$PROJECT_DIR$/printer/printer.iml" />
       <module fileurl="file://$PROJECT_DIR$/vippay/vippay.iml" filepath="$PROJECT_DIR$/vippay/vippay.iml" />
     </modules>

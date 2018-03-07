@@ -1,4 +1,21 @@
-apply plugin: 'com.pitaya.component'
+//apply plugin: 'com.pitaya.component'
+apply plugin: 'com.android.application'
+apply plugin: MyPlugin
+
+
+
+public class MyPlugin implements Plugin<Project> {
+
+    def genSubProjectName = 'pitaya-api-autogen'
+
+    @Override
+    void apply(Project project) {
+        project.logger.error "<==find =>"
+        //provided
+
+        project.dependencies.add("provided", project.dependencies.project(path: ":${genSubProjectName}"))
+    }
+}
 
 android {
     compileSdkVersion versions.compileSdkVersion
@@ -13,7 +30,7 @@ android {
         buildTypes {
             debug {
                 buildConfigField "boolean", "ENV_OFFLINE", "true"
-                minifyEnabled true
+                minifyEnabled false
                 proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             }
 
@@ -23,7 +40,7 @@ android {
 
             release {
                 buildConfigField "boolean", "ENV_OFFLINE", "false"
-                minifyEnabled false
+                minifyEnabled true
                 proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             }
         }
@@ -37,6 +54,7 @@ android {
 }
 
 dependencies {
+
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -47,9 +65,74 @@ dependencies {
     testCompile deps.unit.junit
     compile project(':baselib')
     compile project(':commanager')
-    compile project(':comprotocol')
 
     compile project(':printer')
+    compile project(':vippay')
 
-    compile project(path: deps.lib)
+    compile project(':checkout')
+
+//    compile project(path: deps.lib)
+
+    Configuration compileConfiguration = project.getConfigurations().getByName("compile")
+    compileConfiguration.dependencies.each { dependency ->
+        project.logger.error "beforeEvaluate  find => ${dependency}"
+    }
+}
+
+
+gradle.addProjectEvaluationListener(new ProjectEvaluationListener() {
+
+    @Override
+    void beforeEvaluate(Project project) {
+
+//        Configuration compileConfiguration = project.getConfigurations().getByName("compile")
+//
+//        compileConfiguration.dependencies.each { dependency ->
+//            project.logger.error "beforeEvaluate  find => ${dependency}"
+//        }
+    }
+
+    @Override
+    void afterEvaluate(Project project, ProjectState state) {
+        Configuration compileConfiguration = project.getConfigurations().getByName("compile")
+        compileConfiguration.dependencies.each { dependency ->
+            project.logger.error "afterEvaluate find => ${dependency}"
+        }
+
+    }
+})
+
+
+final String BUNDLE_COMPILE = "compileAar2Jar"
+
+project.getConfigurations().create(BUNDLE_COMPILE, new Action<Configuration>() {
+    @Override
+    public void execute(Configuration config) {
+        project.logger.error "BUNDLE_COMPILE Configuration find => ${config.toString()}"
+        Configuration compileConfiguration = project.getConfigurations().getByName('compile')
+        compileConfiguration.extendsFrom(config)
+    }
+})
+
+/**
+ * compile Configuration find => org.gradle.api.internal.artifacts.dependencies.DefaultSelfResolvingDependency_Decorated@433edba9
+ compile Configuration find => DefaultExternalModuleDependency{group='com.android.support', name='appcompat-v7', version='25.1.1', configuration='default'}compile Configuration find => DefaultProjectDependency{dependencyProject='project ':baselib'', configuration='default'}compile Configuration find => DefaultProjectDependency{dependencyProject='project ':commanager'', configuration='default'}compile Configuration find => DefaultProjectDependency{dependencyProject='project ':printer'', configuration='default'}compile Configuration find => DefaultProjectDependency{dependencyProject='project ':vippay'', configuration='default'}compile Configuration find => DefaultProjectDependency{dependencyProject='project ':checkout'', configuration='default'}*/
+project.afterEvaluate {
+//    dependencies {
+//        compile project(':pitaya-api-autogen')
+//    }
+
+    Dependency dependencyTemp = project.dependencies.create(project(':pitaya-api-autogen'))
+
+//    Dependency dependencyTemp = project.dependencies.add("compileAar2Jar", project(':pitaya-api-autogen'))
+
+
+    project.getConfigurations().getRules()
+    Configuration compileConfiguration = project.getConfigurations().getByName("compile")
+//    compileConfiguration.getDependencies().add(dependencyTemp)
+
+    compileConfiguration.dependencies.each { dependency ->
+        project.logger.error "compile Configuration find => ${dependency}"
+    }
+
 }

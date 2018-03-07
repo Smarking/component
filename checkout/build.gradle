@@ -1,4 +1,5 @@
-apply plugin: 'com.pitaya.component'
+//apply plugin: 'com.pitaya.component'
+apply plugin: 'com.android.library'
 //apply plugin: 'com.android.application'
 apply plugin: 'com.jakewharton.butterknife'
 apply plugin: 'com.pitaya.apicomponent'
@@ -37,9 +38,10 @@ dependencies {
     annotationProcessor deps.butterknifeCompiler
 
     compile project(path: deps.baselib)
-    compile project(path: deps.comprotocol)
     compile project(path: deps.commanager)
-    bundleCompile project(':printer')
+
+    provided project(path: deps.comprotocol)
+//    bundleCompile project(':printer')
 }
 //
 //Configuration config = project.getConfigurations().getByName('compile')

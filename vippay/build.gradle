@@ -1,4 +1,5 @@
-apply plugin: 'com.pitaya.component'
+apply plugin: 'com.android.library'
+apply plugin: 'com.pitaya.apicomponent'
 apply plugin: 'com.jakewharton.butterknife'
 apply plugin: 'maven'
 
@@ -43,8 +44,9 @@ dependencies {
     compile deps.support.recyclerview
 
     compile project(path: deps.baselib)
-    compile project(path: deps.comprotocol)
     compile project(path: deps.commanager)
+
+    provided project(path: deps.comprotocol)
 }
 
 /**

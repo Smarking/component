@@ -15,6 +15,7 @@
             <option value="$PROJECT_DIR$/commanager" />
             <option value="$PROJECT_DIR$/comprotocol" />
             <option value="$PROJECT_DIR$/lib" />
+            <option value="$PROJECT_DIR$/pitaya-api-autogen" />
             <option value="$PROJECT_DIR$/printer" />
             <option value="$PROJECT_DIR$/vippay" />
           </set>

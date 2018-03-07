@@ -1,0 +1,34 @@
+package com.pitaya.comprotocol.checkout;
+
+import android.content.Context;
+
+import com.pitaya.comannotation.annotation.ProtocolName;
+import com.pitaya.comannotation.annotation.Subscribe;
+import com.pitaya.comannotation.annotation.ThreadMode;
+import com.pitaya.comannotation.comcallback.Callback1;
+
+import java.util.List;
+
+import com.pitaya.comprotocol.checkout.bean.Order;
+import com.pitaya.comprotocol.vippay.bean.Coupon;
+
+/**
+ * Created by Smarking on 17/12/10.
+ */
+@ProtocolName("CheckoutComProtocol")
+public interface CheckoutComProtocol {
+
+    /**
+     * 一个协议可对应多个 组件
+     */
+    String ComponentName = "com.pitaya.checkout.component.CheckoutComponent";//火锅
+    String ComponentName2 = "";//烧烤
+
+    void openCheckoutPage(Context context);
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    void sortVipPayCoupons(List<Coupon> couponList, @Subscribe(threadMode = ThreadMode.MAIN) Callback1<List<Coupon>> sortResult);
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    void calculateDiscount(Order order, Coupon selectedCoupon, @Subscribe(threadMode = ThreadMode.MAIN) Callback1<Float> calculateResult);
+}

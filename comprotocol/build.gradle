@@ -20,6 +20,88 @@ android {
     }
 }
 
+android {
+    lintOptions {
+        abortOnError false
+    }
+}
+
+//
+//
+//protected void createCompileTask(BaseVariantData variantData,
+//                                 BaseVariantData testedVariantData) {
+//    def compileTask = project.tasks.create(
+//            "compile${variantData.variantConfiguration.fullName.capitalize()}Java",
+//            JavaCompile)
+//
+//    variantData.javaCompileTask = compileTask
+//
+//    compileTask.dependsOn variantData.sourceGenTask
+//
+//    VariantConfiguration config = variantData.variantConfiguration
+//
+//    List<Object> sourceList = Lists.newArrayList()
+//    sourceList.add(((AndroidSourceSet) config.defaultSourceSet).java)
+//    sourceList.add({ variantData.processResourcesTask.sourceOutputDir })
+//    sourceList.add({ variantData.generateBuildConfigTask.sourceOutputDir })
+//    sourceList.add({ variantData.aidlCompileTask.sourceOutputDir })
+//    if (!config.mergedFlavor.renderscriptNdkMode) {
+//        sourceList.add({ variantData.renderscriptCompileTask.sourceOutputDir })
+//    }
+//
+//    if (config.getType() != VariantConfiguration.Type.TEST) {
+//        sourceList.add(((AndroidSourceSet) config.buildTypeSourceSet).java)
+//    }
+//    if (config.hasFlavors()) {
+//        for (SourceProvider flavorSourceProvider : config.flavorSourceProviders) {
+//            sourceList.add(((AndroidSourceSet) flavorSourceProvider).java)
+//        }
+//    }
+//    compileTask.source = sourceList.toArray()
+//
+//    // if the tested variant is an app, add its classpath. For the libraries,
+//    // it's done automatically since the classpath includes the library output as a normal
+//    // dependency.
+//    if (testedVariantData instanceof ApplicationVariantData) {
+//        compileTask.conventionMapping.classpath =  {
+//            project.files(getAndroidBuilder(variantData).getCompileClasspath(config)) + testedVariantData.javaCompileTask.classpath + testedVariantData.javaCompileTask.outputs.files
+//        }
+//    } else {
+//        compileTask.conventionMapping.classpath =  {
+//            project.files(getAndroidBuilder(variantData).getCompileClasspath(config))
+//        }
+//    }
+//
+//    // TODO - dependency information for the compile classpath is being lost.
+//    // Add a temporary approximation
+//    compileTask.dependsOn project.configurations.compile.buildDependencies
+//
+//    compileTask.conventionMapping.destinationDir = {
+//        project.file("$project.buildDir/classes/${variantData.variantConfiguration.dirName}")
+//    }
+//
+//    compileTask.conventionMapping.dependencyCacheDir = {
+//        project.file("$project.buildDir/dependency-cache/${variantData.variantConfiguration.dirName}")
+//    }
+//
+//    // set source/target compatibility
+//    compileTask.conventionMapping.sourceCompatibility = {
+//        extension.compileOptions.sourceCompatibility.toString()
+//    }
+//    compileTask.conventionMapping.targetCompatibility = {
+//        extension.compileOptions.targetCompatibility.toString()
+//    }
+//    compileTask.options.encoding = extension.compileOptions.encoding
+//
+//    // setup the boot classpath just before the task actually runs since this will
+//    // force the sdk to be parsed.
+//    compileTask.doFirst {
+//        compileTask.options.bootClasspath = getRuntimeJars()
+//    }
+//}
+//
+
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -30,3 +112,51 @@ dependencies {
 
     compile project(path: deps.comannotation)
 }
+
+
+task compileEncodeUtil(type: JavaCompile) {
+    source = ['/Users/Smarking/AndroidStudioProjects/newworld/ComponentDemo/comprotocol/src/main/java']
+    include '**/*.java'
+    classpath = files('.')
+    destinationDir = project.file("$project.buildDir/classes/smarking/")
+    options.failOnError = false
+    conventionMapping.classpath = {
+        project.files(getAndroidBuilder(variantData).getCompileClasspath(config))
+    }
+
+
+}
+
+
+task compileApi(type: JavaCompile) {
+    println('****************************compileEncodeUtil start*******************')
+
+    source = [project.file("/Users/Smarking/AndroidStudioProjects/newworld/ComponentDemo/comprotocol/src/main/java")]
+    include '**/*.java'
+    classpath = files('.')
+    destinationDir = ['build_tools']
+
+    conventionMapping.destinationDir = {
+        project.file("$project.buildDir/classes/smarking/")
+    }
+
+    conventionMapping.dependencyCacheDir = {
+        project.file("$project.buildDir/dependency-cache/")
+    }
+}
+
+
+task clearJar(type: Delete) {
+    delete '/Users/Smarking/AndroidStudioProjects/newworld/ComponentDemo/comprotocol/build/libs/api-sdk.jar'
+}
+
+task makeJar(type: org.gradle.api.tasks.bundling.Jar) {
+    //指定生成的jar名
+    archiveName 'api-sdk.jar'
+    //从哪里打包class文件
+    from('build/intermediates/classes/release/')
+    exclude('android/', 'BuildConfig.class', 'R.class')
+    exclude { it.name.startsWith('R$') }
+}
+
+makeJar.dependsOn(clearJar)
