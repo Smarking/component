@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven'
 
 android {
     compileSdkVersion versions.compileSdkVersion
@@ -56,4 +57,31 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+}
+
+
+def publishedGroupId = 'com.pitaya.component'
+def artifact = 'baselib'
+def libraryName = 'baselib'
+def publishVersion = '0.0.1'
+
+def customerPath = uri(System.getProperties().getProperty("user.home") + "/localMavenRepo/")
+println "repository " + customerPath.getPath()
+
+/**
+ * 执行以下命令，发布到指定仓库，比如customerPath
+ *  ./gradlew -p baselib clean build uploadArchives --info
+ */
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: customerPath)
+            pom.groupId = publishedGroupId
+            pom.artifactId = artifact
+            pom.version = publishVersion
+            pom.name = libraryName
+            pom.packaging = 'aar'
+        }
+
+    }
 }

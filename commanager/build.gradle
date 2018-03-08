@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven'
 
 android {
     compileSdkVersion versions.compileSdkVersion
@@ -24,7 +25,12 @@ android {
         }
     }
 
+}
 
+android {
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
@@ -34,10 +40,38 @@ dependencies {
     })
     testCompile deps.unit.junit
     compile deps.support.appcompatV7
-    compile project(path: deps.comannotation)
+
+    compile 'com.pitaya.component:comannotation:0.0.1'
 
     compile 'com.alibaba:arouter-annotation:1.0.4'
     compile 'com.alibaba:arouter-api:1.2.4'
     annotationProcessor 'com.alibaba:arouter-compiler:1.1.4'
 
+}
+
+
+def publishedGroupId = 'com.pitaya.component'
+def publishVersion = '0.0.1'
+def demoartifact = 'commanager'
+def libraryName = 'commanager'
+
+def customerPath = uri(System.getProperties().getProperty("user.home") + "/localMavenRepo/")
+println "repository " + customerPath.getPath()
+
+/**
+ * 执行以下命令，发布到指定仓库，比如customerPath
+ *  ./gradlew -p commanager clean build uploadArchives --info
+ */
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: customerPath)
+            pom.groupId = publishedGroupId
+            pom.artifactId = demoartifact
+            pom.version = publishVersion
+            pom.name = libraryName
+            pom.packaging = 'aar'
+        }
+
+    }
 }

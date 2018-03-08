@@ -10,10 +10,10 @@ targetCompatibility = "1.7"
 
 
 def publishedGroupId = 'com.pitaya.component'
-def demoartifact = 'vippay'
-def publishVersion = '0.0.1-SNAPSHOT'
+def demoartifact = 'comannotation'
+def publishVersion = '0.0.2'
 
-
+//./gradlew -p comannotation clean build install
 install {
     repositories {
         mavenInstaller {

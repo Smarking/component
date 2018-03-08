@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.pitaya.commanager.AbsProtocol;
 import com.pitaya.comprotocol.printer.PrinterComProtocol;
 import com.pitaya.printer.PrinterActivity;
 
@@ -11,7 +12,7 @@ import com.pitaya.printer.PrinterActivity;
  * Created by Smarking on 17/12/12.
  */
 
-public class PrinterComProtocolImpl implements PrinterComProtocol {
+public class PrinterComProtocolImpl extends AbsProtocol implements PrinterComProtocol {
 
     @Override
     public void print(String msg) {

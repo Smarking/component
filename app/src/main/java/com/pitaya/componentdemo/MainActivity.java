@@ -3,11 +3,9 @@ package com.pitaya.componentdemo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.pitaya.PitayaInterface;
 import com.pitaya.baselib.bean.BaseUserInfo;
 import com.pitaya.comannotation.annotation.Unbinder;
 import com.pitaya.commanager.ComManager;
@@ -31,8 +29,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mockLogin();
-
-        Log.e("from apiJar", PitayaInterface.class.toString());
 
         findViewById(R.id.printerBtn).setOnClickListener(new View.OnClickListener() {
             @Override

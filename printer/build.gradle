@@ -52,15 +52,47 @@ dependencies {
 //    provided project(path: deps.lib)
 //    compile project(path: deps.lib)
     //狸猫换太子，开发阶段去除依赖，打包阶段开启依赖，手动依赖，包版本管理，如果是aar呢？跨层级依赖允许么？
-
 //    compile project(path: deps.comprotocol)
-//    compile project(path: deps.commanager)
-//    compile project(path: deps.baselib)
 
-    compile ('com.pitaya.component:a:0.0.1') {
+    compile 'com.pitaya.component:comannotation:0.0.2'
+
+    compile 'com.pitaya.component:commanager:0.0.1'
+
+    compile('com.pitaya.component:a:0.0.1') {
         exclude group: 'com.pitaya.component', module: 'printer'
     }
 }
+
+/**
+ *
+ *
+
+ +--- com.pitaya.component:comannotation:0.0.1
+ +--- com.pitaya.component:commanager:0.0.1
+ |    +--- com.android.support:appcompat-v7:25.1.1 -> 25.4.0 (*)
+ |    +--- com.pitaya.component:comannotation:0.0.1
+ |    +--- com.alibaba:arouter-annotation:1.0.4
+ |    \--- com.alibaba:arouter-api:1.2.4
+ |         +--- com.alibaba:arouter-annotation:1.0.4
+ |         \--- com.android.support:support-v4:25.2.0 -> 25.4.0 (*)
+ \--- com.pitaya.component:a:0.0.1
+      \--- com.android.support:appcompat-v7:25.4.0 (*)
+
+
+
+自动引用最新版
+ +--- com.pitaya.component:comannotation:0.0.2
+ +--- com.pitaya.component:commanager:0.0.1
+ |    +--- com.android.support:appcompat-v7:25.1.1 -> 25.4.0 (*)
+ |    +--- com.pitaya.component:comannotation:0.0.1 -> 0.0.2
+ |    +--- com.alibaba:arouter-annotation:1.0.4
+ |    \--- com.alibaba:arouter-api:1.2.4
+ |         +--- com.alibaba:arouter-annotation:1.0.4
+ |         \--- com.android.support:support-v4:25.2.0 -> 25.4.0 (*)
+ \--- com.pitaya.component:a:0.0.1
+      \--- com.android.support:appcompat-v7:25.4.0 (*)
+
+ */
 
 android {
     lintOptions {
@@ -72,7 +104,6 @@ android {
 def publishedGroupId = 'com.pitaya.component'
 def artifact = 'printer'
 def publishVersion = '0.0.1'
-def demoartifact = 'printer'
 def libraryName = 'printer'
 
 //uploadArchives {
@@ -107,7 +138,7 @@ uploadArchives {
         mavenDeployer {
             repository(url: customerPath)
             pom.groupId = publishedGroupId
-            pom.artifactId = demoartifact
+            pom.artifactId = artifact
             pom.version = publishVersion
             pom.name = libraryName
             pom.packaging = 'aar'

@@ -1,1 +1,0 @@
-from lib's resources 1.txt

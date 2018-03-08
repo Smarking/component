@@ -17,13 +17,13 @@ import com.pitaya.comprotocol.printer.PrinterComProtocol;
 import com.pitaya.comprotocol.vippay.VipPayComProtocol;
 import com.pitaya.comprotocol.vippay.bean.Coupon;
 import com.pitaya.comprotocol.vippay.bean.VipUserInfo;
+import com.pitaya.printer.PrinterActivity;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-
 
 /**
  * 业务流程
@@ -148,8 +148,9 @@ public class CheckoutActivity extends FragmentActivity {
         mVipPayComProtocol = ComManager.getInstance().getProtocolAndBind(CheckoutActivity.this, VipPayComProtocol.class);
         mPrinterComProtocol = ComManager.getInstance().getProtocolAndBind(CheckoutActivity.this, PrinterComProtocol.class);
         //TODO 修改了依赖方式
-//        PrinterActivity printerActivity = new PrinterActivity();
-//        printerActivity.closeContextMenu();
+        PrinterComProtocol.class.toString();
+        PrinterActivity printerActivity = new PrinterActivity();
+        printerActivity.closeContextMenu();
 
         initView();
         initData();
