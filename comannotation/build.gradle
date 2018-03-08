@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply plugin: 'maven'
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -6,3 +7,21 @@ dependencies {
 
 sourceCompatibility = "1.7"
 targetCompatibility = "1.7"
+
+
+def publishedGroupId = 'com.pitaya.component'
+def demoartifact = 'vippay'
+def publishVersion = '0.0.1-SNAPSHOT'
+
+
+install {
+    repositories {
+        mavenInstaller {
+            pom.project {
+                groupId publishedGroupId
+                artifactId demoartifact
+                version publishVersion
+            }
+        }
+    }
+}

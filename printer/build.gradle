@@ -1,6 +1,8 @@
 //apply plugin: 'com.pitaya.component'
 apply plugin: 'com.android.library'
 apply plugin: 'com.pitaya.apicomponent'
+apply plugin: 'maven'
+
 
 android {
     compileSdkVersion versions.compileSdkVersion
@@ -47,11 +49,69 @@ dependencies {
     testCompile deps.unit.junit
 
 //    provided files("/Users/Smarking/AndroidStudioProjects/newworld/ComponentDemo/lib/build/libs/lib.jar")
-    provided project(path: deps.lib)
+//    provided project(path: deps.lib)
 //    compile project(path: deps.lib)
     //狸猫换太子，开发阶段去除依赖，打包阶段开启依赖，手动依赖，包版本管理，如果是aar呢？跨层级依赖允许么？
 
 //    compile project(path: deps.comprotocol)
-    compile project(path: deps.commanager)
-    compile project(path: deps.baselib)
+//    compile project(path: deps.commanager)
+//    compile project(path: deps.baselib)
+
+    compile ('com.pitaya.component:a:0.0.1') {
+        exclude group: 'com.pitaya.component', module: 'printer'
+    }
+}
+
+android {
+    lintOptions {
+        abortOnError false
+    }
+}
+
+
+def publishedGroupId = 'com.pitaya.component'
+def artifact = 'printer'
+def publishVersion = '0.0.1'
+def demoartifact = 'printer'
+def libraryName = 'printer'
+
+//uploadArchives {
+//    repositories.mavenDeployer {
+//        name = 'mavenCentralReleaseDeployer'
+////        repository(url: "http://nexus:8081/nexus/content/repositories/releases") {  //配置仓库路径
+////            authentication(userName: AAR_USER_NAME, password: AAR_USER_PASSWORD)
+////        }
+//
+//        snapshotRepository(url: "http://nexus:8081/nexus/content/repositories/snapshots") {
+//            authentication(userName: AAR_USER_NAME, password: AAR_USER_PASSWORD)
+//        }
+//
+//        pom.groupId = publishedGroupId //对外发布的插件包名，具有唯一标示性，并且包含插件集合，
+//        // 每个插件的名字由文件 com.smarking.findviewbyid.properties名决定，文件内部配置该插件入口。见实例
+//        pom.artifactId = artifact
+//        pom.version = publishVersion
+//        pom.packaging = 'aar'
+//    }
+//}
+
+
+def customerPath = uri(System.getProperties().getProperty("user.home") + "/localMavenRepo/")
+println "repository " + customerPath.getPath()
+
+/**
+ * 执行以下命令，发布到指定仓库，比如customerPath
+ *  ./gradlew -p printer clean build uploadArchives --info
+ */
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: customerPath)
+            pom.groupId = publishedGroupId
+            pom.artifactId = demoartifact
+            pom.version = publishVersion
+            pom.name = libraryName
+            pom.packaging = 'aar'
+        }
+
+    }
 }
