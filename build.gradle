@@ -10,6 +10,7 @@ buildscript {
             url "https://plugins.gradle.org/m2/"
         }
     }
+
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.0'
         classpath 'com.jakewharton:butterknife-gradle-plugin:8.2.1'
@@ -35,12 +36,22 @@ allprojects {
 
 subprojects {
     task allDeps(type: DependencyReportTask) {}
+
     getProject().afterEvaluate {
         tasks.findByName('clean').doLast {
             System.out.println(getProject().name + "  do clean")
         }
     }
+
+    // 禁止掉Android Test的Task
+    tasks.whenTaskAdded { task ->
+        if (task.name.contains('AndroidTest') || task.name.contains('UnitTest')) {
+            task.enabled = false
+        }
+    }
 }
+
+
 
 task clean(type: Delete) {
     delete rootProject.buildDir
