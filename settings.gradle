@@ -19,11 +19,11 @@ gradle.addBuildListener(new BuildListener() {
 
         //TODO 记录修改时间 未变化则不Copy
 
-        copy {
-            from("${rootDir}/${genApiBuildFileName}")
-            into("${rootDir}/${genSubProjectName}")
-            rename { file -> file.replace(genApiBuildFileName, 'build.gradle') }
-        }
+//        copy {
+//            from("${rootDir}/${genApiBuildFileName}")
+//            into("${rootDir}/${genSubProjectName}")
+//            rename { file -> file.replace(genApiBuildFileName, 'build.gradle') }
+//        }
 
         copy {
             from("/Users/Smarking/AndroidStudioProjects/newworld/ComponentDemo/PitayaInterface.java")
@@ -47,7 +47,6 @@ gradle.addBuildListener(new BuildListener() {
             }
 
             System.out.println("!! projectsEvaluated  -----" + targetProject.getDisplayName())
-
 
 //            targetProject.afterEvaluate {
 //                targetProject.logger.error "provided Configuration find => ${ targetProject.getConfigurations().getByName("provided")}"
