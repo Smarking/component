@@ -43,18 +43,24 @@ allprojects {
         }
         maven { url "https://jitpack.io" }
     }
-    dependencies{
+    dependencies {
 
     }
 }
 
 subprojects {
     task allDeps(type: DependencyReportTask) {}
+    getProject().afterEvaluate {
+        tasks.findByName('clean').doLast {
+            System.out.println(getProject().name + "  do clean")
+        }
+    }
 }
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
+//
+//
+//task clean(type: Delete) {
+//    delete rootProject.buildDir
+//}
 
 
 ext.versions = [
