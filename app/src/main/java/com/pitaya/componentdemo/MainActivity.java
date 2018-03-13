@@ -7,22 +7,16 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.pitaya.baselib.bean.BaseUserInfo;
-import com.pitaya.comannotation.annotation.Unbinder;
 import com.pitaya.commanager.ComManager;
 import com.pitaya.componentdemo.application.DemoApplication;
 import com.pitaya.comprotocol.checkout.CheckoutComProtocol;
 import com.pitaya.comprotocol.printer.PrinterComProtocol;
 import com.pitaya.comprotocol.vippay.VipPayComProtocol;
 import com.pitaya.comprotocol.vippay.bean.Coupon;
-import com.pitaya.comprotocol.vippay.bean.VipUserInfo;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
-    private Unbinder mVipLoginUnbinder;
-    private Unbinder mVipLogoutUnbinder;
-    private Unbinder mOpenVipCampaignDialogUnbinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,13 +148,5 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
-
-    private VipPayComProtocol.LoginEvent mLoginEvent = new VipPayComProtocol.LoginEvent() {
-
-        @Override
-        public void call(VipUserInfo param) {
-
-        }
-    };
 
 }

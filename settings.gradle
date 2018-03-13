@@ -1,3 +1,2 @@
 include ':app', ':checkout', ':printer', ':vippay', ':baselib', ':commanager', ':comannotation'
-
-//':comprotocol',
+include ':comprotocol'

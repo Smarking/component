@@ -1,5 +1,6 @@
 //apply plugin: 'com.pitaya.component'
 apply plugin: 'com.android.application'
+apply plugin: 'com.pitaya.apicomponent'
 
 android {
     compileSdkVersion versions.compileSdkVersion
@@ -49,13 +50,16 @@ dependencies {
     testCompile deps.unit.junit
 
     compile 'com.pitaya.component:baselib:0.0.1'
-    compile 'com.pitaya.component:commanager:0.0.1'
-    compile 'com.pitaya.component:printer:0.0.1'
-    compile('com.pitaya.component:vippay:0.0.1') {
+
+
+    bundleCompile 'com.pitaya.component:commanager:0.0.1'
+
+    bundleCompile 'com.pitaya.component:printer:0.0.1'
+    bundleCompile('com.pitaya.component:vippay:0.0.1') {
         exclude group: 'com.pitaya.component', module: 'checkout'
     }
 
-    compile('com.pitaya.component:checkout:0.0.1') {
+    bundleCompile('com.pitaya.component:checkout:0.0.1') {
         exclude group: 'com.pitaya.component', module: 'vippay'
     }
 }
