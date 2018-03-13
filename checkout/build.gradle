@@ -43,7 +43,7 @@ dependencies {
     annotationProcessor deps.butterknifeCompiler
 
     compile 'com.pitaya.component:baselib:0.0.1'
-    compile 'com.pitaya.component:commanager:0.0.1'
+    bundleCompile 'com.pitaya.component:commanager:0.0.1'
     bundleCompile 'com.pitaya.component:printer:0.0.1'
 
     bundleCompile('com.pitaya.component:vippay:0.0.1') {
