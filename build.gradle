@@ -4,7 +4,6 @@ buildscript {
     repositories {
         jcenter()
         mavenLocal()
-
         maven { url uri(System.getProperties().getProperty("user.home") + "/localMavenRepo/") }
         maven {
             url "https://plugins.gradle.org/m2/"
