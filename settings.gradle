@@ -1,2 +1,34 @@
-include ':app', ':checkout', ':printer', ':vippay', ':baselib', ':commanager', ':comannotation'
-include ':comprotocol'
+//------------START settings.build-----------DO NOT EDIT! IT`S FROM PITAYA ---
+import groovy.transform.Field
+
+@Field File configFile
+@Field final KEY_CONFIG_NAME = 'pitaya_component.config'
+@Field final KEY_MAIN_HOST = 'mainHost'
+@Field final KEY_SUB_HOST = 'subHost'
+
+configFile = new File(getRootDir(), KEY_CONFIG_NAME)
+if (configFile.exists()) {
+    configFile.delete()
+}
+
+void mainHostInclude(String[] projectPaths) {
+    include(projectPaths)
+    projectPaths.each { projectName ->
+        configFile.append(KEY_MAIN_HOST + projectName + "\n")
+    }
+}
+
+void subHostInclude(String[] projectPaths) {
+    include(projectPaths)
+    projectPaths.each { projectName ->
+        configFile.append(KEY_SUB_HOST + projectName + "\n")
+    }
+}
+
+mainHostInclude ':app'
+subHostInclude ':checkout', ':printer', ':vippay'
+include ':baselib', ':commanager', ':comannotation'
+//include ':comprotocol'
+//
+//------------END settings.build-------------
+

@@ -1,6 +1,6 @@
-//apply plugin: 'com.pitaya.component'
-apply plugin: 'com.android.application'
-apply plugin: 'com.pitaya.apicomponent'
+apply plugin: 'com.pitaya.component'
+//apply plugin: 'com.android.application'
+//apply plugin: 'com.pitaya.apicomponent'
 
 android {
     compileSdkVersion versions.compileSdkVersion
@@ -50,9 +50,6 @@ dependencies {
     testCompile deps.unit.junit
 
     compile 'com.pitaya.component:baselib:0.0.1'
-
-
-    provided files('/Users/Smarking/AndroidStudioProjects/newworld/ComponentDemo/comprotocol/build/intermediates/bundles/default/classes.jar')
 
     bundleCompile 'com.pitaya.component:commanager:0.0.1'
 

@@ -1,6 +1,6 @@
-//apply plugin: 'com.pitaya.component'
-apply plugin: 'com.android.library'
-apply plugin: 'com.pitaya.apicomponent'
+apply plugin: 'com.pitaya.component'
+//apply plugin: 'com.android.library'
+//apply plugin: 'com.pitaya.apicomponent'
 apply plugin: 'maven'
 
 
@@ -53,6 +53,8 @@ dependencies {
 //    compile project(path: deps.lib)
     //狸猫换太子，开发阶段去除依赖，打包阶段开启依赖，手动依赖，包版本管理，如果是aar呢？跨层级依赖允许么？
 //    compile project(path: deps.comprotocol)
+
+    compile 'com.pitaya.component:baselib:0.0.1'
 
     compile 'com.pitaya.component:comannotation:0.0.2'
 
