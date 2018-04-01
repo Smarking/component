@@ -1,0 +1,424 @@
+
+1 Field #11, name&type #190
+2 Field #11, name&type #191
+3 Field #11, name&type #192
+4 Field #11, name&type #193
+5 Method #18, name&type #194
+6 Class #195
+7 Method #196, name&type #197
+8 Method #198, name&type #199
+9 Class #200
+10 Method #198, name&type #201
+11 Class #202
+12 Method #203, name&type #204
+13 Method #205, name&type #206
+14 Method #207, name&type #208
+15 String #143
+16 Method #20, name&type #209
+17 Method #11, name&type #194
+18 Class #210
+19 Method #11, name&type #211
+20 Class #212
+21 Method #20, name&type #194
+22 Method #11, name&type #213
+23 Method #18, name&type #214
+24 Method #11, name&type #208
+25 Method #20, name&type #215
+26 Class #216
+27 Class #218
+28 Integer 2130903090
+29 Method #220, name&type #221
+30 Method #222, name&type #223
+31 Field #11, name&type #224
+32 Method #18, name&type #225
+33 Field #11, name&type #226
+34 Method #227, name&type #228
+35 Method #227, name&type #229
+36 Method #230, name&type #231
+37 Method #232, name&type #233
+38 Field #11, name&type #234
+39 Class #235
+40 Method #39, name&type #236
+41 Method #237, name&type #238
+42 Field #11, name&type #239
+43 Class #240
+44 Method #43, name&type #236
+45 Method #232, name&type #238
+46 Field #11, name&type #241
+47 Class #242
+48 Method #47, name&type #236
+49 Class #243
+50 Field #26, name&type #244
+51 Method #245, name&type #246
+52 Method #49, name&type #247
+53 Method #49, name&type #248
+54 Method #11, name&type #249
+55 Method #49, name&type #250
+56 Class #251
+57 Method #56, name&type #236
+58 Method #49, name&type #252
+59 Field #11, name&type #253
+60 Method #254, name&type #255
+61 Class #256
+62 Method #11, name&type #257
+63 Method #61, name&type #258
+64 Method #254, name&type #259
+65 Method #254, name&type #260
+66 Method #227, name&type #261
+67 Class #262
+68 Method #67, name&type #236
+69 Interface #9, name&type #263
+70 Method #11, name&type #264
+71 Method #265, name&type #266
+72 Integer 2130903089
+73 Method #254, name&type #267
+74 Class #268
+75 Method #18, name&type #269
+76 Method #11, name&type #270
+77 Class #271
+78 Method #77, name&type #194
+79 Method #265, name&type #272
+80 Method #273, name&type #274
+81 Method #275, name&type #276
+82 Method #277, name&type #278
+83 Method #11, name&type #279
+84 Method #280, name&type #272
+85 Method #273, name&type #281
+86 Field #77, name&type #282
+87 Field #175, name&type #283
+88 Method #273, name&type #284
+89 Method #18, name&type #285
+90 Interface #286, name&type #287
+91 Method #198, name&type #288
+92 UTF8 "InnerClasses"
+93 UTF8 "mVipInfoTv"
+94 UTF8 "Landroid/widget/TextView;"
+95 UTF8 "RuntimeInvisibleAnnotations"
+96 UTF8 "Lbutterknife/BindView;"
+97 UTF8 "value"
+98 Integer 2131361919
+99 UTF8 "mLogoutBtn"
+100 UTF8 "Landroid/widget/Button;"
+101 Integer 2131361920
+102 UTF8 "mCouponRecyclerView"
+103 UTF8 "Landroid/support/v7/widget/RecyclerView;"
+104 Integer 2131361921
+105 UTF8 "calculateResultTv"
+106 Integer 2131361922
+107 UTF8 "cancel"
+108 Integer 2131361923
+109 UTF8 "confirm"
+110 Integer 2131361924
+111 UTF8 "progressBar"
+112 UTF8 "Landroid/widget/ProgressBar;"
+113 Integer 2131361884
+114 UTF8 "progressBarTip"
+115 Integer 2131361885
+116 UTF8 "progressBarContainer"
+117 UTF8 "Landroid/widget/RelativeLayout;"
+118 Integer 2131361883
+119 UTF8 "unbinder"
+120 UTF8 "Lbutterknife/Unbinder;"
+121 UTF8 "mHeaderAndFooterAdapter"
+122 UTF8 "Lcom/pitaya/vippay/adapter/VipDetailAdapter;"
+123 UTF8 "mVipPayService"
+124 UTF8 "Lcom/pitaya/vippay/network/VipPayService;"
+125 UTF8 "mCheckoutComProtocol"
+126 UTF8 "Lcom/pitaya/comprotocol/checkout/CheckoutComProtocol;"
+127 UTF8 "mOrder"
+128 UTF8 "Lcom/pitaya/comprotocol/checkout/bean/Order;"
+129 UTF8 "ARG_ORDER"
+130 UTF8 "Ljava/lang/String;"
+131 UTF8 "ConstantValue"
+132 UTF8 "<init>"
+133 UTF8 "()V"
+134 UTF8 "Code"
+135 UTF8 "LineNumberTable"
+136 UTF8 "LocalVariableTable"
+137 UTF8 "this"
+138 UTF8 "Lcom/pitaya/vippay/dialog/VipDetailDialog;"
+139 UTF8 "newInstance"
+140 UTF8 "(Landroid/support/v4/app/FragmentManager;Lcom/pitaya/comprotocol/checkout/bean/Order;)Lcom/pitaya/vippay/dialog/VipDetailDialog;"
+141 UTF8 "fragmentManager"
+142 UTF8 "Landroid/support/v4/app/FragmentManager;"
+143 UTF8 "order"
+144 UTF8 "fragment"
+145 UTF8 "Landroid/support/v4/app/Fragment;"
+146 UTF8 "f"
+147 UTF8 "args"
+148 UTF8 "Landroid/os/Bundle;"
+149 UTF8 "StackMapTable"
+150 Class #289
+151 UTF8 "onCreate"
+152 UTF8 "(Landroid/os/Bundle;)V"
+153 UTF8 "savedInstanceState"
+154 UTF8 "RuntimeInvisibleParameterAnnotations"
+155 UTF8 "Landroid/support/annotation/Nullable;"
+156 UTF8 "onCreateView"
+157 UTF8 "(Landroid/view/LayoutInflater;Landroid/view/ViewGroup;Landroid/os/Bundle;)Landroid/view/View;"
+158 UTF8 "inflater"
+159 UTF8 "Landroid/view/LayoutInflater;"
+160 UTF8 "container"
+161 UTF8 "Landroid/view/ViewGroup;"
+162 UTF8 "view"
+163 UTF8 "Landroid/view/View;"
+164 UTF8 "onViewCreated"
+165 UTF8 "(Landroid/view/View;Landroid/os/Bundle;)V"
+166 UTF8 "getHeaderView"
+167 UTF8 "()Landroid/view/View;"
+168 UTF8 "onResume"
+169 UTF8 "setDialogWidth"
+170 UTF8 "point"
+171 UTF8 "Landroid/graphics/Point;"
+172 UTF8 "window"
+173 UTF8 "Landroid/view/Window;"
+174 UTF8 "attributes"
+175 Class #291
+176 UTF8 "LayoutParams"
+177 UTF8 "Landroid/view/WindowManager$LayoutParams;"
+178 UTF8 "onDestroyView"
+179 UTF8 "access$000"
+180 UTF8 "(Lcom/pitaya/vippay/dialog/VipDetailDialog;)Lcom/pitaya/vippay/network/VipPayService;"
+181 UTF8 "x0"
+182 UTF8 "access$100"
+183 UTF8 "(Lcom/pitaya/vippay/dialog/VipDetailDialog;)Lcom/pitaya/vippay/adapter/VipDetailAdapter;"
+184 UTF8 "access$200"
+185 UTF8 "(Lcom/pitaya/vippay/dialog/VipDetailDialog;)Lcom/pitaya/comprotocol/checkout/bean/Order;"
+186 UTF8 "access$300"
+187 UTF8 "(Lcom/pitaya/vippay/dialog/VipDetailDialog;)Lcom/pitaya/comprotocol/checkout/CheckoutComProtocol;"
+188 UTF8 "SourceFile"
+189 UTF8 "VipDetailDialog.java"
+190 NameAndType #125, type #126
+191 NameAndType #127, type #128
+192 NameAndType #121, type #122
+193 NameAndType #123, type #124
+194 NameAndType #132, type #133
+195 UTF8 "com/pitaya/vippay/network/VipPayService"
+196 Class #292
+197 NameAndType #293, type #294
+198 Class #295
+199 NameAndType #296, type #297
+200 UTF8 "com/pitaya/comprotocol/checkout/CheckoutComProtocol"
+201 NameAndType #298, type #299
+202 UTF8 "com/pitaya/vippay/dialog/VipDetailDialog"
+203 Class #300
+204 NameAndType #301, type #302
+205 Class #303
+206 NameAndType #304, type #305
+207 Class #289
+208 NameAndType #306, type #307
+209 NameAndType #308, type #309
+210 UTF8 "android/support/v4/app/DialogFragment"
+211 NameAndType #310, type #311
+212 UTF8 "android/os/Bundle"
+213 NameAndType #312, type #152
+214 NameAndType #151, type #152
+215 NameAndType #313, type #314
+216 UTF8 "com/pitaya/comprotocol/checkout/bean/Order"
+217 Class #315
+218 UTF8 "com/pitaya/vippay/R$layout"
+219 UTF8 "layout"
+220 Class #316
+221 NameAndType #317, type #318
+222 Class #319
+223 NameAndType #320, type #321
+224 NameAndType #119, type #120
+225 NameAndType #164, type #165
+226 NameAndType #93, type #94
+227 Class #322
+228 NameAndType #296, type #323
+229 NameAndType #324, type #325
+230 Class #326
+231 NameAndType #327, type #302
+232 Class #328
+233 NameAndType #329, type #330
+234 NameAndType #99, type #100
+235 UTF8 "com/pitaya/vippay/dialog/VipDetailDialog$1"
+236 NameAndType #132, type #331
+237 Class #332
+238 NameAndType #333, type #336
+239 NameAndType #109, type #94
+240 UTF8 "com/pitaya/vippay/dialog/VipDetailDialog$2"
+241 NameAndType #107, type #94
+242 UTF8 "com/pitaya/vippay/dialog/VipDetailDialog$3"
+243 UTF8 "com/pitaya/vippay/adapter/VipDetailAdapter"
+244 NameAndType #337, type #338
+245 Class #339
+246 NameAndType #340, type #341
+247 NameAndType #132, type #342
+248 NameAndType #343, type #344
+249 NameAndType #166, type #167
+250 NameAndType #345, type #346
+251 UTF8 "com/pitaya/vippay/dialog/VipDetailDialog$4"
+252 NameAndType #347, type #350
+253 NameAndType #102, type #103
+254 Class #351
+255 NameAndType #352, type #344
+256 UTF8 "android/support/v7/widget/LinearLayoutManager"
+257 NameAndType #353, type #354
+258 NameAndType #132, type #355
+259 NameAndType #356, type #359
+260 NameAndType #360, type #363
+261 NameAndType #364, type #365
+262 UTF8 "com/pitaya/vippay/dialog/VipDetailDialog$5"
+263 NameAndType #366, type #367
+264 NameAndType #368, type #369
+265 Class #370
+266 NameAndType #371, type #372
+267 NameAndType #373, type #374
+268 UTF8 "android/view/ViewGroup"
+269 NameAndType #168, type #133
+270 NameAndType #169, type #133
+271 UTF8 "android/graphics/Point"
+272 NameAndType #375, type #376
+273 Class #377
+274 NameAndType #378, type #167
+275 Class #379
+276 NameAndType #380, type #381
+277 Class #382
+278 NameAndType #383, type #384
+279 NameAndType #385, type #386
+280 Class #387
+281 NameAndType #388, type #389
+282 NameAndType #390, type #391
+283 NameAndType #392, type #391
+284 NameAndType #393, type #394
+285 NameAndType #178, type #133
+286 Class #395
+287 NameAndType #396, type #133
+288 NameAndType #396, type #397
+289 UTF8 "android/support/v4/app/Fragment"
+290 Class #398
+291 UTF8 "android/view/WindowManager$LayoutParams"
+292 UTF8 "com/pitaya/baselib/network/ApiFactory"
+293 UTF8 "getApi"
+294 UTF8 "(Ljava/lang/Class;)Ljava/lang/Object;"
+295 UTF8 "com/pitaya/commanager/ComManager"
+296 UTF8 "getInstance"
+297 UTF8 "()Lcom/pitaya/commanager/ComManager;"
+298 UTF8 "getProtocolAndBind"
+299 UTF8 "(Ljava/lang/Object;Ljava/lang/Class;)Ljava/lang/Object;"
+300 UTF8 "java/lang/Class"
+301 UTF8 "getName"
+302 UTF8 "()Ljava/lang/String;"
+303 UTF8 "android/support/v4/app/FragmentManager"
+304 UTF8 "findFragmentByTag"
+305 UTF8 "(Ljava/lang/String;)Landroid/support/v4/app/Fragment;"
+306 UTF8 "getArguments"
+307 UTF8 "()Landroid/os/Bundle;"
+308 UTF8 "putParcelable"
+309 UTF8 "(Ljava/lang/String;Landroid/os/Parcelable;)V"
+310 UTF8 "setStyle"
+311 UTF8 "(II)V"
+312 UTF8 "setArguments"
+313 UTF8 "getParcelable"
+314 UTF8 "(Ljava/lang/String;)Landroid/os/Parcelable;"
+315 UTF8 "com/pitaya/vippay/R"
+316 UTF8 "android/view/LayoutInflater"
+317 UTF8 "inflate"
+318 UTF8 "(ILandroid/view/ViewGroup;Z)Landroid/view/View;"
+319 UTF8 "butterknife/ButterKnife"
+320 UTF8 "bind"
+321 UTF8 "(Ljava/lang/Object;Landroid/view/View;)Lbutterknife/Unbinder;"
+322 UTF8 "com/pitaya/vippay/util/VipPayUserCenter"
+323 UTF8 "()Lcom/pitaya/vippay/util/VipPayUserCenter;"
+324 UTF8 "getVipUserInfo"
+325 UTF8 "()Lcom/pitaya/comprotocol/vippay/bean/VipUserInfo;"
+326 UTF8 "com/pitaya/comprotocol/vippay/bean/VipUserInfo"
+327 UTF8 "toString"
+328 UTF8 "android/widget/TextView"
+329 UTF8 "setText"
+330 UTF8 "(Ljava/lang/CharSequence;)V"
+331 UTF8 "(Lcom/pitaya/vippay/dialog/VipDetailDialog;)V"
+332 UTF8 "android/widget/Button"
+333 UTF8 "setOnClickListener"
+334 Class #399
+335 UTF8 "OnClickListener"
+336 UTF8 "(Landroid/view/View$OnClickListener;)V"
+337 UTF8 "amount"
+338 UTF8 "Ljava/lang/Float;"
+339 UTF8 "java/lang/Float"
+340 UTF8 "floatValue"
+341 UTF8 "()F"
+342 UTF8 "(Ljava/util/List;D)V"
+343 UTF8 "setHeaderViewAsFlow"
+344 UTF8 "(Z)V"
+345 UTF8 "addHeaderView"
+346 UTF8 "(Landroid/view/View;)I"
+347 UTF8 "setOnItemClickListener"
+348 Class #401
+349 UTF8 "OnItemClickListener"
+350 UTF8 "(Lcom/chad/library/adapter/base/BaseQuickAdapter$OnItemClickListener;)V"
+351 UTF8 "android/support/v7/widget/RecyclerView"
+352 UTF8 "setHasFixedSize"
+353 UTF8 "getContext"
+354 UTF8 "()Landroid/content/Context;"
+355 UTF8 "(Landroid/content/Context;)V"
+356 UTF8 "setLayoutManager"
+357 Class #402
+358 UTF8 "LayoutManager"
+359 UTF8 "(Landroid/support/v7/widget/RecyclerView$LayoutManager;)V"
+360 UTF8 "setAdapter"
+361 Class #403
+362 UTF8 "Adapter"
+363 UTF8 "(Landroid/support/v7/widget/RecyclerView$Adapter;)V"
+364 UTF8 "getCouponList"
+365 UTF8 "()Ljava/util/List;"
+366 UTF8 "sortVipPayCoupons"
+367 UTF8 "(Ljava/util/List;Lcom/pitaya/comannotation/comcallback/Callback1;)V"
+368 UTF8 "getActivity"
+369 UTF8 "()Landroid/support/v4/app/FragmentActivity;"
+370 UTF8 "android/support/v4/app/FragmentActivity"
+371 UTF8 "getLayoutInflater"
+372 UTF8 "()Landroid/view/LayoutInflater;"
+373 UTF8 "getParent"
+374 UTF8 "()Landroid/view/ViewParent;"
+375 UTF8 "getWindow"
+376 UTF8 "()Landroid/view/Window;"
+377 UTF8 "android/view/Window"
+378 UTF8 "getDecorView"
+379 UTF8 "android/view/View"
+380 UTF8 "getDisplay"
+381 UTF8 "()Landroid/view/Display;"
+382 UTF8 "android/view/Display"
+383 UTF8 "getRealSize"
+384 UTF8 "(Landroid/graphics/Point;)V"
+385 UTF8 "getDialog"
+386 UTF8 "()Landroid/app/Dialog;"
+387 UTF8 "android/app/Dialog"
+388 UTF8 "getAttributes"
+389 UTF8 "()Landroid/view/WindowManager$LayoutParams;"
+390 UTF8 "x"
+391 UTF8 "I"
+392 UTF8 "width"
+393 UTF8 "setAttributes"
+394 UTF8 "(Landroid/view/WindowManager$LayoutParams;)V"
+395 UTF8 "butterknife/Unbinder"
+396 UTF8 "unbind"
+397 UTF8 "(Ljava/lang/Object;)V"
+398 UTF8 "android/view/WindowManager"
+399 UTF8 "android/view/View$OnClickListener"
+400 Class #404
+401 UTF8 "com/chad/library/adapter/base/BaseQuickAdapter$OnItemClickListener"
+402 UTF8 "android/support/v7/widget/RecyclerView$LayoutManager"
+403 UTF8 "android/support/v7/widget/RecyclerView$Adapter"
+404 UTF8 "com/chad/library/adapter/base/BaseQuickAdapter"
+ClassInfo{constPool=null, thisClass=11, accessFlags=33, superClass=18, interfaces=null, thisClassName='com.pitaya.vippay.dialog.VipDetailDialog', major=51, minor=0}
+ClassDog find target in /Users/Smarking/AndroidStudioProjects/newworld/ComponentDemo/vippay/build/intermediates/classes/debug/com/pitaya/vippay/dialog/VipDetailDialog.class
+
+:vippay:classdog
+ClassDog Wang!!Wang!!
+
+BUILD SUCCESSFUL
+
+Total time: 2.985 secs
+
+
+
+91 Method #198, name&type #288
+198 Class #295
+288 NameAndType #396, type #397
+
+396 UTF8 "unbind"
+397 UTF8 "(Ljava/lang/Object;)V"
+295 UTF8 "com/pitaya/commanager/ComManager"

@@ -58,7 +58,7 @@ dependencies {
 
     compile 'com.pitaya.component:comannotation:0.0.2'
 
-    bundleCompile 'com.pitaya.component:commanager:0.0.1'
+    compileApi 'com.pitaya.component:commanager:0.0.1'
 
     compile('com.pitaya.component:a:0.0.1') {
         exclude group: 'com.pitaya.component', module: 'printer'

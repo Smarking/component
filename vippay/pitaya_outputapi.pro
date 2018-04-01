@@ -1,0 +1,1 @@
+-outputapi com.pitaya.comprotocol.vippay.**

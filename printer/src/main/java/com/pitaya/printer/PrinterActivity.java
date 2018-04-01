@@ -3,6 +3,7 @@ package com.pitaya.printer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.pitaya.commanager.ComManager;
 import com.pitaya.componenta.ComponentAInterface;
 
 //import com.pitaya.lib.MyClass;
